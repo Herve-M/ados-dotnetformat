@@ -26,7 +26,8 @@ steps:
     command: 'install'
 - task: Npm@1
   inputs:
-    command: 'tsc'
+    command: 'custom'
+    customCommand: 'tsc'
 - task: QueryAzureDevOpsExtensionVersion@3
   inputs:
     connectTo: 'VsTeam'
