@@ -1,0 +1,42 @@
+{
+    "manifestVersion": 1,
+    "id": "dotnetformat",
+    "name": "dotnet-format",
+    "version": "0.1.0",
+    "publisher": "herve-matysiak",
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/Herve-M/ados-dotnetformat"
+    },
+    "links": {
+        "support": { "uri": "https://github.com/Herve-M/ados-dotnetformat/issues" }
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "content": {
+        "details": { "path": "README.md" },
+        "license": { "path": "LICENSE" }
+    },
+    "files": [
+        {
+            "path": "src"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "dotnetformat-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": { "name": "src" }
+        }
+    ]
+}
