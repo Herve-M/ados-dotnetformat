@@ -19,14 +19,14 @@ steps:
     versionSpec: '10.x'
 - task: TfxInstaller@3
   inputs: 
-    version: "v0.8.x"
+    version: 'v0.8.x'
     checkLatest: true
 - task: Npm@1
   inputs:
-  command: 'install'
+    command: 'install'
 - task: Npm@1
   inputs:
-  command: 'tsc'
+    command: 'tsc'
 - task: QueryAzureDevOpsExtensionVersion@3
   inputs:
     connectTo: 'VsTeam'
