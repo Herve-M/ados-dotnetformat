@@ -13,6 +13,12 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  publisherId: 'herve-matysiak'
+  extensionId: 'dotnetformat'
+  extensionName: 'dotnet-format'
+  artifactName: 'dotnet-format-VSIX'
+
 steps:
 - task: NodeTool@0 
   inputs:
