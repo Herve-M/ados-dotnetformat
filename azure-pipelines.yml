@@ -30,7 +30,7 @@ steps:
 - task: QueryAzureDevOpsExtensionVersion@3
   inputs:
     connectTo: 'VsTeam'
-    connectedServiceName: 'ServiceConnection' # Change to whatever you named the service connection
+    connectedServiceName: 'VS-MarketPlace' 
     publisherId: '$(PublisherID)'
     extensionId: '$(ExtensionID)'
     versionAction: 'Patch'
@@ -44,7 +44,7 @@ steps:
     extensionVersion: '$(Task.Extension.Version)'
     updateTasksVersion: false
     updateTasksVersionType: 'patch'
-    extensionVisibility: 'private' # Change to public if you're publishing to the marketplace
+    extensionVisibility: 'private'
     extensionPricing: 'free'
 - task: CopyFiles@2
   displayName: "Copy Files to: $(Build.ArtifactStagingDirectory)"
