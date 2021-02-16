@@ -4,6 +4,6 @@ updates:
     directory: "/src/"
     schedule:
       interval: "weekly"
-    commit_message:
-      prefix: "chore"
+    commit-message:
+      prefix: "chore()"
       include: "scope"
