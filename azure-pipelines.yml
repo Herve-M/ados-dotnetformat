@@ -69,7 +69,7 @@ stages:
 
   - stage: 'Publish_DEV'
     dependsOn: 'Build'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/tags/'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
       - job:
         steps: 
@@ -117,7 +117,7 @@ stages:
 
   - stage: 'Publish_PROD'
     dependsOn: 'Build'
-    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/main'))
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
     jobs: 
       - job:
         steps:
