@@ -67,7 +67,7 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: '$(ArtifactName)'
 
-  - stage: 'Publish-DEV'
+  - stage: 'Publish_DEV'
     dependsOn: 'Build'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/tags/'))
     jobs: 
@@ -115,7 +115,7 @@ stages:
               artifact: 'dev'
             condition: succeededOrFailed()
 
-  - stage: 'Publish-PROD'
+  - stage: 'Publish_PROD'
     dependsOn: 'Build'
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
