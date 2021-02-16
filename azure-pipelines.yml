@@ -68,10 +68,10 @@ stages:
             inputs:
               Contents: "**/*.vsix"
               TargetFolder: "$(Build.ArtifactStagingDirectory)"
-          - task: PublishBuildArtifacts@1
+          - task: PublishPipelineArtifact@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-              ArtifactName: '$(ArtifactName)'
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifactName: '$(ArtifactName)'
 
   - stage: 'Publish_DEV'
     dependsOn: 'Build'
@@ -91,6 +91,7 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs:
               artifact: '$(ArtifactName)'
+              path: '$(Pipeline.Workspace)/$(ArtifactName)'
 
           - task: PublishAzureDevOpsExtension@3
             inputs:
@@ -139,6 +140,7 @@ stages:
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: '$(ArtifactName)'
+            path: '$(Pipeline.Workspace)/$(ArtifactName)'
 
         - task: PublishAzureDevOpsExtension@3
           inputs:
