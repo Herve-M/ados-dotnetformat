@@ -1,26 +1,28 @@
 {
   "name": "ados-dotnetformat",
-  "version": "0.1.0",
   "description": "Azure DevOps dotnet-format task",
-  "main": "dotnetformat.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init:dev": "npm install && cd ./src/ && npm install",
+    "init:ci": "npm ci --no-audit --no-progress && cd ./src/ && npm ci --production --no-audit --no-progress",
+    "buil:dev": "tsc --project tsconfig.json",
+    "build:ci": "tsc --project tsconfig.production.json",
+    "postbuild:ci": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/",
+    "pack:dev": "tfx extension create",
+    "clean": "git clean -fdX"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Herve-M/ados-dotnetformat.git"
   },
   "author": "MATYSIAK Hervé",
+  "private": true,
   "license": "MPL-2.0",
-  "bugs": {
-    "url": "https://github.com/Herve-M/ados-dotnetformat/issues"
-  },
-  "homepage": "https://github.com/Herve-M/ados-dotnetformat#readme",
   "dependencies": {
-    "azure-pipelines-task-lib": "^2.12.2"
+    "@tsconfig/node10": "^1.0.7"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

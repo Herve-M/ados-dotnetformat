@@ -36,8 +36,14 @@ stages:
               checkLatest: true
           - task: Npm@1
             inputs:
-              command: 'install'
-          - script: 'npx tsc'
+              command: custom
+              verbose: false
+              customCommand: 'run init:ci'
+          - task: Npm@1
+            inputs:
+              command: custom
+              verbose: false
+              customCommand: 'run build:ci'
           - task: QueryAzureDevOpsExtensionVersion@3
             inputs:
               connectTo: 'VsTeam'
