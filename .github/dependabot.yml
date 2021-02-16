@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/src/"
+    schedule:
+      interval: "weekly"
+    commit_message:
+      prefix: "chore"
+      include_scope: true
