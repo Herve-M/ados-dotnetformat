@@ -112,14 +112,14 @@ stages:
               connectTo: 'VsTeam'
               connectedServiceName: '$(connectedServiceName)'
               method: 'vsix'
-              vsixFile: '$(publishDev.Extension.OutputPath)'
+              vsixFile: '$(Extension.OutputPath)'
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish vsix'
             inputs:
               publishLocation: pipeline
-              targetPath: '$(publishDev.Extension.OutputPath)'
-              artifact: 'dev'
+              targetPath: '$(Extension.OutputPath)'
+              artifact: '$(ArtifactName)-DEV'
             condition: succeededOrFailed()
 
   - stage: 'Publish_PROD'
@@ -143,6 +143,7 @@ stages:
             path: '$(Pipeline.Workspace)/$(ArtifactName)'
 
         - task: PublishAzureDevOpsExtension@3
+          name: PublishProd  
           inputs:
             connectTo: 'VsTeam'
             connectedServiceName: '$(connectedServiceName)'
@@ -159,6 +160,6 @@ stages:
           displayName: 'Publish vsix'
           inputs:
             publishLocation: pipeline
-            targetPath: '$(publishDev.Extension.OutputPath)'
-            artifact: 'dev'
+            targetPath: '$(publishProd.Extension.OutputPath)'
+            artifact: '$(ArtifactName)-PROD'
           condition: succeededOrFailed()
