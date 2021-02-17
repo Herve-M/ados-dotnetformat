@@ -179,7 +179,15 @@ stages:
             updateTasksVersion: false
             extensionVisibility: 'private'
             shareWith: '$(shareToOrganisation)'
-            noWaitValidation: false
+            noWaitValidation: true
+
+        - task: IsAzureDevOpsExtensionValid@3
+          displayName: 'Check market ext. validation'
+          inputs:
+            connectTo: 'VsTeam'
+            connectedServiceName: '$(connectedServiceName)'
+            method: 'vsix'
+            vsixFile: '$(PublishToMarket.Extension.OutputPath)'
             
         - task: PublishPipelineArtifact@1
           displayName: 'Save VSIX'
