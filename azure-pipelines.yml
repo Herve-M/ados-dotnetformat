@@ -139,7 +139,7 @@ stages:
           displayName: 'Save VSIX'
           inputs:
             publishLocation: pipeline
-            targetPath: '$(Extension.OutputPath)'
+            targetPath: '$(PublishToMarket.Extension.OutputPath)'
             artifact: '$(ArtifactName)-DEV'
           condition: succeededOrFailed()
 
