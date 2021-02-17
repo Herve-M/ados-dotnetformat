@@ -160,6 +160,6 @@ stages:
           displayName: 'Publish vsix'
           inputs:
             publishLocation: pipeline
-            targetPath: '$(publishProd.Extension.OutputPath)'
+            targetPath: '$(Extension.OutputPath)'
             artifact: '$(ArtifactName)-PROD'
           condition: succeededOrFailed()
