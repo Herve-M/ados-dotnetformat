@@ -101,6 +101,7 @@ stages:
               vsixFile: '$(Pipeline.Workspace)/$(ArtifactName)/*.vsix'
               publisherId: '$(PublisherID)'
               extensionId: '$(ExtensionID)'
+              extensionName: '$(ExtensionName)-DEV'
               extensionTag: '-dev'
               updateTasksVersion: false
               extensionVisibility: 'privatepreview'
