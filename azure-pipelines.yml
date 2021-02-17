@@ -27,51 +27,65 @@ stages:
     jobs: 
       - job: 
         steps: 
-          - task: NodeTool@0 
-            inputs:
-              versionSpec: '10.x'
-          - task: TfxInstaller@3
-            inputs: 
-              version: 'v0.8.x'
-              checkLatest: true
-          - task: Npm@1
-            inputs:
-              command: custom
-              verbose: false
-              customCommand: 'run init:ci'
-          - task: Npm@1
-            inputs:
-              command: custom
-              verbose: false
-              customCommand: 'run build:ci'
-          - task: QueryAzureDevOpsExtensionVersion@3
-            inputs:
-              connectTo: 'VsTeam'
-              connectedServiceName: '$(connectedServiceName)'
-              publisherId: '$(PublisherID)'
-              extensionId: '$(ExtensionID)'
-              versionAction: 'Patch'
-              outputVariable: 'Task.Extension.Version'
-          - task: PackageAzureDevOpsExtension@3
-            inputs:
-              rootFolder: '$(System.DefaultWorkingDirectory)'
-              publisherId: '$(PublisherID)'
-              extensionId: '$(ExtensionID)'
-              extensionName: '$(ExtensionName)'
-              extensionVersion: '$(Task.Extension.Version)'
-              updateTasksVersion: false
-              updateTasksVersionType: 'patch'
-              extensionVisibility: 'private'
-              extensionPricing: 'free'
-          - task: CopyFiles@2
-            displayName: "Copy Files to: $(Build.ArtifactStagingDirectory)"
-            inputs:
-              Contents: "**/*.vsix"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifactName: '$(ArtifactName)'
+        - task: NodeTool@0 
+          displayName: 'Install NodeJs'
+          inputs:
+            versionSpec: '10.x'
+
+        - task: TfxInstaller@3
+          displayName: 'Install tfx-cli'
+          inputs: 
+            version: 'v0.8.x'
+            checkLatest: true
+
+        - task: Npm@1
+          displayName: 'npm init'
+          inputs:
+            command: custom
+            verbose: false
+            customCommand: 'run init:ci'
+
+        - task: Npm@1
+          displayName: 'npm build'
+          inputs:
+            command: custom
+            verbose: false
+            customCommand: 'run build:ci'
+
+        - task: QueryAzureDevOpsExtensionVersion@3
+          displayName: 'Get current path version'
+          inputs:
+            connectTo: 'VsTeam'
+            connectedServiceName: '$(connectedServiceName)'
+            publisherId: '$(PublisherID)'
+            extensionId: '$(ExtensionID)'
+            versionAction: 'Patch'
+            outputVariable: 'Task.Extension.Version'
+            
+        - task: PackageAzureDevOpsExtension@3
+          displayName: 'Pack VSIX'
+          inputs:
+            rootFolder: '$(System.DefaultWorkingDirectory)'
+            publisherId: '$(PublisherID)'
+            extensionId: '$(ExtensionID)'
+            extensionName: '$(ExtensionName)'
+            extensionVersion: '$(Task.Extension.Version)'
+            updateTasksVersion: false
+            updateTasksVersionType: 'patch'
+            extensionVisibility: 'private'
+            extensionPricing: 'free'
+
+        - task: CopyFiles@2
+          displayName: 'Copy VSIX'
+          inputs:
+            Contents: '**/*.vsix'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+        - task: PublishPipelineArtifact@1
+          displayName: 'Internal save VSIX'
+          inputs:
+            targetPath: '$(Build.ArtifactStagingDirectory)'
+            artifactName: '$(ArtifactName)'
 
   - stage: 'Publish_DEV'
     dependsOn: 'Build'
@@ -79,49 +93,55 @@ stages:
     jobs: 
       - job:
         steps: 
-          - task: NodeTool@0 
-            inputs:
-              versionSpec: '10.x'
+        - task: NodeTool@0 
+          displayName: 'Install NodeJs'
+          inputs:
+            versionSpec: '10.x'
 
-          - task: TfxInstaller@3
-            inputs: 
-              version: 'v0.8.x'
-              checkLatest: true
+        - task: TfxInstaller@3
+          displayName: 'Install tfx-cli'
+          inputs: 
+            version: 'v0.8.x'
+            checkLatest: true
 
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifact: '$(ArtifactName)'
-              path: '$(Pipeline.Workspace)/$(ArtifactName)'
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Get VSIX'
+          inputs:
+            artifact: '$(ArtifactName)'
+            path: '$(Pipeline.Workspace)/$(ArtifactName)'
 
-          - task: PublishAzureDevOpsExtension@3
-            inputs:
-              connectTo: 'VsTeam'
-              connectedServiceName: '$(connectedServiceName)'
-              fileType: 'vsix'
-              vsixFile: '$(Pipeline.Workspace)/$(ArtifactName)/*.vsix'
-              publisherId: '$(PublisherID)'
-              extensionId: '$(ExtensionID)'
-              extensionName: '$(ExtensionName)-DEV'
-              extensionTag: '-dev'
-              updateTasksVersion: false
-              extensionVisibility: 'privatepreview'
-              shareWith: '$(shareToOrganisation)'
-              noWaitValidation: true
-              
-          - task: IsAzureDevOpsExtensionValid@3
-            inputs:
-              connectTo: 'VsTeam'
-              connectedServiceName: '$(connectedServiceName)'
-              method: 'vsix'
-              vsixFile: '$(Extension.OutputPath)'
+        - task: PublishAzureDevOpsExtension@3
+          name: 'PublishToMarket'
+          displayName: 'Publish to Market'
+          inputs:
+            connectTo: 'VsTeam'
+            connectedServiceName: '$(connectedServiceName)'
+            fileType: 'vsix'
+            vsixFile: '$(Pipeline.Workspace)/$(ArtifactName)/*.vsix'
+            publisherId: '$(PublisherID)'
+            extensionId: '$(ExtensionID)'
+            extensionName: '$(ExtensionName)-DEV'
+            extensionTag: '-dev'
+            updateTasksVersion: false
+            extensionVisibility: 'privatepreview'
+            shareWith: '$(shareToOrganisation)'
+            noWaitValidation: true
+            
+        - task: IsAzureDevOpsExtensionValid@3
+          displayName: 'Check market ext. validation'
+          inputs:
+            connectTo: 'VsTeam'
+            connectedServiceName: '$(connectedServiceName)'
+            method: 'vsix'
+            vsixFile: '$(PublishToMarket.Extension.OutputPath)'
 
-          - task: PublishPipelineArtifact@1
-            displayName: 'Publish vsix'
-            inputs:
-              publishLocation: pipeline
-              targetPath: '$(Extension.OutputPath)'
-              artifact: '$(ArtifactName)-DEV'
-            condition: succeededOrFailed()
+        - task: PublishPipelineArtifact@1
+          displayName: 'Save VSIX'
+          inputs:
+            publishLocation: pipeline
+            targetPath: '$(Extension.OutputPath)'
+            artifact: '$(ArtifactName)-DEV'
+          condition: succeededOrFailed()
 
   - stage: 'Publish_PROD'
     dependsOn: 'Build'
@@ -130,21 +150,25 @@ stages:
       - job:
         steps:
         - task: NodeTool@0 
+          displayName: 'Install NodeJs'
           inputs:
             versionSpec: '10.x'
 
         - task: TfxInstaller@3
+          displayName: 'Install tfx-cli'
           inputs: 
             version: 'v0.8.x'
             checkLatest: true
 
         - task: DownloadPipelineArtifact@2
+          displayName: 'Get VSIX'
           inputs:
             artifact: '$(ArtifactName)'
             path: '$(Pipeline.Workspace)/$(ArtifactName)'
 
         - task: PublishAzureDevOpsExtension@3
-          name: PublishProd  
+          name: 'PublishToMarket'
+          displayName: 'Publish to Market'  
           inputs:
             connectTo: 'VsTeam'
             connectedServiceName: '$(connectedServiceName)'
@@ -158,9 +182,9 @@ stages:
             noWaitValidation: false
             
         - task: PublishPipelineArtifact@1
-          displayName: 'Publish vsix'
+          displayName: 'Save VSIX'
           inputs:
             publishLocation: pipeline
-            targetPath: '$(Extension.OutputPath)'
+            targetPath: '$(PublishToMarket.Extension.OutputPath)'
             artifact: '$(ArtifactName)-PROD'
           condition: succeededOrFailed()
