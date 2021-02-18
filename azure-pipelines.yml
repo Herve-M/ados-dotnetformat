@@ -20,7 +20,6 @@ variables:
   artifactName: 'VSIX'
   shareToOrganisation: 'hmatysiak'
   connectedServiceName: 'VS-MarketPlace'
-  extensionVisibilityForProd: 'private'
 
 stages:
   - stage: 'Build'
@@ -52,16 +51,6 @@ stages:
             verbose: false
             customCommand: 'run build:ci'
 
-        - task: QueryAzureDevOpsExtensionVersion@3
-          displayName: 'Get current path version'
-          inputs:
-            connectTo: 'VsTeam'
-            connectedServiceName: '$(connectedServiceName)'
-            publisherId: '$(PublisherID)'
-            extensionId: '$(ExtensionID)'
-            versionAction: 'Patch'
-            outputVariable: 'Task.Extension.Version'
-            
         - task: PackageAzureDevOpsExtension@3
           displayName: 'Pack VSIX'
           inputs:
@@ -69,9 +58,7 @@ stages:
             publisherId: '$(PublisherID)'
             extensionId: '$(ExtensionID)'
             extensionName: '$(ExtensionName)'
-            extensionVersion: '$(Task.Extension.Version)'
             updateTasksVersion: false
-            updateTasksVersionType: 'patch'
             extensionVisibility: 'private'
             extensionPricing: 'free'
 
@@ -110,6 +97,18 @@ stages:
             artifact: '$(ArtifactName)'
             path: '$(Pipeline.Workspace)/$(ArtifactName)'
 
+        - task: QueryAzureDevOpsExtensionVersion@3
+          name: 'VersionFromMarket'
+          displayName: 'Get current path version'
+          inputs:
+            connectTo: 'VsTeam'
+            connectedServiceName: '$(connectedServiceName)'
+            publisherId: '$(PublisherID)'
+            extensionId: '$(ExtensionID)'
+            extensionTag: '-dev'
+            versionAction: 'Patch'
+            extensionVersionOverride: 'ForcedVersion'
+
         - task: PublishAzureDevOpsExtension@3
           name: 'PublishToMarket'
           displayName: 'Publish to Market'
@@ -122,7 +121,9 @@ stages:
             extensionId: '$(ExtensionID)'
             extensionName: '$(ExtensionName)-DEV'
             extensionTag: '-dev'
-            updateTasksVersion: false
+            extensionVersion: '$(VersionFromMarket.Extension.Version)'
+            updateTasksVersion: true
+            updateTasksVersionType: 'patch'
             extensionVisibility: 'privatepreview'
             shareWith: '$(shareToOrganisation)'
             noWaitValidation: true
