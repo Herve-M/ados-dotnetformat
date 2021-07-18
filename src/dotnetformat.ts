@@ -28,7 +28,9 @@ async function run() {
         /// (TS) Tools setup
         // TS:workspace
         const workspaceOption = tl.getPathInput("workspaceOption", true)!;
-        const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");
+        const workspaceAsFolderOption = tl.getBoolInput("workspaceAsFolderOption");
+        const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");        
+        
         if(workspaceOption == "" && onlyChangedFiles){
             if(!isPullRequest){
                 console.error("`Build.Reason` != PullRequest, can't get the diff.")
@@ -49,7 +51,7 @@ async function run() {
             });
             tool = tool.arg(['--include', '@FilesToCheck.rsp']);
         } else {
-            if(fs.lstatSync(workspaceOption).isDirectory()){
+            if(workspaceAsFolderOption){
                 tool = tool.arg(["-f", workspaceOption]);
             } else {
                 tool = tool.arg(workspaceOption);

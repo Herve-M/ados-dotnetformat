@@ -10,7 +10,7 @@
     "version": {
         "Major": 0,
         "Minor": 3,
-        "Patch": 1
+        "Patch": 2
     },
     "visibility": [
         "Build",
@@ -99,7 +99,16 @@
             "label": "Workspace path",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": ""
+            "helpMarkDown": "A path to a solution file, a project file, or a folder containing a solution or project file. If a path is not specified then the current directory is used."
+        },
+        {
+            "name": "workspaceAsFolderOption",
+            "type": "boolean",
+            "label": "Is folder?",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If true, treat the `<workspace>` argument as a simple folder of files.",
+            "visibleRule": "workspaceOption != \"\""
         },
         {
             "name": "onlyChangedFiles",
