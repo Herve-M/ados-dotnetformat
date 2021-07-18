@@ -58,7 +58,7 @@
             "name": "fixStyleOption",
             "type": "pickList",
             "label": "Fix style",
-            "defaultValue": "-",
+            "defaultValue": "none",
             "helpMarkDown": "Run code style analyzers and apply fixes.",
             "required": false,
             "options": {
@@ -73,7 +73,7 @@
             "name": "fixAnalyzersOption",
             "type": "pickList",
             "label": "Fix analyzers",
-            "defaultValue": "-",
+            "defaultValue": "none",
             "helpMarkDown": "Run 3rd party analyzers and apply fixes.",
             "required": false,
             "options": {
