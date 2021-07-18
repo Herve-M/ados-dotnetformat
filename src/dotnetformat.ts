@@ -97,6 +97,12 @@ async function run() {
                 .arg(['--fix-analyzers', fixAnalyzersOption.toLowerCase()]);
         }
 
+        const diagnosticsOption = tl.getDelimitedInput("diagnosticsOption", ",");
+        if((fixStyleOption || fixAnalyzersOption) && diagnosticsOption.length){
+            tool = tool
+                .arg(['--diagnostics', diagnosticsOption.join(" ")]);
+        }
+
         const verbosityOption = tl.getInput("verbosityOption", false);
         if(verbosityOption){
             tool = tool
