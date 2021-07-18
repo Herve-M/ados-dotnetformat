@@ -107,7 +107,7 @@ stages:
             extensionId: '$(ExtensionID)'
             extensionTag: '-dev'
             versionAction: 'Patch'
-            extensionVersionOverride: 'ForcedVersion'
+            extensionVersionOverride: '$(ForcedVersion)'
 
         - task: PublishAzureDevOpsExtension@3
           name: 'PublishToMarket'
