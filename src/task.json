@@ -62,7 +62,7 @@
             "helpMarkDown": "Run code style analyzers and apply fixes.",
             "required": false,
             "options": {
-                "-": "-",
+                "none": "-",
                 "error": "error",
                 "info": "info",
                 "warn": "warn"
@@ -77,7 +77,7 @@
             "helpMarkDown": "Run 3rd party analyzers and apply fixes.",
             "required": false,
             "options": {
-                "-": "-",
+                "none": "-",
                 "error": "error",
                 "info": "info",
                 "warn": "warn"
@@ -93,7 +93,7 @@
             "properties": {
                 "resizable": true
             },
-            "visibleRule": "fixStyleOption != \"-\" || fixAnalyzersOption != \"-\""
+            "visibleRule": "fixStyleOption != none || fixAnalyzersOption != none"
         },
         {
             "name": "custom",
