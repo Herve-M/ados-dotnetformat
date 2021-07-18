@@ -93,7 +93,7 @@
             "properties": {
                 "resizable": true
             },
-            "visibleRule": "fixStyleOption != - || fixAnalyzersOption != -"
+            "visibleRule": "fixStyleOption != \"-\" || fixAnalyzersOption != \"-\""
         },
         {
             "name": "custom",
