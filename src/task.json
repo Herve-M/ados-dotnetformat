@@ -9,7 +9,7 @@
     "author": "MATYSIAK Hervé",
     "version": {
         "Major": 0,
-        "Minor": 2,
+        "Minor": 3,
         "Patch": 0
     },
     "visibility": [
@@ -43,6 +43,42 @@
             },
             "properties": {
                 "EditableOptions": "False"
+            }
+        },
+        {
+            "name": "fixWhitespace",
+            "type": "boolean",
+            "label": "PullRequest mode",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Run whitespace formatting."
+        },
+        {
+            "name": "fixStyle",
+            "type": "pickList",
+            "label": "Fix style",
+            "defaultValue": "-",
+            "helpMarkDown": "Run code style analyzers and apply fixes.",
+            "required": false,
+            "options": {
+                "-": "-",
+                "error": "error",
+                "info": "info",
+                "warn": "warn"
+            }
+        },
+        {
+            "name": "fixAnalyzers",
+            "type": "pickList",
+            "label": "Fix analyzers",
+            "defaultValue": "-",
+            "helpMarkDown": "Run 3rd party analyzers and apply fixes.",
+            "required": false,
+            "options": {
+                "-": "-",
+                "error": "error",
+                "info": "info",
+                "warn": "warn"
             }
         },
         {

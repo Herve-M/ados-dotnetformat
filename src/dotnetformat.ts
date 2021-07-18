@@ -75,8 +75,26 @@ async function run() {
         if(noRestoreOption){
             tool = tool
                 .arg("--no-restore");
+        }      
+
+        const fixWhitespaceOption = tl.getBoolInput("fixWhitespace", false);
+        if(fixWhitespaceOption){
+            tool = tool
+                .arg(['--fix-whitespace']);
         }
-        
+
+        const fixStyleOption = tl.getInput("fixStyle", false);
+        if(fixStyleOption && fixStyleOption != "-"){
+            tool = tool
+                .arg(['--fix-style', fixStyleOption.toLowerCase()]);
+        }
+
+        const fixAnalyzersOption = tl.getInput("fixAnalyzers", false);
+        if(fixAnalyzersOption && fixAnalyzersOption != "-"){
+            tool = tool
+                .arg(['--fix-analyzers', fixAnalyzersOption.toLowerCase()]);
+        }
+
         const verbosityOption = tl.getInput("verbosityOption", false);
         if(verbosityOption){
             tool = tool
