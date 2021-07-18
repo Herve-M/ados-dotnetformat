@@ -10,7 +10,7 @@
     "version": {
         "Major": 0,
         "Minor": 3,
-        "Patch": 0
+        "Patch": 1
     },
     "visibility": [
         "Build",
@@ -46,15 +46,16 @@
             }
         },
         {
-            "name": "fixWhitespace",
+            "name": "fixWhitespaceOption",
             "type": "boolean",
-            "label": "PullRequest mode",
+            "label": "Fix whitespace",
             "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "Run whitespace formatting."
+            "helpMarkDown": "Run whitespace formatting.",
+            "visibleRule": "command != custom"
         },
         {
-            "name": "fixStyle",
+            "name": "fixStyleOption",
             "type": "pickList",
             "label": "Fix style",
             "defaultValue": "-",
@@ -65,10 +66,11 @@
                 "error": "error",
                 "info": "info",
                 "warn": "warn"
-            }
+            },
+            "visibleRule": "command != custom"
         },
         {
-            "name": "fixAnalyzers",
+            "name": "fixAnalyzersOption",
             "type": "pickList",
             "label": "Fix analyzers",
             "defaultValue": "-",
@@ -79,7 +81,8 @@
                 "error": "error",
                 "info": "info",
                 "warn": "warn"
-            }
+            },
+            "visibleRule": "command != custom"
         },
         {
             "name": "custom",

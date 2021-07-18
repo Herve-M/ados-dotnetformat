@@ -77,19 +77,19 @@ async function run() {
                 .arg("--no-restore");
         }      
 
-        const fixWhitespaceOption = tl.getBoolInput("fixWhitespace", false);
+        const fixWhitespaceOption = tl.getBoolInput("fixWhitespaceOption", false);
         if(fixWhitespaceOption){
             tool = tool
                 .arg(['--fix-whitespace']);
         }
 
-        const fixStyleOption = tl.getInput("fixStyle", false);
+        const fixStyleOption = tl.getInput("fixStyleOption", false);
         if(fixStyleOption && fixStyleOption != "-"){
             tool = tool
                 .arg(['--fix-style', fixStyleOption.toLowerCase()]);
         }
 
-        const fixAnalyzersOption = tl.getInput("fixAnalyzers", false);
+        const fixAnalyzersOption = tl.getInput("fixAnalyzersOption", false);
         if(fixAnalyzersOption && fixAnalyzersOption != "-"){
             tool = tool
                 .arg(['--fix-analyzers', fixAnalyzersOption.toLowerCase()]);
