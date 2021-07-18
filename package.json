@@ -8,10 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "init:dev": "npm install && cd ./src/ && npm install",
     "init:ci": "npm ci --no-audit --no-progress && cd ./src/ && npm ci --production --no-audit --no-progress",
-    "buil:dev": "tsc --project tsconfig.json",
+    "build:dev": "tsc --project tsconfig.json",
     "build:ci": "tsc --project tsconfig.production.json",
+    "postbuild:dev": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/",
     "postbuild:ci": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/",
-    "pack:dev": "tfx extension create",
+    "pack:dev": "tfx extension create --extension-id dotnetformat-dev",
     "clean": "git clean -fdX",
     "postinstall": "is-ci || husky install"
   },
