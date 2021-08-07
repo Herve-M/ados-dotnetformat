@@ -10,8 +10,8 @@
     "init:ci": "npm ci --no-audit --no-progress && cd ./src/ && npm ci --production --no-audit --no-progress",
     "build:dev": "tsc --project tsconfig.json",
     "build:ci": "tsc --project tsconfig.production.json",
-    "postbuild:dev": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/",
-    "postbuild:ci": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/",
+    "postbuild:dev": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/ && cp ./src/logo.png ./dist/",
+    "postbuild:ci": "cp -r ./src/node_modules ./dist/ && cp ./src/*.json ./dist/ && cp ./src/logo.png ./dist/",
     "pack:dev": "tfx extension create --extension-id dotnetformat-dev",
     "clean": "git clean -fdX",
     "postinstall": "is-ci || husky install"

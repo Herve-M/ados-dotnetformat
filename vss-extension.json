@@ -46,13 +46,11 @@
         },
         {
             "path": "docs/images/format-overview.png",
-            "addressable": true,
-            "packagePath": "format-overview.png"
+            "addressable": true
         },
         {
             "path": "docs/images/logo.png",
-            "addressable": true,
-            "packagePath": "logo.png"
+            "addressable": true
         }
     ],
     "contributions": [
@@ -62,7 +60,15 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dist" }
+            "properties": {
+                "name": "dist",
+                "iconAsset": "herve-matysiak.dotnetformat/docs/images/logo.png",
+                "includesData": {
+                    "assets": [
+                        "herve-matysiak.dotnetformat/docs/images/logo.png"
+                    ]
+                }
+            }
         }
     ]
 }
