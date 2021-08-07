@@ -21,7 +21,7 @@
             "id": "Microsoft.VisualStudio.Services"
         }
     ],    
-    "description": "Azure Pipelines task helper arround [`dotnet-format`](https://github.com/dotnet/format)",
+    "description": "Azure Pipelines task helper arround dotnet-format",
     "tags": [
         "Continuous Integration",
         "Build",
@@ -46,7 +46,13 @@
         },
         {
             "path": "docs/images/format-overview.png",
-            "addressable": true
+            "addressable": true,
+            "packagePath": "format-overview.png"
+        },
+        {
+            "path": "docs/images/logo.png",
+            "addressable": true,
+            "packagePath": "logo.png"
         }
     ],
     "contributions": [
