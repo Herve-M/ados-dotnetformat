@@ -10,14 +10,29 @@
         "uri": "https://github.com/Herve-M/ados-dotnetformat"
     },
     "links": {
-        "support": { "uri": "https://github.com/Herve-M/ados-dotnetformat/issues" }
+        "support": { "uri": "https://github.com/Herve-M/ados-dotnetformat/issues" },
+        "repository": { "uri": "https://github.com/Herve-M/ados-dotnetformat" }
+    },
+    "icons": {
+        "default": "docs/images/logo.png"
     },
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],    
-    "description": "",
+    "description": "Azure Pipelines task helper arround [`dotnet-format`](https://github.com/dotnet/format)",
+    "tags": [
+        "Continuous Integration",
+        "Build",
+        "Azure Pipelines",
+        "Azure DevOps Extensions",
+        "formater",
+        "formate",
+        "style",
+        ".editorconfig",
+        "check"
+      ],
     "categories": [
         "Azure Pipelines"
     ],
@@ -37,7 +52,7 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dist" }
+            "properties": { "name": "dotnetformatTask" }
         }
     ]
 }

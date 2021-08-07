@@ -178,7 +178,7 @@ stages:
             publisherId: '$(PublisherID)'
             extensionId: '$(ExtensionID)'
             updateTasksVersion: false
-            extensionVisibility: 'private'
+            extensionVisibility: 'publicpreview'
             shareWith: '$(shareToOrganisation)'
             noWaitValidation: true
 

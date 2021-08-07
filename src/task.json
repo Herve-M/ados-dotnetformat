@@ -3,14 +3,15 @@
     "id": "d4846b5e-1fda-4d6b-b1e2-732b3c1cf0a9",
     "name": "DotNetFormat",
     "friendlyName": "dotnet-format",
-    "description": "",
+    "description": "Run `dotnet-format`",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "MATYSIAK Hervé",
+    "preview": true,
     "version": {
         "Major": 0,
         "Minor": 3,
-        "Patch": 2
+        "Patch": 3
     },
     "visibility": [
         "Build",
