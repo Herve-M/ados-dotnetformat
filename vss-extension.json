@@ -52,7 +52,7 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dotnetformatTask" }
+            "properties": { "name": "dist" }
         }
     ]
 }
