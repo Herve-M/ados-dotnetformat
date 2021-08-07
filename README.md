@@ -11,7 +11,7 @@ This extension provide a task for checking or fixing code format, style and anal
 #### dotnet-format
 > Could be found under "Tool" tasks. 
 
-![format-overview](docs\images\format-overview.png)
+![format-overview](docs/images/format-overview.png)
 
 ## Feedback and issues
 If you have feedback or issues, please file an issue on GitHub.

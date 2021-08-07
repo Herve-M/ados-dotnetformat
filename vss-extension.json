@@ -43,6 +43,10 @@
     "files": [
         {
             "path": "dist"
+        },
+        {
+            "path": "docs/images/format-overview.png",
+            "addressable": true
         }
     ],
     "contributions": [
