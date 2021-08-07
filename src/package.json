@@ -21,6 +21,6 @@
     "@types/mocha": "^8.2.2",
     "fs-extra": "^9.1.0",
     "fsify": "^4.0.2",
-    "simple-git": "^2.38.0"
+    "simple-git": "^2.41.1"
   }
 }
