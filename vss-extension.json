@@ -60,15 +60,7 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": {
-                "name": "dist",
-                "iconAsset": "herve-matysiak.dotnetformat/docs/images/logo.png",
-                "includesData": {
-                    "assets": [
-                        "herve-matysiak.dotnetformat/docs/images/logo.png"
-                    ]
-                }
-            }
+            "properties": { "name": "dist" }
         }
     ]
 }
