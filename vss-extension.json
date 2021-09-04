@@ -61,6 +61,14 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": { "name": "dist/DotNetFormat" }
+        },
+        {
+            "id": "usedotnetformat-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": { "name": "dist/UseDotNetFormat" }
         }
     ]
 }
