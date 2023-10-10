@@ -112,8 +112,8 @@ async function run() {
         var runReturnCode: number = await tool.exec(toolRunOptions);
         console.log(runReturnCode);
     }
-    catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err.message);
+    catch (error: any) {
+        tl.setResult(tl.TaskResult.Failed, error.message);
     }
 }
 run();

@@ -25,7 +25,7 @@ export class GitToolRunner {
             console.debug(`Result: ${result.stdout}`)
             tl.setResult(tl.TaskResult.Succeeded, `Git diff succeed ${result.code}`);
             return result.stdout.split(os.EOL);
-        } catch (error) {
+        } catch (error: any) {
             tl.error(error);
             tl.setResult(tl.TaskResult.Failed, `Git diff failed ${error}`);
         }

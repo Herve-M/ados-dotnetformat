@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
-  "extends": "@tsconfig/node10/tsconfig.json",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     /* Basic Options */
     // "allowJs": true,                       /* Allow javascript files to be compiled. */

@@ -20,6 +20,7 @@ variables:
   artifactName: 'VSIX'
   shareToOrganisation: 'hmatysiak'
   connectedServiceName: 'VS-MarketPlace'
+  nodeJsVersionSpec: '16.x'
 
 stages:
   - stage: 'Build'
@@ -29,12 +30,13 @@ stages:
         - task: NodeTool@0 
           displayName: 'Install NodeJs'
           inputs:
-            versionSpec: '10.x'
+            versionSpec: '$(nodeJsVersionSpec)'
+            checkLatest: true
 
         - task: TfxInstaller@3
           displayName: 'Install tfx-cli'
           inputs: 
-            version: 'v0.8.x'
+            version: 'v0.16.0'
             checkLatest: true
 
         - task: Npm@1
@@ -83,12 +85,13 @@ stages:
         - task: NodeTool@0 
           displayName: 'Install NodeJs'
           inputs:
-            versionSpec: '10.x'
+            versionSpec: '$(nodeJsVersionSpec)'
+            checkLatest: true
 
         - task: TfxInstaller@3
           displayName: 'Install tfx-cli'
           inputs: 
-            version: 'v0.8.x'
+            version: 'v0.16.0'
             checkLatest: true
 
         - task: DownloadPipelineArtifact@2
@@ -153,12 +156,13 @@ stages:
         - task: NodeTool@0 
           displayName: 'Install NodeJs'
           inputs:
-            versionSpec: '10.x'
+            versionSpec: '$(nodeJsVersionSpec)'
+            checkLatest: true
 
         - task: TfxInstaller@3
           displayName: 'Install tfx-cli'
           inputs: 
-            version: 'v0.8.x'
+            version: 'v0.16.0'
             checkLatest: true
 
         - task: DownloadPipelineArtifact@2
