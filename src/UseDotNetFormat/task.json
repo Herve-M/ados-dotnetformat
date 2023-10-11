@@ -1,0 +1,56 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "e5854221-3cb2-4a18-acd4-aa3c351151d8",
+    "name": "UseDotNetFormat",
+    "friendlyName": "use-dotnet-format",
+    "description": "Setup `dotnet-format`",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "MATYSIAK Hervé",
+    "preview": true,
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "visibility": [
+        "Build",
+        "Release"
+    ],
+    "runsOn": [
+        "Agent"
+    ],
+    "minimumAgentVersion": "2.182.1",
+    "instanceNameFormat": "format $(command)",
+    "groups": [
+        {
+            "name": "advancedOptions",
+            "displayName": "Advanced options",
+            "isExpanded": false            
+        }
+    ],
+    "inputs": [
+        {
+            "name": "useGlobalJsonOption",
+            "type": "boolean",
+            "label": "Use global json",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Select this option to install all SDKs from global.json files. These files are searched from system.DefaultWorkingDirectory. You can change the search root path by setting working directory input.",
+            "visibleRule": ""
+        },
+        {
+            "name": "workingDirectoryOption",
+            "type": "filePath",
+            "label": "Working Directory",
+            "helpMarkDown": "Specify path from where global.json files should be searched when using `Use global json`. If empty, `system.DefaultWorkingDirectory` will be considered as the root path.",
+            "required": false,
+            "visibleRule": "useGlobalJsonOption = true"
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "usedotnetformat.js"
+        }
+    }
+}
