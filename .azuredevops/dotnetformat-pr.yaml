@@ -47,7 +47,7 @@ stages:
               customCommand: 'run build:ci'
 
           - task: Npm@1
-            displayName: 'Build'
+            displayName: 'Test'
             inputs:
               command: custom
               verbose: false
