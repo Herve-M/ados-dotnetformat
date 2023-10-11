@@ -3,7 +3,7 @@
     "manifestVersion": 1,
     "id": "dotnetformat",
     "name": "dotnet-format",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "herve-matysiak",
     "repository": {
         "type": "git",
@@ -61,6 +61,14 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": { "name": "dist/DotNetFormat" }
+        },
+        {
+            "id": "usedotnetformat-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": { "name": "dist/UseDotNetFormat" }
         }
     ]
 }
