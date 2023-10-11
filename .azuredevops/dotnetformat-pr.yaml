@@ -1,0 +1,63 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+    - main
+    - releases/*
+
+name: dotnetformat-extensions-PR
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  nodeJsVersionSpec: '16.x'
+  tfxCliVersionSpec: '0.16.x'
+
+stages:
+  - stage:
+    jobs:
+      - job:
+        steps:
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: '$(nodeJsVersionSpec)'            
+
+          - task: TfxInstaller@4
+            inputs:
+              version: '$(tfxCliVersionSpec)'
+              checkLatest: true
+
+          - task: Npm@1
+            displayName: 'Init'
+            inputs:
+              command: custom
+              verbose: false
+              workingDir: '$(System.DefaultWorkingDirectory)'
+              customCommand: 'run init:ci'
+
+          - task: Npm@1
+            displayName: 'Build'
+            inputs:
+              command: custom
+              verbose: false
+              workingDir: '$(System.DefaultWorkingDirectory)'
+              customCommand: 'run build:ci'
+
+          - task: Npm@1
+            displayName: 'Test'
+            inputs:
+              command: custom
+              verbose: false
+              workingDir: '$(System.DefaultWorkingDirectory)'
+              customCommand: 'run test:ci'
+
+          - task: PackageAzureDevOpsExtension@4
+            displayName: 'Pack extension'
+            name: 'packageStep'
+            inputs:
+              rootFolder: '$(System.DefaultWorkingDirectory)'
+              outputPath: '$(Build.ArtifactStagingDirectory)/dist/dotnetformat-extension-pr.vsix'
+              extensionVisibility: private

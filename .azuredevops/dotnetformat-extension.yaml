@@ -7,9 +7,6 @@ trigger:
     include:
     - src/*
 
-pr:
-- main
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -21,6 +18,7 @@ variables:
   shareToOrganisation: 'hmatysiak'
   connectedServiceName: 'VS-MarketPlace'
   nodeJsVersionSpec: '16.x'
+  tfxCliVersionSpec: '0.16.x'
 
 stages:
   - stage: 'Build'
@@ -33,10 +31,10 @@ stages:
             versionSpec: '$(nodeJsVersionSpec)'
             checkLatest: true
 
-        - task: TfxInstaller@3
+        - task: TfxInstaller@4
           displayName: 'Install tfx-cli'
           inputs: 
-            version: 'v0.16.0'
+            version: '$(tfxCliVersionSpec)'
             checkLatest: true
 
         - task: Npm@1
@@ -53,10 +51,11 @@ stages:
             verbose: false
             customCommand: 'run build:ci'
 
-        - task: PackageAzureDevOpsExtension@3
+        - task: PackageAzureDevOpsExtension@4
           displayName: 'Pack VSIX'
           inputs:
             rootFolder: '$(System.DefaultWorkingDirectory)'
+            outputPath: '$(Build.ArtifactStagingDirectory)/$(extensionId).vsix'
             publisherId: '$(PublisherID)'
             extensionId: '$(ExtensionID)'
             extensionName: '$(ExtensionName)'
@@ -64,17 +63,11 @@ stages:
             extensionVisibility: 'private'
             extensionPricing: 'free'
 
-        - task: CopyFiles@2
-          displayName: 'Copy VSIX'
-          inputs:
-            Contents: '**/*.vsix'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
         - task: PublishPipelineArtifact@1
           displayName: 'Internal save VSIX'
           inputs:
             targetPath: '$(Build.ArtifactStagingDirectory)'
-            artifactName: '$(ArtifactName)'
+            artifactName: '$(artifactName)'
 
   - stage: 'Publish_DEV'
     dependsOn: 'Build'
@@ -88,17 +81,17 @@ stages:
             versionSpec: '$(nodeJsVersionSpec)'
             checkLatest: true
 
-        - task: TfxInstaller@3
+        - task: TfxInstaller@4
           displayName: 'Install tfx-cli'
           inputs: 
-            version: 'v0.16.0'
+            version: '$(tfxCliVersionSpec)'
             checkLatest: true
 
         - task: DownloadPipelineArtifact@2
           displayName: 'Get VSIX'
           inputs:
-            artifact: '$(ArtifactName)'
-            path: '$(Pipeline.Workspace)/$(ArtifactName)'
+            artifact: '$(artifactName)'
+            path: '$(Pipeline.Workspace)/$(artifactName)'
 
         - task: QueryAzureDevOpsExtensionVersion@3
           name: 'VersionFromMarket'
@@ -112,14 +105,14 @@ stages:
             versionAction: 'Patch'
             extensionVersionOverride: '$(ForcedVersion)'
 
-        - task: PublishAzureDevOpsExtension@3
+        - task: PublishAzureDevOpsExtension@4
           name: 'PublishToMarket'
           displayName: 'Publish to Market'
           inputs:
             connectTo: 'VsTeam'
             connectedServiceName: '$(connectedServiceName)'
             fileType: 'vsix'
-            vsixFile: '$(Pipeline.Workspace)/$(ArtifactName)/*.vsix'
+            vsixFile: '$(Pipeline.Workspace)/$(artifactName)/*.vsix'
             publisherId: '$(PublisherID)'
             extensionId: '$(ExtensionID)'
             extensionName: '$(ExtensionName)-DEV'
@@ -131,7 +124,7 @@ stages:
             shareWith: '$(shareToOrganisation)'
             noWaitValidation: true
             
-        - task: IsAzureDevOpsExtensionValid@3
+        - task: IsAzureDevOpsExtensionValid@4
           displayName: 'Check market ext. validation'
           inputs:
             connectTo: 'VsTeam'
@@ -144,7 +137,7 @@ stages:
           inputs:
             publishLocation: pipeline
             targetPath: '$(PublishToMarket.Extension.OutputPath)'
-            artifact: '$(ArtifactName)-DEV'
+            artifact: '$(artifactName)-DEV'
           condition: succeededOrFailed()
 
   - stage: 'Publish_PROD'
@@ -159,26 +152,26 @@ stages:
             versionSpec: '$(nodeJsVersionSpec)'
             checkLatest: true
 
-        - task: TfxInstaller@3
+        - task: TfxInstaller@4
           displayName: 'Install tfx-cli'
           inputs: 
-            version: 'v0.16.0'
+            version: '$(tfxCliVersionSpec)'
             checkLatest: true
 
         - task: DownloadPipelineArtifact@2
           displayName: 'Get VSIX'
           inputs:
-            artifact: '$(ArtifactName)'
-            path: '$(Pipeline.Workspace)/$(ArtifactName)'
+            artifact: '$(artifactName)'
+            path: '$(Pipeline.Workspace)/$(artifactName)'
 
-        - task: PublishAzureDevOpsExtension@3
+        - task: PublishAzureDevOpsExtension@4
           name: 'PublishToMarket'
           displayName: 'Publish to Market'  
           inputs:
             connectTo: 'VsTeam'
             connectedServiceName: '$(connectedServiceName)'
             fileType: 'vsix'
-            vsixFile: '$(Pipeline.Workspace)/$(ArtifactName)/*.vsix'
+            vsixFile: '$(Pipeline.Workspace)/$(artifactName)/*.vsix'
             publisherId: '$(PublisherID)'
             extensionId: '$(ExtensionID)'
             updateTasksVersion: false
@@ -186,7 +179,7 @@ stages:
             shareWith: '$(shareToOrganisation)'
             noWaitValidation: true
 
-        - task: IsAzureDevOpsExtensionValid@3
+        - task: IsAzureDevOpsExtensionValid@4
           displayName: 'Check market ext. validation'
           inputs:
             connectTo: 'VsTeam'
@@ -199,5 +192,5 @@ stages:
           inputs:
             publishLocation: pipeline
             targetPath: '$(PublishToMarket.Extension.OutputPath)'
-            artifact: '$(ArtifactName)-PROD'
+            artifact: '$(artifactName)-PROD'
           condition: succeededOrFailed()
