@@ -31,21 +31,67 @@
     ],
     "inputs": [
         {
-            "name": "useGlobalJsonOption",
-            "type": "boolean",
-            "label": "Use global json",
-            "defaultValue": "false",
-            "required": false,
-            "helpMarkDown": "Select this option to install all SDKs from global.json files. These files are searched from system.DefaultWorkingDirectory. You can change the search root path by setting working directory input.",
-            "visibleRule": ""
+            "name": "feed",
+            "type": "pickList",
+            "label": "Feed",
+            "defaultValue": "",
+            "required": true,
+            "properties": {
+                "EditableOptions": "True"
+            },
+            "helpMarkDown": "Select the package source"
         },
         {
-            "name": "workingDirectoryOption",
-            "type": "filePath",
-            "label": "Working Directory",
-            "helpMarkDown": "Specify path from where global.json files should be searched when using `Use global json`. If empty, `system.DefaultWorkingDirectory` will be considered as the root path.",
-            "required": false,
-            "visibleRule": "useGlobalJsonOption = true"
+            "name": "definition",
+            "type": "pickList",
+            "label": "Package",
+            "defaultValue": "",
+            "required": true,
+            "properties": {
+                "EditableOptions": "True"
+            },
+            "helpMarkDown": "Select the package to download."
+        },
+        {
+            "name": "version",
+            "type": "pickList",
+            "label": "Version",
+            "defaultValue": "",
+            "required": true,
+            "properties": {
+                "EditableOptions": "True"
+            },
+            "helpMarkDown": "Version of the package"
+        } 
+    ],
+    "dataSourceBindings": [
+        {
+            "target": "feed",
+            "endpointId": "tfs:feed",
+            "endpointUrl": "{{endpoint.url}}/_apis/packaging/feeds?includeUrls=False",
+            "resultSelector": "jsonpath:$.value[?(@.name =~ /^dotnet/]",
+            "resultTemplate": "{ \"Value\" : \"{{#if project}}{{{project.id}}}{{/if}}\\/{{{id}}}\", \"DisplayValue\" : \"{{{name}}}\" }"
+        },
+        {
+            "target": "definition",
+            "endpointId": "tfs:feed",
+            "parameters": {
+                "feed": "$(feed)"
+            },
+            "endpointUrl": "{{endpoint.url}}/{{ #regex ([a-fA-F0-9\\-]+/)[a-fA-F0-9\\-]+ feed }}_apis/Packaging/Feeds/{{ #regex [a-fA-F0-9\\-]*/([a-fA-F0-9\\-]+) feed }}{{#if view}}@{{{view}}}{{/if}}/Packages?includeUrls=false",
+            "resultSelector": "jsonpath:$.value[?(@.protocolType=='NuGet' && @.name=='dotnet-format')]",
+            "resultTemplate": "{ \"Value\" : \"{{{id}}}\", \"DisplayValue\" : \"{{{name}}}\" }"
+        },
+        {
+            "target": "version",
+            "endpointId": "tfs:feed",
+            "parameters": {
+                "feed": "$(feed)",
+                "definition": "$(definition)"
+            },
+            "endpointUrl": "{{endpoint.url}}/{{ #regex ([a-fA-F0-9\\-]*/)[a-fA-F0-9\\-]+ feed }}_apis/Packaging/Feeds/{{ #regex [a-fA-F0-9\\-]*/([a-fA-F0-9\\-]+) feed }}{{#if view}}@{{{view}}}{{/if}}/Packages/{{{definition}}}/Versions?includeUrls=false&protocolType={{{packageType}}}",
+            "resultSelector": "jsonpath:$.value[*]",
+            "resultTemplate": "{ \"Value\" : \"{{{version}}}\", \"DisplayValue\" : \"{{{version}}}\" }"
         }
     ],
     "execution": {
