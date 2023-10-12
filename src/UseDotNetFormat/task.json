@@ -49,7 +49,7 @@
         }
     ],
     "execution": {
-        "Node10": {
+        "Node16": {
             "target": "usedotnetformat.js"
         }
     }
