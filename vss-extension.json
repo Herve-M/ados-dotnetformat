@@ -55,6 +55,29 @@
     ],
     "contributions": [
         {
+            "id": "endpoint-nuget-feed-none",
+            "description": "",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [
+                "ms.vss-endpoint.endpoint-types"
+            ],
+            "properties": {
+                "name": "endpoint-nuget-feed-none",
+                "displayName": "NuGet public feed",
+                "url": {
+                    "displayName": "",
+                    "helpText": "",
+                    "value": "https://feeds.dev.azure.com/dnceng/public/"
+                },
+                "authenticationSchemes": [
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-none"
+                    }
+                ],
+                "helpMarkDown": ""
+            }
+        },
+        {
             "id": "dotnetformat-task",
             "type": "ms.vss-distributed-task.task",
             "targets": [

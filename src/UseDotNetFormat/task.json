@@ -2,8 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "e5854221-3cb2-4a18-acd4-aa3c351151d8",
     "name": "UseDotNetFormat",
-    "friendlyName": "use-dotnet-format",
-    "description": "Setup `dotnet-format`",
+    "friendlyName": "UseDotnetFormat",
+    "description": "Setup pre-release, beta or specific version of `dotnet-format` from dnceng feeds.",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "MATYSIAK Hervé",
@@ -11,45 +11,91 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 0
+        "Patch": 20
     },
     "visibility": [
-        "Build",
-        "Release"
+        "Build"
     ],
     "runsOn": [
         "Agent"
     ],
     "minimumAgentVersion": "2.182.1",
-    "instanceNameFormat": "format $(command)",
-    "groups": [
-        {
-            "name": "advancedOptions",
-            "displayName": "Advanced options",
-            "isExpanded": false            
-        }
-    ],
+    "instanceNameFormat": "setup-format feed",
+    "groups": [],
     "inputs": [
         {
-            "name": "useGlobalJsonOption",
-            "type": "boolean",
-            "label": "Use global json",
-            "defaultValue": "false",
-            "required": false,
-            "helpMarkDown": "Select this option to install all SDKs from global.json files. These files are searched from system.DefaultWorkingDirectory. You can change the search root path by setting working directory input.",
-            "visibleRule": ""
+            "name": "publicFeedServiceConnection",
+            "type": "connectedService:endpoint-nuget-feed-none",
+            "label": "Public feed connection",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": ""
         },
         {
-            "name": "workingDirectoryOption",
-            "type": "filePath",
-            "label": "Working Directory",
-            "helpMarkDown": "Specify path from where global.json files should be searched when using `Use global json`. If empty, `system.DefaultWorkingDirectory` will be considered as the root path.",
-            "required": false,
-            "visibleRule": "useGlobalJsonOption = true"
+            "name": "feed",
+            "type": "pickList",
+            "label": "Feed",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the package runtime/feed name",
+            "options": {
+                "dotnet9": ".NET 9",
+                "dotnet8": ".NET 8",
+                "dotnet7": ".NET 7",
+                "dotnet6": ".NET 6"
+              }
+        },
+        {
+            "name": "definition",
+            "type": "pickList",
+            "label": "Package",
+            "defaultValue": "",
+            "required": true,
+            "properties": {
+                "EditableOptions": "True"
+            },
+            "helpMarkDown": "Select `dotnet-format`"
+        },
+        {
+            "name": "version",
+            "type": "pickList",
+            "label": "Version",
+            "defaultValue": "",
+            "required": true,
+            "properties": {
+                "EditableOptions": "True"
+            },
+            "helpMarkDown": "Version of the package to install"
+        } 
+    ],
+    "dataSourceBindings": [
+        {
+            "target": "definition",
+            "endpointId": "$(publicFeedServiceConnection)",
+            "parameters": {
+                "feed": "$(feed)",
+                "packageNameQuery": "dotnet-format",
+                "packageType": "NuGet"
+            },
+            "endpointUrl": "{{endpoint.url}}/_apis/Packaging/Feeds/{{feed}}/Packages?includeUrls=false&packageNameQuery={{packageNameQuery}}&protocolType={{packageType}}&api-version=7.2-preview.1",
+            "resultSelector": "jsonpath:$.value[*]",
+            "resultTemplate": "{ \"Value\" : \"{{{id}}}\", \"DisplayValue\" : \"{{{name}}}\" }"
+        },
+        {
+            "target": "version",
+            "endpointId": "$(publicFeedServiceConnection)",
+            "parameters": {
+                "feed": "$(feed)",
+                "definition": "$(definition)",
+                "packageType": "NuGet"
+            },
+            "endpointUrl": "{{endpoint.url}}/_apis/Packaging/Feeds/{{feed}}/Packages/{{{definition}}}/Versions?includeUrls=false&protocolType={{{packageType}}}",
+            "resultSelector": "jsonpath:$.value[*]",
+            "resultTemplate": "{ \"Value\" : \"{{{version}}}\", \"DisplayValue\" : \"{{{version}}}\" }"
         }
     ],
     "execution": {
-        "Node10": {
+        "Node16": {
             "target": "usedotnetformat.js"
         }
     }
