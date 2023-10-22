@@ -10,4 +10,19 @@ updates:
     ignore:
     - dependency-name: "@types/node"
       update-types: ["version-update:semver-major"]
-    
+  
+  - package-ecosystem: "npm"
+    directory: "/src/DotNetFormat/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(DotNetFormat)"
+      include: "scope"
+
+  - package-ecosystem: "npm"
+    directory: "/src/UseDotNetFormat/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(UseDotNetFormat)"
+      include: "scope"
