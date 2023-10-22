@@ -25,6 +25,9 @@ stages:
     jobs: 
       - job: 
         steps: 
+        - checkout: self
+          lfs: true
+
         - task: NodeTool@0 
           displayName: 'Install NodeJs'
           inputs:
