@@ -22,7 +22,7 @@ async function run() {
             await tl
                 .tool(toolPath)
                 .arg("--version")
-                .exec();
+                .execAsync();
         }
 
         /// (TS) Tools setup
@@ -109,7 +109,7 @@ async function run() {
                 .arg(['--verbosity', verbosityOption.toLowerCase()]);
         }
 
-        var runReturnCode: number = await tool.exec(toolRunOptions);
+        var runReturnCode: number = await tool.execAsync(toolRunOptions);
         console.log(runReturnCode);
     }
     catch (error: any) {
