@@ -10,8 +10,8 @@
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 3,
-        "Patch": 3
+        "Minor": 4,
+        "Patch": 0
     },
     "visibility": [
         "Build",
@@ -30,6 +30,14 @@
         }
     ],
     "inputs": [
+        {
+            "name": "useGlobalTool",
+            "type": "boolean",
+            "label": "Use .NET global tool version instead of SDK provided one.",
+            "defaultValue": "false",
+            "required": true,
+            "helpMarkDown": "Use .NET global tool version instead of SDK provided one.",
+        },
         {
             "name": "command",
             "type": "pickList",

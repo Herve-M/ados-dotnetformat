@@ -12,15 +12,25 @@ async function run() {
         const localWorkingPath = tl.getVariable("Build.Repository.LocalPath")!;
         
         // Get the tools 
-        const toolPath = tl.which("dotnet-format", true);
+        const useGlobalToolOption = tl.getBoolInput("workspaceAsFolderOption");
         let toolRunOptions: tr.IExecOptions = {
             cwd: localWorkingPath
         };
-        let tool = tl.tool(toolPath);
 
-        if(isDebug){
-            await tl
+        let toolPath: string;
+        let tool:tr.ToolRunner;
+        if(useGlobalToolOption){
+            toolPath = tl.which("dotnet-format", true);
+            tool = tl.tool(toolPath);
+        } else{
+            toolPath = tl.which("dotnet", true);
+            tool = tl
                 .tool(toolPath)
+                .arg("format");
+        }
+        
+        if(isDebug){
+            await tool
                 .arg("--version")
                 .execAsync();
         }
