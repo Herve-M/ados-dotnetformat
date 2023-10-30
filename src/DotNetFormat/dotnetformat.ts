@@ -12,7 +12,7 @@ async function run() {
         const localWorkingPath = tl.getVariable("Build.Repository.LocalPath")!;
         
         // Get the tools 
-        const useGlobalToolOption = tl.getBoolInput("workspaceAsFolderOption");
+        const useGlobalToolOption = tl.getBoolInput("useGlobalToolOption");
         let toolRunOptions: tr.IExecOptions = {
             cwd: localWorkingPath
         };
@@ -35,10 +35,14 @@ async function run() {
                 .execAsync();
         }
 
-        /// (TS) Tools setup
-        // TS:workspace
+        // command
+        const commandToRun = tl.getInput("command", true);
+        if(commandToRun === "custom"){
+            tl.setResult(tl.TaskResult.Failed, "Custom command isn't impl. yet!");
+            return;
+        }
+
         const workspaceOption = tl.getPathInput("workspaceOption", true)!;
-        const workspaceAsFolderOption = tl.getBoolInput("workspaceAsFolderOption");
         const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");        
         
         if(workspaceOption == "" && onlyChangedFiles){
@@ -61,54 +65,24 @@ async function run() {
             });
             tool = tool.arg(['--include', '@FilesToCheck.rsp']);
         } else {
-            if(workspaceAsFolderOption){
-                tool = tool.arg(["-f", workspaceOption]);
-            } else {
-                tool = tool.arg(workspaceOption);
-            }            
+            tool = tool.arg(workspaceOption);          
         }       
-
-        // TS:command
-        const commandToRun = tl.getInput("command", true);
-        switch (commandToRun) {
-            case "check":
-                tool = tool
-                    .arg("--check");
-                break;
-            case "custom":
-                tl.setResult(tl.TaskResult.Failed, "Custom command isn't impl. yet!");
-                return;
-            default:
-                tl.setResult(tl.TaskResult.Failed, "No command selected");
-                return;
-        }      
-        // TS:advanced options
+  
+        // advanced options
         const noRestoreOption = tl.getBoolInput("noRestoreOption", false);
         if(noRestoreOption){
             tool = tool
                 .arg("--no-restore");
-        }      
-
-        const fixWhitespaceOption = tl.getBoolInput("fixWhitespaceOption", false);
-        if(fixWhitespaceOption){
-            tool = tool
-                .arg(['--fix-whitespace']);
         }
-
-        const fixStyleOption = tl.getInput("fixStyleOption", false);
-        if(fixStyleOption && fixStyleOption != "-"){
+        
+        const includeGeneratedOption = tl.getBoolInput("includeGeneratedOption", false);
+        if(includeGeneratedOption){
             tool = tool
-                .arg(['--fix-style', fixStyleOption.toLowerCase()]);
-        }
-
-        const fixAnalyzersOption = tl.getInput("fixAnalyzersOption", false);
-        if(fixAnalyzersOption && fixAnalyzersOption != "-"){
-            tool = tool
-                .arg(['--fix-analyzers', fixAnalyzersOption.toLowerCase()]);
-        }
-
+                .arg("--include-generated");
+        }     
+    
         const diagnosticsOption = tl.getDelimitedInput("diagnosticsOption", ",");
-        if((fixStyleOption || fixAnalyzersOption) && diagnosticsOption.length){
+        if(diagnosticsOption.length){
             tool = tool
                 .arg(['--diagnostics', diagnosticsOption.join(" ")]);
         }
@@ -118,8 +92,10 @@ async function run() {
             tool = tool
                 .arg(['--verbosity', verbosityOption.toLowerCase()]);
         }
-
-        var runReturnCode: number = await tool.execAsync(toolRunOptions);
+        
+        const runReturnCode = await tool
+            .argIf(isDebug == true, `--binarylog ${tl.getVariable("Build.ArtifactStagingDirectory")}/Logs/format.binlog`)
+            .execAsync(toolRunOptions);
         console.log(runReturnCode);
     }
     catch (error: any) {
