@@ -33,7 +33,7 @@
     "@tsconfig/node16": "^16.1.1",
     "@types/mocha": "^8.2.0",
     "@types/node": "^16.4.13",
-    "@types/q": "^1.5.5",
+    "@types/q": "^1.5.7",
     "glob-exec": "^0.1.1",
     "husky": "^5.0.9",
     "is-ci": "^3.0.0",
