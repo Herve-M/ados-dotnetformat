@@ -102,6 +102,7 @@ async function run() {
         const runReturnCode = await tool
             .argIf(isDebug == true, `--binarylog ${tl.getVariable("Build.ArtifactStagingDirectory")}/Logs/format.binlog`)
             .arg('--verify-no-changes')
+            .arg(`--report ${tl.getVariable("Build.ArtifactStagingDirectory")}/CodeAnalysisLogs/format.json`)
             .execAsync(toolRunOptions);
         console.log(runReturnCode);
     }
