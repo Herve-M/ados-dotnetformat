@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace library
+﻿namespace library
 {
     public class Speaker
     {
-        string lastName;
+        private string lastName;
 
         public string SayHello(string name)
         {
             lastName = name;
-            return $"Hello {this.lastName}.";
+            return $"Hello {lastName}.";
         }
     }
 }

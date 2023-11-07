@@ -3,11 +3,11 @@ using library;
 
 namespace codestyle_project
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Speaker speaker = new Speaker();
+            var speaker = new Speaker();
             Console.WriteLine(speaker.SayHello("World"));
         }
     }
