@@ -55,17 +55,6 @@
             }
         },
         {
-            "name": "diagnosticsOption",
-            "type": "multiLine",
-            "label": "Diagnostics filter",
-            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues.",
-            "required": false,
-            "properties": {
-                "resizable": true
-            },
-            "visibleRule": "fixStyleOption != none || fixAnalyzersOption != none"
-        },
-        {
             "name": "custom",
             "type": "string",
             "label": "Custom command",
@@ -99,6 +88,28 @@
             "defaultValue": "false",
             "required": false,
             "helpMarkDown": "If true, doesn't execute an implicit restore before formatting."
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "diagnosticsOption",
+            "type": "multiLine",
+            "label": "Diagnostics filter",
+            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "diagnosticsExcludedOption",
+            "type": "multiLine",
+            "label": "Diagnostics filter",
+            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to ignore when fixing code style or 3rd party issues.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            }
         },
         {
             "groupName": "advancedOptions",

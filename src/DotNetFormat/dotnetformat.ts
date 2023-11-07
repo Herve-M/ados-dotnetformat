@@ -87,6 +87,12 @@ async function run() {
                 .arg(['--diagnostics', diagnosticsOption.join(" ")]);
         }
 
+        const excludedDiagnosticsOption = tl.getDelimitedInput("diagnosticsExcludedOption", ",");
+        if(excludedDiagnosticsOption.length){
+            tool = tool
+                .arg(['--exclude-diagnostics', excludedDiagnosticsOption.join(" ")]);
+        }
+
         const verbosityOption = tl.getInput("verbosityOption", false);
         if(verbosityOption){
             tool = tool
