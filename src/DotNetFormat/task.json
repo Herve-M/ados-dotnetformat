@@ -36,7 +36,7 @@
             "label": "Use .NET global tool version instead of SDK provided one.",
             "defaultValue": "false",
             "required": true,
-            "helpMarkDown": "Use .NET global tool version instead of SDK provided one.",
+            "helpMarkDown": "Use .NET global tool version instead of SDK provided one."
         },
         {
             "name": "command",
@@ -139,7 +139,7 @@
         }
     ],
     "execution": {
-        "Node10": {
+        "Node16": {
             "target": "dotnetformat.js"
         }
     }
