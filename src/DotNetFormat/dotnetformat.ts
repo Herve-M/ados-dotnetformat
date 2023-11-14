@@ -74,7 +74,7 @@ async function run() {
                 tl.writeFile(includedRspFilePath, includeOptions.join(os.EOL));
                 console.debug(`Include file ${includedRspFilePath} with ${includeOptions.length}`);
                 tool = tool
-                    .arg(`--include @${includedRspFilePath}`);
+                    .arg(['--include', `@${includedRspFilePath}`]);
             }
 
             if(excludeOptions.length){
@@ -82,14 +82,14 @@ async function run() {
                 tl.writeFile(excludedRspFilePath, excludeOptions.join(os.EOL));
                 console.debug(`Include file ${excludedRspFilePath} with ${excludeOptions.length}`);
                 tool = tool
-                    .arg(`--exclude @${excludedRspFilePath}`);
+                    .arg(['--exclude', `@${excludedRspFilePath}`]);
             }
         }
 
         const severityOption = tl.getInput("severityOption", false);
         if(severityOption){
             tool = tool
-                .arg(`--severity ${severityOption}`);
+                .arg(['--severity', `${severityOption}`]);
         }
   
         // advanced options
@@ -108,25 +108,25 @@ async function run() {
         const diagnosticsOptions = tl.getDelimitedInput("diagnosticsOptions", ",");
         if(diagnosticsOptions.length){
             tool = tool
-                .arg(`--diagnostics ${diagnosticsOptions.join(" ")}`);
+                .arg(['--diagnostics', `${diagnosticsOptions.join(" ")}`]);
         }
 
         const excludedDiagnosticsOptions = tl.getDelimitedInput("diagnosticsExcludedOptions", ",");
         if(excludedDiagnosticsOptions.length){
             tool = tool
-                .arg(`--exclude-diagnostics ${excludedDiagnosticsOptions.join(" ")}`);
+                .arg(['--exclude-diagnostics', `${excludedDiagnosticsOptions.join(" ")}`]);
         }
 
         const verbosityOption = tl.getInput("verbosityOption", false);
         if(verbosityOption){
             tool = tool
-                .arg(`--verbosity ${verbosityOption.toLowerCase()}`);
+                .arg(['--verbosity', `${verbosityOption.toLowerCase()}`]);
         }
         
         const runReturnCode = await tool
-            .argIf(isDebug == true, `--binarylog ${tl.getVariable("Build.ArtifactStagingDirectory")}/Logs/format.binlog`)
+            .argIf(isDebug == true, ['--binarylog', `${tl.getVariable("Build.ArtifactStagingDirectory")}/Logs/format.binlog`])
             .arg('--verify-no-changes')
-            .arg(`--report ${tl.getVariable("Build.ArtifactStagingDirectory")}/CodeAnalysisLogs/format.json`)
+            .arg(['--report', `${tl.getVariable("Build.ArtifactStagingDirectory")}/CodeAnalysisLogs/format.json`])
             .execAsync(toolRunOptions);
 
         tl.setResult(runReturnCode == 0 ? tl.TaskResult.Succeeded : tl.TaskResult.Failed, `Return code was: ${runReturnCode}`, true);
