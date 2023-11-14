@@ -1,13 +1,12 @@
 import os = require('os');
-import fs = require('fs');
-import path = require('path');
+import path = require('node:path');
 import tl = require('azure-pipelines-task-lib/task');
 import tr = require("azure-pipelines-task-lib/toolrunner");
 import gitTool = require('./utils');
 
 async function run() {
     try {
-        const isDebug:boolean = Boolean(tl.getVariable("System.Debug"));
+        const isDebug = tl.getVariable("System.Debug") == 'True';
         const isPullRequest = tl.getVariable("Build.Reason")! == "PullRequest";
         const localWorkingPath = tl.getVariable("Build.Repository.LocalPath")!;
         
@@ -30,8 +29,9 @@ async function run() {
         }
         
         if(isDebug){
-            await tool
-                .arg("--version")
+            await tl
+                .tool(toolPath)
+                .line("format --version")
                 .execAsync();
         }
 
@@ -40,12 +40,18 @@ async function run() {
         if(commandToRun === "custom"){
             tl.setResult(tl.TaskResult.Failed, "Custom command isn't impl. yet!");
             return;
+        } else if(commandToRun === "fix"){
+            tl.setResult(tl.TaskResult.Failed, "Fix command isn't impl. yet!");
+            return;
         }
 
-        const workspaceOption = tl.getPathInput("workspaceOption", true)!;
-        const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");        
-        
-        if(workspaceOption == "" && onlyChangedFiles){
+        const workspaceOption = tl.getPathInput("workspaceOption")!;
+        const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");
+
+        const includeOptions = tl.getDelimitedInput("includeOptions", os.EOL);    
+        const excludeOptions = tl.getDelimitedInput("excludeOptions", os.EOL);
+
+        if(workspaceOption == undefined && onlyChangedFiles){
             if(!isPullRequest){
                 console.error("`Build.Reason` != PullRequest, can't get the diff.")
                 tl.setResult(tl.TaskResult.Failed, "Can't find diff. between target and source branch, for PullRequest"); //TODO: better log
@@ -57,16 +63,33 @@ async function run() {
             let gitScm = new gitTool.GitToolRunner();
             const changeSet = gitScm.getChangeFor(pullRequestTargetBranch, '*.cs');
             const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");
-            fs.writeFile(rspFilePath, changeSet.join(os.EOL), function (err) {
-                if (err) {
-                    return console.error(err);
-                }
-                console.debug(`FilesToCheck.rsp writen with ${changeSet.length} files`);
-            });
-            tool = tool.arg(['--include', '@FilesToCheck.rsp']);
+            tl.writeFile(rspFilePath, changeSet.join(os.EOL));
+            tool = tool.arg('--include @FilesToCheck.rsp');
         } else {
-            tool = tool.arg(workspaceOption);          
-        }       
+            tool = tool.arg(workspaceOption);
+            
+            if(includeOptions.length){
+                const includedRspFilePath = path.normalize(path.join(localWorkingPath, "Included.rsp"));
+                tl.writeFile(includedRspFilePath, includeOptions.join(os.EOL));
+                console.debug(`Include file ${includedRspFilePath} with ${includeOptions.length}`);
+                tool = tool
+                    .arg(`--include @${includedRspFilePath}`);
+            }
+
+            if(excludeOptions.length){
+                const excludedRspFilePath = path.normalize(path.join(localWorkingPath, "Excluded.rsp"));
+                tl.writeFile(excludedRspFilePath, excludeOptions.join(os.EOL));
+                console.debug(`Include file ${excludedRspFilePath} with ${excludeOptions.length}`);
+                tool = tool
+                    .arg(`--exclude @${excludedRspFilePath}`);
+            }
+        }
+
+        const severityOption = tl.getInput("severityOption", false);
+        if(severityOption){
+            tool = tool
+                .arg(`--severity ${severityOption}`);
+        }
   
         // advanced options
         const noRestoreOption = tl.getBoolInput("noRestoreOption", false);
@@ -81,22 +104,22 @@ async function run() {
                 .arg("--include-generated");
         }     
     
-        const diagnosticsOption = tl.getDelimitedInput("diagnosticsOption", ",");
-        if(diagnosticsOption.length){
+        const diagnosticsOptions = tl.getDelimitedInput("diagnosticsOptions", ",");
+        if(diagnosticsOptions.length){
             tool = tool
-                .arg(['--diagnostics', diagnosticsOption.join(" ")]);
+                .arg(`--diagnostics ${diagnosticsOptions.join(" ")}`);
         }
 
-        const excludedDiagnosticsOption = tl.getDelimitedInput("diagnosticsExcludedOption", ",");
-        if(excludedDiagnosticsOption.length){
+        const excludedDiagnosticsOptions = tl.getDelimitedInput("diagnosticsExcludedOptions", ",");
+        if(excludedDiagnosticsOptions.length){
             tool = tool
-                .arg(['--exclude-diagnostics', excludedDiagnosticsOption.join(" ")]);
+                .arg(`--exclude-diagnostics ${excludedDiagnosticsOptions.join(" ")}`);
         }
 
         const verbosityOption = tl.getInput("verbosityOption", false);
         if(verbosityOption){
             tool = tool
-                .arg(['--verbosity', verbosityOption.toLowerCase()]);
+                .arg(`--verbosity ${verbosityOption.toLowerCase()}`);
         }
         
         const runReturnCode = await tool
@@ -104,10 +127,11 @@ async function run() {
             .arg('--verify-no-changes')
             .arg(`--report ${tl.getVariable("Build.ArtifactStagingDirectory")}/CodeAnalysisLogs/format.json`)
             .execAsync(toolRunOptions);
-        console.log(runReturnCode);
+
+        tl.setResult(runReturnCode == 0 ? tl.TaskResult.Succeeded : tl.TaskResult.Failed, `Return code was: ${runReturnCode}`, true);
     }
     catch (error: any) {
-        tl.setResult(tl.TaskResult.Failed, error.message);
+        tl.setResult(tl.TaskResult.Failed, error.message, true);
     }
 }
 run();

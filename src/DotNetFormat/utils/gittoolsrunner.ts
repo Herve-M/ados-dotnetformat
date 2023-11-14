@@ -10,7 +10,7 @@ export class GitToolRunner {
     private readonly gitToolPath: string;    
 
     constructor(){
-        this.repositoryDirectory = tl.getPathInput(tl.getVariable("Build.Repository.LocalPath")!, false)!;
+        this.repositoryDirectory = tl.getVariable("Build.Repository.LocalPath")!;
         this.gitToolPath = tl.which(GitToolRunner.ToolName, true);
     }
 
@@ -21,7 +21,11 @@ export class GitToolRunner {
         };
 
         try {
-            let result = tl.execSync(this.gitToolPath, `diff ${refBranch} --name-only -- ${filePattern}`, options);
+            let result = tl
+                .tool(this.gitToolPath)
+                .arg([`diff ${refBranch}`, `--name-only`, `-- ${filePattern}`])
+                .execSync(options);
+
             console.debug(`Result: ${result.stdout}`)
             tl.setResult(tl.TaskResult.Succeeded, `Git diff succeed ${result.code}`);
             return result.stdout.split(os.EOL);

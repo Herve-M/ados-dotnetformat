@@ -55,6 +55,42 @@
             }
         },
         {
+            "name": "severityOption",
+            "type": "pickList",
+            "label": "Severity",
+            "defaultValue": "warn",
+            "helpMarkDown": "The severity of diagnostics to fix.",
+            "required": true,
+            "options": {
+                "error": "Error",
+                "info": "Info",
+                "warn": "Warn"
+            },
+            "visibleRule": "command = check"
+        },
+        {
+            "name": "includeOptions",
+            "type": "multiLine",
+            "label": "Include",
+            "helpMarkDown": "A newline separated list of relative file or folder paths to include in formatting. All files are formatted if empty.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            },
+            "visibleRule": "command = check && onlyChangedFiles = false"
+        },
+        {
+            "name": "excludeOptions",
+            "type": "multiLine",
+            "label": "Exclude",
+            "helpMarkDown": "A newline separated list of relative file or folder paths to exclude from formatting.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            },
+            "visibleRule": "command = check"
+        },
+        {
             "name": "custom",
             "type": "string",
             "label": "Custom command",
@@ -91,7 +127,7 @@
         },
         {
             "groupName": "advancedOptions",
-            "name": "diagnosticsOption",
+            "name": "diagnosticsOptions",
             "type": "multiLine",
             "label": "Diagnostics filter",
             "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues.",
@@ -102,7 +138,7 @@
         },
         {
             "groupName": "advancedOptions",
-            "name": "diagnosticsExcludedOption",
+            "name": "diagnosticsExcludedOptions",
             "type": "multiLine",
             "label": "Diagnostics filter",
             "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to ignore when fixing code style or 3rd party issues.",
