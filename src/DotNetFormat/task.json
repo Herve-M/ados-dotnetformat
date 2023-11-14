@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 4,
-        "Patch": 1
+        "Patch": 4
     },
     "visibility": [
         "Build",
@@ -78,6 +78,14 @@
             "visibleRule": "command = custom"
         },
         {
+            "name": "workingDirectoryOption",
+            "type": "filePath",
+            "label": "Working directory path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "A path to a folder containing global.json. If a path is not specified then the local path on the agent where the source code files are downloaded will be used."
+        },
+        {
             "name": "workspaceOption",
             "type": "filePath",
             "label": "Workspace path",
@@ -89,7 +97,7 @@
             "name": "onlyChangedFiles",
             "type": "boolean",
             "label": "PullRequest mode",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "required": false,
             "helpMarkDown": "If true, the task will only check changed files in the current pull request.",
             "visibleRule": "workspaceOption = \"\""
@@ -103,7 +111,7 @@
             "properties": {
                 "resizable": true
             },
-            "visibleRule": "command = check && onlyChangedFiles = false"
+            "visibleRule": "command = check && workspaceOption != \"\""
         },
         {
             "name": "excludeOptions",

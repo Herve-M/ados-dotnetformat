@@ -11,11 +11,12 @@ async function run() {
         const localWorkingPath = tl.getVariable("Build.Repository.LocalPath")!;
         
         // Get the tools 
-        const useGlobalToolOption = tl.getBoolInput("useGlobalToolOption");
+        const workingDirectoryOption = tl.getPathInput("workingDirectoryOption");
         let toolRunOptions: tr.IExecOptions = {
-            cwd: localWorkingPath
+            cwd: workingDirectoryOption == null ? localWorkingPath : workingDirectoryOption 
         };
 
+        const useGlobalToolOption = tl.getBoolInput("useGlobalToolOption");
         let toolPath: string;
         let tool:tr.ToolRunner;
         if(useGlobalToolOption){
