@@ -33,7 +33,7 @@ async function run() {
             await tl
                 .tool(toolPath)
                 .line("format --version")
-                .execAsync();
+                .execAsync(toolRunOptions);
         }
 
         // command
