@@ -92,6 +92,14 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": { "name": "dist/UseDotNetFormat" }
+        },
+        {
+            "id": "reportreviewer",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": { "name": "dist/ReportReviewer" }
         }
     ]
 }

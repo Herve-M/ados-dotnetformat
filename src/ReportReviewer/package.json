@@ -1,0 +1,27 @@
+{
+    "name": "herve-m/ados-dotnetformat",
+    "version": "0.1.0",
+    "description": "Azure DevOps dotnet-format task",
+    "main": "reportreviewer.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Herve-M/ados-dotnetformat.git"
+    },
+    "author": "MATYSIAK Hervé",
+    "license": "MPL-2.0",
+    "bugs": {
+        "url": "https://github.com/Herve-M/ados-dotnetformat/issues"
+    },
+    "homepage": "https://github.com/Herve-M/ados-dotnetformat#readme",
+    "dependencies": {
+        "azure-devops-node-api": "^12.1.0",
+        "azure-pipelines-task-lib": "^4.6.1"
+    },
+    "engines": {
+        "node": "~16.20.2"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.4",
+        "mocha": "^10.2.0"
+    }
+}
