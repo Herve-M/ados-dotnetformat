@@ -18,7 +18,7 @@
     "postbuild:ci": "npm run postbuild:base & npm run postbuild:json & npm run postbuild:content",
     "pack:dev": "tfx extension create --extension-id dotnetformat-dev",
     "clean": "git clean -fdX",
-    "postinstall": "is-ci || husky install"
+    "prepare": "is-ci || husky install"
   },
   "repository": {
     "type": "git",
@@ -28,14 +28,14 @@
   "private": true,
   "license": "MPL-2.0",
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
+    "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^13.1.0",
     "@tsconfig/node16": "^16.1.1",
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.4.13",
-    "@types/q": "^1.5.5",
+    "@types/q": "^1.5.7",
     "glob-exec": "^0.1.1",
-    "husky": "^5.0.9",
+    "husky": "^8.0.3",
     "is-ci": "^3.0.0",
     "mocha": "^10.2.0",
     "sync-request": "^6.1.0",
