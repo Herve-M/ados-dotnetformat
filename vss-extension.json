@@ -78,15 +78,15 @@
             }
         },
         {
-            "id": "dotnetformat-task",
+            "id": "dotnetformatcli",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dist/DotNetFormat" }
+            "properties": { "name": "dist/DotNetFormatCLI" }
         },
         {
-            "id": "usedotnetformat-task",
+            "id": "usedotnetformat",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"

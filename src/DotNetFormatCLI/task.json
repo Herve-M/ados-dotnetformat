@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "d4846b5e-1fda-4d6b-b1e2-732b3c1cf0a9",
-    "name": "DotNetFormat",
+    "name": "DotNetFormatCLI",
     "friendlyName": "dotnet-format",
     "description": "Run `dotnet-format`",
     "helpMarkDown": "",
