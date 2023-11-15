@@ -5,7 +5,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "glob-exec --parallel --foreach \"dist/**/task.json\" -- npx mocha {{file.dir}}/test/_suite.js",
     "test:ci": "echo \"Warning: no test specified\"",
     "init:dev": "npm install && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm install --no-progress\"",
     "init:ci": "npm ci --no-audit --no-progress && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm ci --production --no-audit --no-progress\"",
@@ -18,7 +18,7 @@
     "postbuild:ci": "npm run postbuild:base & npm run postbuild:json & npm run postbuild:content",
     "pack:dev": "tfx extension create --extension-id dotnetformat-dev",
     "clean": "git clean -fdX",
-    "postinstall": "is-ci || husky install"
+    "prepare": "is-ci || husky install"
   },
   "repository": {
     "type": "git",
@@ -31,12 +31,13 @@
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^13.1.0",
     "@tsconfig/node16": "^16.1.1",
-    "@types/mocha": "^8.2.0",
+    "@types/mocha": "^8.2.3",
     "@types/node": "^16.4.13",
     "@types/q": "^1.5.7",
     "glob-exec": "^0.1.1",
     "husky": "^8.0.3",
     "is-ci": "^3.0.0",
+    "mocha": "^10.2.0",
     "sync-request": "^6.1.0",
     "typescript": "^5.2.2"
   },

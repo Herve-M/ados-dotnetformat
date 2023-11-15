@@ -10,8 +10,8 @@
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 3,
-        "Patch": 3
+        "Minor": 4,
+        "Patch": 4
     },
     "visibility": [
         "Build",
@@ -31,6 +31,14 @@
     ],
     "inputs": [
         {
+            "name": "useGlobalToolOption",
+            "type": "boolean",
+            "label": "Use .NET global tool version instead of SDK provided one.",
+            "defaultValue": "false",
+            "required": true,
+            "helpMarkDown": "Use .NET global tool version instead of SDK provided one."
+        },
+        {
             "name": "command",
             "type": "pickList",
             "label": "Command",
@@ -47,54 +55,18 @@
             }
         },
         {
-            "name": "fixWhitespaceOption",
-            "type": "boolean",
-            "label": "Fix whitespace",
-            "defaultValue": "false",
-            "required": false,
-            "helpMarkDown": "Run whitespace formatting.",
-            "visibleRule": "command != custom"
-        },
-        {
-            "name": "fixStyleOption",
+            "name": "severityOption",
             "type": "pickList",
-            "label": "Fix style",
-            "defaultValue": "none",
-            "helpMarkDown": "Run code style analyzers and apply fixes.",
-            "required": false,
+            "label": "Severity",
+            "defaultValue": "warn",
+            "helpMarkDown": "The severity of diagnostics to fix.",
+            "required": true,
             "options": {
-                "none": "-",
-                "error": "error",
-                "info": "info",
-                "warn": "warn"
+                "error": "Error",
+                "info": "Info",
+                "warn": "Warn"
             },
-            "visibleRule": "command != custom"
-        },
-        {
-            "name": "fixAnalyzersOption",
-            "type": "pickList",
-            "label": "Fix analyzers",
-            "defaultValue": "none",
-            "helpMarkDown": "Run 3rd party analyzers and apply fixes.",
-            "required": false,
-            "options": {
-                "none": "-",
-                "error": "error",
-                "info": "info",
-                "warn": "warn"
-            },
-            "visibleRule": "command != custom"
-        },
-        {
-            "name": "diagnosticsOption",
-            "type": "multiLine",
-            "label": "Diagnostics filter",
-            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues.",
-            "required": false,
-            "properties": {
-                "resizable": true
-            },
-            "visibleRule": "fixStyleOption != none || fixAnalyzersOption != none"
+            "visibleRule": "command = check"
         },
         {
             "name": "custom",
@@ -106,6 +78,14 @@
             "visibleRule": "command = custom"
         },
         {
+            "name": "workingDirectoryOption",
+            "type": "filePath",
+            "label": "Working directory path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "A path to a folder containing global.json. If a path is not specified then the local path on the agent where the source code files are downloaded will be used."
+        },
+        {
             "name": "workspaceOption",
             "type": "filePath",
             "label": "Workspace path",
@@ -114,22 +94,35 @@
             "helpMarkDown": "A path to a solution file, a project file, or a folder containing a solution or project file. If a path is not specified then the current directory is used."
         },
         {
-            "name": "workspaceAsFolderOption",
-            "type": "boolean",
-            "label": "Is folder?",
-            "defaultValue": "false",
-            "required": false,
-            "helpMarkDown": "If true, treat the `<workspace>` argument as a simple folder of files.",
-            "visibleRule": "workspaceOption != \"\""
-        },
-        {
             "name": "onlyChangedFiles",
             "type": "boolean",
             "label": "PullRequest mode",
-            "defaultValue": "true",
+            "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "If true, the task will only check only the changed files in the current pull request.",
+            "helpMarkDown": "If true, the task will only check changed files in the current pull request.",
             "visibleRule": "workspaceOption = \"\""
+        },
+        {
+            "name": "includeOptions",
+            "type": "multiLine",
+            "label": "Include",
+            "helpMarkDown": "A newline separated list of relative file or folder paths to include in formatting. All files are formatted if empty.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            },
+            "visibleRule": "command = check && workspaceOption != \"\""
+        },
+        {
+            "name": "excludeOptions",
+            "type": "multiLine",
+            "label": "Exclude",
+            "helpMarkDown": "A newline separated list of relative file or folder paths to exclude from formatting.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            },
+            "visibleRule": "command = check"
         },
         {
             "groupName": "advancedOptions",
@@ -142,6 +135,37 @@
         },
         {
             "groupName": "advancedOptions",
+            "name": "includeGeneratedOption",
+            "type": "boolean",
+            "label": "Format files generated by the SDK.",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If true, format files generated by the SDK."
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "diagnosticsOptions",
+            "type": "multiLine",
+            "label": "Diagnostics filter",
+            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "diagnosticsExcludedOptions",
+            "type": "multiLine",
+            "label": "Diagnostics exclusion filter",
+            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to ignore when fixing code style or 3rd party issues.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "advancedOptions",
             "name": "verbosityOption",
             "type": "pickList",
             "label": "Verbosity",
@@ -149,7 +173,6 @@
             "helpMarkDown": "Specifies the amount of detail displayed in the output.",
             "required": false,
             "options": {
-                "-": "-",
                 "Quiet": "Quiet",
                 "Minimal": "Minimal",
                 "Normal": "Normal",
@@ -159,7 +182,7 @@
         }
     ],
     "execution": {
-        "Node10": {
+        "Node16": {
             "target": "dotnetformat.js"
         }
     }
