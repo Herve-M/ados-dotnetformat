@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 4,
-        "Patch": 4
+        "Patch": 5
     },
     "visibility": [
         "Build",
@@ -99,8 +99,7 @@
             "label": "PullRequest mode",
             "defaultValue": "false",
             "required": false,
-            "helpMarkDown": "If true, the task will only check changed files in the current pull request.",
-            "visibleRule": "workspaceOption = \"\""
+            "helpMarkDown": "If true, the task will only check changed files in the current pull request."
         },
         {
             "name": "includeOptions",
