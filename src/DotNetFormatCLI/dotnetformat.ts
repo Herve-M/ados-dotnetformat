@@ -59,7 +59,7 @@ async function run() {
             const pullRequestTargetBranch = tl.getVariable("System.PullRequest.TargetBranch")!;
             //TODO detect SCM
             let gitScm = new gitTool.GitToolRunner();
-            const changeSet = gitScm.getChangeFor(pullRequestTargetBranch, '*.cs');
+            const changeSet = await gitScm.getChangeFor(pullRequestTargetBranch, '*.cs');
             const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");
             tl.writeFile(rspFilePath, changeSet.join(os.EOL));
 
