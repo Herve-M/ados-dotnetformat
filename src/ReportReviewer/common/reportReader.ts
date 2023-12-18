@@ -23,27 +23,69 @@ interface IDotNetFormatNativeReport {
     }[];
 }
 
+export enum SeverityLevel {
+  Info = 0,
+  Warning = 1,
+  Error = 2,
+}
+
+export function mapInputToSeverityLevel(severityString: string): SeverityLevel {
+  const lowerCaseSeverityString = severityString.toLowerCase();
+
+  switch (lowerCaseSeverityString) {
+    case 'error':
+      return SeverityLevel.Error;
+    case 'warning':
+      return SeverityLevel.Warning;
+    case 'info':
+      return SeverityLevel.Info;
+    default:
+      // Handle unknown strings (e.g., default to Info)
+      return SeverityLevel.Info;
+  }
+}
+
+export interface IFileProblem {
+  readonly LineNumber: number;
+  readonly CharNumber: number;
+  readonly DiagnosticId: string;
+  readonly FormatDescription: string;
+}
 
 export interface IReport {
   DocumentRef: {
-    ProjectId: string;
-    DocumentId: string;
+    readonly ProjectId: string;
+    readonly DocumentId: string;
   };
   FileRef: {
-    FileName: string;
-    FileLocalPath: string;
-    FileRelativePath: string;
+    readonly FileName: string;
+    readonly FileLocalPath: string;
+    readonly FileRelativePath: string;
   }
-  FileChanges: {
-    LineNumber: number;
-    CharNumber: number;
+  readonly FileChanges: IFileProblem[];
+}
+
+export interface IGroupedReport {
+  readonly DocumentRef: {
+    readonly ProjectId: string;
+    readonly DocumentId: string;
+  };
+  readonly FileRef: {
+    readonly FileName: string;
+    readonly FileLocalPath: string;
+    readonly FileRelativePath: string;
+  };
+  GroupedDiagnostics: {
     DiagnosticId: string;
-    FormatDescription: string;
+    SeverityLevel: SeverityLevel;
+    Count: number;
+    FileChanges: IFileProblem[];
   }[];
+  UniqueDiagnosticCount: number;
+  TotalDiagnostics: number;
 }
 
 //TODO
-// - Find/Create report mixing analyzer and style and whitespace
 // - (optional) Add left end for WHITESPACE, FINALNEWLINE, ?
 
 async function readReport(reportFilePath: string): Promise<IDotNetFormatNativeReport[]> {
@@ -88,4 +130,71 @@ export async function importReport(reportFilePath: string, repositoryLocalPath: 
       reject(error);
     });
   });
+}
+
+export function groupReport(inputArray: IReport[]): IGroupedReport[] {
+  const groupedData: { [key: string]: IGroupedReport } = {};
+
+  inputArray.forEach((item) => {
+    const { DocumentRef, FileRef, FileChanges } = item;
+
+    const key = `${DocumentRef.ProjectId}_${DocumentRef.DocumentId}_${FileRef.FileName}`;
+
+    if (!groupedData[key]) {
+      groupedData[key] = {
+        DocumentRef,
+        FileRef,
+        GroupedDiagnostics: [],
+        UniqueDiagnosticCount: 0,
+        TotalDiagnostics: 0,
+      };
+    }
+
+    const groupedReport = groupedData[key];
+
+    FileChanges.forEach((change) => {
+      const { DiagnosticId, FormatDescription } = change;
+
+      // Check if this DiagnosticId already exists in the grouped report
+      const existingDiagnostic = groupedReport.GroupedDiagnostics.find(
+        (diagnostic) => diagnostic.DiagnosticId === DiagnosticId
+      );
+
+      if (existingDiagnostic) {
+        existingDiagnostic.Count++;
+        existingDiagnostic.FileChanges.push(change);
+      } else {
+        // Add a new entry for this DiagnosticId
+        groupedReport.GroupedDiagnostics.push({
+          DiagnosticId,
+          SeverityLevel: determineSeverity(DiagnosticId, FormatDescription),
+          Count: 1,
+          FileChanges: [change]
+        });
+        groupedReport.UniqueDiagnosticCount++;
+      }
+
+      groupedReport.TotalDiagnostics++;
+    });
+  });
+
+  return Object.values(groupedData);
+}
+
+function determineSeverity(DiagnosticId: string, FormatDescription: string): SeverityLevel {
+  if (DiagnosticId === 'WHITESPACE' || DiagnosticId === 'FINALNEWLINE') {
+    return SeverityLevel.Error;
+  }
+
+  const lowerDescription = FormatDescription.toLowerCase();
+  if (lowerDescription.startsWith('error')) {
+    return SeverityLevel.Error;
+  } else if (lowerDescription.startsWith('warning')) {
+    return SeverityLevel.Warning;
+  } else if (lowerDescription.startsWith('info')) {
+    return SeverityLevel.Info;
+  } else {
+    // Default to Info if the FormatDescription doesn't match known levels
+    return SeverityLevel.Info;
+  }
 }

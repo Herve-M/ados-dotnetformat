@@ -10,8 +10,8 @@
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 1,
-        "Patch": 0
+        "Minor": 2,
+        "Patch": 19
     },
     "visibility": [
         "Build"
@@ -24,16 +24,37 @@
     "groups": [],
     "inputs": [
         {
-            "name": "version",
-            "type": "pickList",
-            "label": "Version",
-            "defaultValue": "",
+            "name": "connectedServiceName",
+            "type": "connectedService:DotNetFormatReportReviewer",
+            "label": "Azure DevOps auth. service connection",
             "required": true,
-            "properties": {
-                "EditableOptions": "True"
+            "helpMarkDown": ""
+        },
+        {
+            "name": "minSeverityLevel",
+            "type": "pickList",
+            "required": true,
+            "defaultValue": "Warn",
+            "options": {
+                "error":"Error",
+                "warning":"Warn",
+                "info":"Info"
             },
-            "helpMarkDown": "Version of the package to install"
-        } 
+            "properties": {
+                "EditableOptions": "False"
+            }
+        },
+        {
+            "name": "ignoredDiagnosticIds",
+            "type": "multiLine",
+            "label": "Ignored DiagnosticIds"
+        },
+        {
+            "name": "spamThreshold",
+            "type": "int",
+            "label": "Spam threshold count",
+            "required": true
+        }
     ],
     "execution": {
         "Node16": {

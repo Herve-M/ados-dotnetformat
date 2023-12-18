@@ -8,7 +8,7 @@ describe('report-reviewer suite', function () {
     });
 
     after(() => {
-    });  
+    });
 });
 
 describe('report-reader suite', function () {
@@ -19,11 +19,11 @@ describe('report-reader suite', function () {
     after(() => {
     });
 
-    const testFiles = [
-        {os: 'win', type: 'formatter', rootRepositoryPath: 'c:\\agent_work\\1\\s\\', reportFilePath: path.join(__dirname, 'data', 'formatter-report-win.json'), expected: 4},
-        {os: 'linux', type: 'formatter', rootRepositoryPath: '/home/vsts/work/1/s/', reportFilePath: path.join(__dirname, 'data', 'formatter-report-linux.json'), expected: 4},
-        {os: 'win', type: 'analyzer', rootRepositoryPath: 'c:\\agent_work\\1\\s\\', reportFilePath: path.join(__dirname, 'data', 'analyzer-report-win.json'), expected: 13},
-        {os: 'linux', type: 'analyzer', rootRepositoryPath: '/home/vsts/work/1/s/', reportFilePath: path.join(__dirname, 'data', 'analyzer-report-linux.json'), expected: 13}
+    let testFiles = [
+        {os: 'win', type: 'formatter', rootRepositoryPath: 'c:\\agent_work\\1\\s', reportFilePath: path.join(__dirname, 'data', 'formatter-report-win.json'), expected: 4},
+        {os: 'linux', type: 'formatter', rootRepositoryPath: '/home/vsts/work/1/s', reportFilePath: path.join(__dirname, 'data', 'formatter-report-linux.json'), expected: 4},
+        {os: 'win', type: 'analyzer', rootRepositoryPath: 'c:\\agent_work\\1\\s', reportFilePath: path.join(__dirname, 'data', 'analyzer-report-win.json'), expected: 13},
+        {os: 'linux', type: 'analyzer', rootRepositoryPath: '/home/vsts/work/1/s', reportFilePath: path.join(__dirname, 'data', 'analyzer-report-linux.json'), expected: 13}
     ];
 
     describe('readReport', function () {
@@ -38,14 +38,14 @@ describe('report-reader suite', function () {
     describe('importReport', function(){
         testFiles.forEach(({os, type, rootRepositoryPath, reportFilePath, expected}) => {
             it(`Imported information should have same content as raw reading ${os}:${type}`, async function () {
-                const result = await rr.importReport(reportFilePath, rootRepositoryPath);
+                const result = await rr.forTestingOnly.importReport(reportFilePath, rootRepositoryPath);
                 assert.equal(result.length, expected);
             });
         });
 
         testFiles.forEach(({os, type, rootRepositoryPath, reportFilePath}) => {
             it(`FileRelativePath should not contains Windows path seperator for ${os}:${type}`, async function () {
-                const result = await rr.importReport(reportFilePath, rootRepositoryPath);
+                const result = await rr.forTestingOnly.importReport(reportFilePath, rootRepositoryPath);
 
                 result.forEach((document) => {
                     assert.equal(document.FileRef.FileRelativePath.includes('\\'), false);
@@ -55,7 +55,7 @@ describe('report-reader suite', function () {
 
         testFiles.forEach(({os, type, rootRepositoryPath, reportFilePath}) => {
             it(`FileRelativePath should not repository root path for ${os}:${type}`, async function () {
-                const result = await rr.importReport(reportFilePath, rootRepositoryPath);
+                const result = await rr.forTestingOnly.importReport(reportFilePath, rootRepositoryPath);
 
                 result.forEach((document) => {;
                     assert.equal(document.FileRef.FileRelativePath.indexOf(rootRepositoryPath), -1);
@@ -63,4 +63,18 @@ describe('report-reader suite', function () {
             });
         });
     });
+
+    testFiles = [
+        {os: 'win', type: 'formatter', rootRepositoryPath: 'D:\\a\\1\\s', reportFilePath: path.join(__dirname, 'data', 'report-win.json'), expected: 5000}
+    ];
+
+    describe('groupReport', function () {
+        testFiles.forEach(({os, type, rootRepositoryPath, reportFilePath}) => {
+            it(`FileRelativePath should not repository root path for ${os}:${type}`, async function () {
+                const result = await rr.forTestingOnly.importReport(reportFilePath, rootRepositoryPath);
+                const groupedResult = rr.forTestingOnly.groupReport(result);
+                console.dir(groupedResult, { depth: 10, colors: true, showHidden: true });
+            });
+        });
+     });
 });
