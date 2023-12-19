@@ -1,0 +1,7 @@
+{
+    "$schema": "https://json.schemastore.org/vss-extension",
+    "manifestVersion": 1,
+    "id": "dotnetformat-dev",
+    "name": "dotnet-format-DEV",
+    "version": "0.1.93"
+} 

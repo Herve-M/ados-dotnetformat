@@ -15,7 +15,7 @@
     "postbuild:json": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp ./{{file.dir}}/*.json ./dist/{{file.dir.split('/')[1]}}/\"",
     "postbuild:content": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp ./{{file.dir}}/icon.png ./dist/{{file.dir.split('/')[1]}}/\"",
     "postbuild:ci": "npm run postbuild:base & npm run postbuild:json & npm run postbuild:content",
-    "pack:dev": "tfx extension create --extension-id dotnetformat-dev",
+    "pack:dev": "tfx extension create --manifests vss-extension.json --overrides-file vss-extension.dev.json",
     "clean": "git clean -fdX",
     "prepare": "is-ci || husky install"
   },
