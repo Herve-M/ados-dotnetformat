@@ -5,12 +5,6 @@ import rr = require('./common/reportReader')
 import commentHelper = require('./common/comments')
 import adoProvider = require('./providers/ado');
 
-//TODO: 
-// - Validate new inputs (already uploaded)
-// - Remove cheating code from _suite
-// - Clean / refactor 
-//  
-
 async function run() {
     try {        
         const isPullRequest = tl.getVariable(ct.Constants.VarBuildReason)! == "PullRequest";
@@ -129,7 +123,6 @@ async function run() {
                 } 
             }
             
-            tl.debug('Working on less spamming part');
             for await (const diagnostic of documentWithProblem.GroupedDiagnostics.filter(x => x.Count < 5)){
                 if(diagnostic.SeverityLevel < extensionContext.Settings.MinSeverityLevel) {
                     tl.debug(`Min. severity not reached for ${diagnostic.DiagnosticId} at ${diagnostic.SeverityLevel}.`);
@@ -143,16 +136,13 @@ async function run() {
 
                 tl.debug(`Working on ${diagnostic.DiagnosticId}`);
                 console.dir(documentWithProblem.GroupedDiagnostics.filter(x => x.DiagnosticId === diagnostic.DiagnosticId), { depth: 5});
-                //TODO: find fixed comment and auto-close them.
+                //TODO: try to find a way to count line diff. between comment CreatedCurrentIterationId and CurrentIterationId to improve selection?
                 for await (const problem of documentWithProblem.GroupedDiagnostics.filter(x => x.DiagnosticId === diagnostic.DiagnosticId).at(0)!.FileChanges){                
                     const existingCommentForProblem = commentThreads.find((thread) => {
                         return thread.threadContext?.filePath == documentWithProblem.FileRef.FileRelativePath 
                             && thread.comments?.[0].author?.id == vstsAuthUser.id
                             && thread.isDeleted == false
                             && thread.comments?.[0].content == problem.FormatDescription
-                            //TODO: check what happen for generic diagnostic? (those without specfic identification of token like WHITESPACE)
-                            // && (thread.threadContext?.rightFileStart?.line == problem.LineNumber && thread.threadContext?.rightFileStart?.offset == problem.CharNumber 
-                            //     || thread.threadContext?.leftFileStart?.line == problem.LineNumber && thread.threadContext?.leftFileStart?.offset == problem.CharNumber)
                     });
 
                     tl.debug(`Working on ${problem.DiagnosticId} at ${problem.LineNumber}`);
@@ -188,6 +178,7 @@ async function run() {
 
         // Close any non touched comment, created by same previous identity.
         // TODO: add option
+        //   or change stategy, deleted and re-create everything at each iteration/run
         const commentThreadToClose = commentThreads.filter(
             x => commentThreadsToKeep.indexOf(x.id!) === -1 
             && x.comments?.[0].author?.id == vstsAuthUser.id
