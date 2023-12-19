@@ -1,9 +1,12 @@
 import fs = require('fs')
 import path = require('path')
+import tl = require('azure-pipelines-task-lib/task');
+import ct = require('./context');
 
 export const forTestingOnly = {
   readReport,
-  importReport
+  importReport,
+  groupReport
 }
 
 interface IDotNetFormatNativeReport {
@@ -108,7 +111,7 @@ async function readReport(reportFilePath: string): Promise<IDotNetFormatNativeRe
   });
 }
 
-export async function importReport(reportFilePath: string, repositoryLocalPath: string): Promise<IReport[]> {
+async function importReport(reportFilePath: string, repositoryLocalPath: string): Promise<IReport[]> {
   return new Promise((resolve, reject) => {
     readReport(reportFilePath)
     .then((data) => {
@@ -132,7 +135,7 @@ export async function importReport(reportFilePath: string, repositoryLocalPath: 
   });
 }
 
-export function groupReport(inputArray: IReport[]): IGroupedReport[] {
+function groupReport(inputArray: IReport[]): IGroupedReport[] {
   const groupedData: { [key: string]: IGroupedReport } = {};
 
   inputArray.forEach((item) => {
@@ -198,3 +201,12 @@ function determineSeverity(DiagnosticId: string, FormatDescription: string): Sev
     return SeverityLevel.Info;
   }
 }
+
+export async function getGroupedReport(ctx: Readonly<ct.IExtensionContext>): Promise<IGroupedReport[]> {
+  const reportContent = await importReport(ctx.Settings.ReportFilePath, ctx.Environment.LocalWorkingPath);
+  const reportGroupedByFiles = groupReport(reportContent);
+
+  tl.debug(`Report: ${reportContent.length} document(s) impacted`);  
+  return reportGroupedByFiles; 
+}
+
