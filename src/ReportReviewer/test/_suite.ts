@@ -64,17 +64,17 @@ describe('report-reader suite', function () {
         });
     });
 
-    testFiles = [
-        {os: 'win', type: 'formatter', rootRepositoryPath: 'D:\\a\\1\\s', reportFilePath: path.join(__dirname, 'data', 'report-win.json'), expected: 5000}
-    ];
+    //TODO: find open/legit data to test on
+    // testFiles = [
+    //     {os: 'win', type: 'formatter', rootRepositoryPath: 'D:\\a\\1\\s', reportFilePath: path.join(__dirname, 'data', 'report-win.json'), expected: 5000}
+    // ];
 
-    describe('groupReport', function () {
-        testFiles.forEach(({os, type, rootRepositoryPath, reportFilePath}) => {
-            it(`FileRelativePath should not repository root path for ${os}:${type}`, async function () {
-                const result = await rr.forTestingOnly.importReport(reportFilePath, rootRepositoryPath);
-                const groupedResult = rr.forTestingOnly.groupReport(result);
-                console.dir(groupedResult, { depth: 10, colors: true, showHidden: true });
-            });
-        });
-     });
+    // describe('groupReport', function () {
+    //     testFiles.forEach(({os, type, rootRepositoryPath, reportFilePath}) => {
+    //         it(`FileRelativePath should not repository root path for ${os}:${type}`, async function () {
+    //             const result = await rr.forTestingOnly.importReport(reportFilePath, rootRepositoryPath);
+    //             const groupedResult = rr.forTestingOnly.groupReport(result);
+    //         });
+    //     });
+    //  });
 });
