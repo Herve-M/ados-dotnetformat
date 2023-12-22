@@ -31,7 +31,7 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@tsconfig/node16": "^16.1.1",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^16.4.13",
+    "@types/node": "^16.18.68",
     "@types/q": "^1.5.7",
     "glob-exec": "^0.1.1",
     "husky": "^8.0.3",
