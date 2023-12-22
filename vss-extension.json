@@ -28,7 +28,7 @@
         "Azure Pipelines",
         "Azure DevOps Extensions",
         "formater",
-        "formate",
+        "format",
         "style",
         ".editorconfig",
         "check"
@@ -43,6 +43,18 @@
     "files": [
         {
             "path": "dist"
+        },
+        {
+            "path": "docs/images/reviewer-task.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/reviewer-overview.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/format-task.png",
+            "addressable": true
         },
         {
             "path": "docs/images/format-overview.png",
