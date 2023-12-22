@@ -4,6 +4,13 @@ This extension provide a task for checking or fixing code format, style and anal
 
 ## How to use
 
+### Compatibility matrix
+
+| Requirement | Min. version         |
+| ----------- | -------------------- |
+| ADO API     | rest-7.1  0          |
+| ADO Agent   | 2.206.1 (node v16.x) |
+
 ### Pre-requisites
 
 * .NET or .NET Core installed, see [Use .NET Core task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/tool/dotnet-core-tool-installer?view=azure-devops)
@@ -12,6 +19,13 @@ This extension provide a task for checking or fixing code format, style and anal
   * .NET Global tool `dotnet-format` installed and accessible from the path
 
 ### Tasks
+
+#### `UseDotNetFormat`
+
+> Setup pre-release, beta or specific version of `dotnet-format` from dnceng feeds.
+
+![use-task](docs/images/use-task.png)
+![use-overview](docs/images/use-overview.png)
 
 #### `DotNetFormatCli`
 

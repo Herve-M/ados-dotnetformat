@@ -45,6 +45,14 @@
             "path": "dist"
         },
         {
+            "path": "docs/images/use-task.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/use-overview.png",
+            "addressable": true
+        },
+        {
             "path": "docs/images/reviewer-task.png",
             "addressable": true
         },
