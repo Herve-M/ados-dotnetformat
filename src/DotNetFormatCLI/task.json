@@ -110,7 +110,7 @@
             "properties": {
                 "resizable": true
             },
-            "visibleRule": "command = check && workspaceOption != \"\""
+            "visibleRule": "command = check && workspace != \"\""
         },
         {
             "name": "exclude",

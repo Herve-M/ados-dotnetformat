@@ -6,18 +6,18 @@ import tmrm = require('azure-pipelines-task-lib/mock-run');
 const taskPath = path.join(__dirname, '..', 'dotnetformat.js');
 const  tmr: tmrm.TaskMockRunner = new tmrm.TaskMockRunner(taskPath);
 
-tmr.setInput('useGlobalToolOption', 'False');
+tmr.setInput('useGlobalTool', 'False');
 tmr.setInput('command', 'check');
-tmr.setInput('severityOption', 'error');
-tmr.setInput('workspaceOption', '/src/tests/dotnet6/');
-tmr.setInput('includeOptions', '');
-tmr.setInput('excludeOptions', '');
+tmr.setInput('severity', 'error');
+tmr.setInput('workspace', '/src/tests/dotnet6/');
+tmr.setInput('include', '');
+tmr.setInput('exclude', '');
 tmr.setInput('onlyChangedFiles', '');
-tmr.setInput('noRestoreOption', 'False');
-tmr.setInput('includeGeneratedOption', 'False');
-tmr.setInput('diagnosticsOptions', '');
-tmr.setInput('diagnosticsExcludedOptions', '');
-tmr.setInput('verbosityOption', 'Quiet');
+tmr.setInput('noRestore', 'False');
+tmr.setInput('includeGenerated', 'False');
+tmr.setInput('diagnostics', '');
+tmr.setInput('diagnosticsExcluded', '');
+tmr.setInput('verbosity', 'Quiet');
 
 // .NET 6
 tmr.registerMock('azure-pipelines-task-lib/toolrunner', mtr);
