@@ -28,7 +28,7 @@
   "license": "MPL-2.0",
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^13.1.0",
+    "@commitlint/config-conventional": "^18.4.3",
     "@tsconfig/node16": "^16.1.1",
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.4.13",
