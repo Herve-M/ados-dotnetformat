@@ -47,12 +47,9 @@ async function run() {
         }
 
         const workspaceOption = tl.getPathInput("workspaceOption")!;
-        const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");
+        const onlyChangedFiles = tl.getBoolInput("onlyChangedFiles");      
 
-        const includeOptions = tl.getDelimitedInput("includeOptions", os.EOL);    
-        const excludeOptions = tl.getDelimitedInput("excludeOptions", os.EOL);
-
-        if(workspaceOption == undefined && onlyChangedFiles){
+        if(onlyChangedFiles){
             if(!isPullRequest){
                 console.error("`Build.Reason` != PullRequest, can't get the diff.")
                 tl.setResult(tl.TaskResult.Failed, "Can't find diff. between target and source branch, for PullRequest"); //TODO: better log
@@ -62,28 +59,33 @@ async function run() {
             const pullRequestTargetBranch = tl.getVariable("System.PullRequest.TargetBranch")!;
             //TODO detect SCM
             let gitScm = new gitTool.GitToolRunner();
-            const changeSet = gitScm.getChangeFor(pullRequestTargetBranch, '*.cs');
+            const changeSet = await gitScm.getChangeFor(pullRequestTargetBranch, '*.cs');
             const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");
             tl.writeFile(rspFilePath, changeSet.join(os.EOL));
-            tool = tool.arg('--include @FilesToCheck.rsp');
+
+            tool = tool
+                .arg(workspaceOption)
+                .arg(['--include', `@${rspFilePath}`]);
         } else {
             tool = tool.arg(workspaceOption);
             
+            const includeOptions = tl.getDelimitedInput("includeOptions", os.EOL);
             if(includeOptions.length){
                 const includedRspFilePath = path.normalize(path.join(localWorkingPath, "Included.rsp"));
                 tl.writeFile(includedRspFilePath, includeOptions.join(os.EOL));
                 console.debug(`Include file ${includedRspFilePath} with ${includeOptions.length}`);
                 tool = tool
                     .arg(['--include', `@${includedRspFilePath}`]);
-            }
+            }            
+        }
 
-            if(excludeOptions.length){
-                const excludedRspFilePath = path.normalize(path.join(localWorkingPath, "Excluded.rsp"));
-                tl.writeFile(excludedRspFilePath, excludeOptions.join(os.EOL));
-                console.debug(`Include file ${excludedRspFilePath} with ${excludeOptions.length}`);
-                tool = tool
-                    .arg(['--exclude', `@${excludedRspFilePath}`]);
-            }
+        const excludeOptions = tl.getDelimitedInput("excludeOptions", os.EOL);
+        if(excludeOptions.length){
+            const excludedRspFilePath = path.normalize(path.join(localWorkingPath, "Excluded.rsp"));
+            tl.writeFile(excludedRspFilePath, excludeOptions.join(os.EOL));
+            console.debug(`Include file ${excludedRspFilePath} with ${excludeOptions.length}`);
+            tool = tool
+                .arg(['--exclude', `@${excludedRspFilePath}`]);
         }
 
         const severityOption = tl.getInput("severityOption", false);

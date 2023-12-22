@@ -5,7 +5,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "glob-exec --parallel --foreach \"dist/**/task.json\" -- npx mocha {{file.dir}}/test/_suite.js",
+    "test": "glob-exec --parallel --foreach \"src/**/task.json\" -- npx mocha {{file.dir}}/test/_suite.js",
     "test:ci": "echo \"Warning: no test specified\"",
     "init:dev": "npm install && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm install --no-progress\"",
     "init:ci": "npm ci --no-audit --no-progress && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm ci --production --no-audit --no-progress\"",
@@ -14,9 +14,8 @@
     "postbuild:base": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp -r ./{{file.dir}}/node_modules ./dist/{{file.dir.split('/')[1]}}/\"",
     "postbuild:json": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp ./{{file.dir}}/*.json ./dist/{{file.dir.split('/')[1]}}/\"",
     "postbuild:content": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp ./{{file.dir}}/icon.png ./dist/{{file.dir.split('/')[1]}}/\"",
-    "postbuild:dev": "npm run postbuild:base & npm run postbuild:json & npm run postbuild:content",
     "postbuild:ci": "npm run postbuild:base & npm run postbuild:json & npm run postbuild:content",
-    "pack:dev": "tfx extension create --extension-id dotnetformat-dev",
+    "pack:dev": "tfx extension create --manifests vss-extension.json --overrides-file vss-extension.dev.json",
     "clean": "git clean -fdX",
     "prepare": "is-ci || husky install"
   },

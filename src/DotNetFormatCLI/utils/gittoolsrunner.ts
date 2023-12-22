@@ -7,28 +7,46 @@ export class GitToolRunner {
     public static readonly ToolName: string = "git"; 
 
     private readonly repositoryDirectory: string;
-    private readonly gitToolPath: string;    
+    private readonly gitToolPath: string;
+    private readonly isDebug: boolean;    
 
     constructor(){
         this.repositoryDirectory = tl.getVariable("Build.Repository.LocalPath")!;
         this.gitToolPath = tl.which(GitToolRunner.ToolName, true);
+        this.isDebug = tl.getVariable("System.Debug") == 'True';
     }
 
-    public getChangeFor(refBranch: Readonly<string>, filePattern: Readonly<string>): string[] {
+    public async getChangeFor(refBranch: Readonly<string>, filePattern: Readonly<string>): Promise<string[]> {
         let options: tr.IExecOptions = {
             cwd: this.repositoryDirectory,
-            silent: true
+            silent: !this.isDebug
         };
 
         try {
-            let result = tl
-                .tool(this.gitToolPath)
-                .arg([`diff ${refBranch}`, `--name-only`, `-- ${filePattern}`])
-                .execSync(options);
+            if(this.isDebug){
+                await tl
+                    .tool(this.gitToolPath)
+                    .line('remote show origin')
+                    .execAsync(options);
 
-            console.debug(`Result: ${result.stdout}`)
-            tl.setResult(tl.TaskResult.Succeeded, `Git diff succeed ${result.code}`);
-            return result.stdout.split(os.EOL);
+                await tl
+                    .tool(this.gitToolPath)
+                    .line('branch')
+                    .execAsync(options);                
+            }
+
+            let stdout = '';
+            const result = await tl
+                .tool(this.gitToolPath)
+                .arg(['diff', `origin/${refBranch.replace('refs/heads/', '')}`, '--name-only', '--', `${filePattern}`])
+                .on('stdout', (data) => {
+                    stdout += data.toString();
+                })
+                .execAsync(options);
+
+            console.debug(`Result (${result}): ${stdout}`)
+            tl.setResult(tl.TaskResult.Succeeded, `Git diff succeed ${result}`);
+            return stdout.split(os.EOL);
         } catch (error: any) {
             tl.error(error);
             tl.setResult(tl.TaskResult.Failed, `Git diff failed ${error}`);

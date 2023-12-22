@@ -147,3 +147,4 @@ msbuild.wrn
 
 # Projects
 .taskkey
+/src/**/*.js
