@@ -134,8 +134,11 @@ async function run() {
                     continue;
                 }
 
-                tl.debug(`Working on ${diagnostic.DiagnosticId}`);
-                console.dir(documentWithProblem.GroupedDiagnostics.filter(x => x.DiagnosticId === diagnostic.DiagnosticId), { depth: 5});
+                if(extensionContext.Environment.IsDebug){
+                    tl.debug(`Working on ${documentWithProblem.FileRef.FileRelativePath} for ${diagnostic.DiagnosticId}`);
+                    console.dir(documentWithProblem.GroupedDiagnostics.filter(x => x.DiagnosticId === diagnostic.DiagnosticId), { depth: 5});
+                }
+                
                 //TODO: try to find a way to count line diff. between comment CreatedCurrentIterationId and CurrentIterationId to improve selection?
                 for await (const problem of documentWithProblem.GroupedDiagnostics.filter(x => x.DiagnosticId === diagnostic.DiagnosticId).at(0)!.FileChanges){                
                     const existingCommentForProblem = commentThreads.find((thread) => {
