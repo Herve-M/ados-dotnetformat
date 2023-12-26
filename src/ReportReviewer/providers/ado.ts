@@ -165,6 +165,12 @@ export async function CreateThreadForMultipleDiagnostics(
     commentContent: Readonly<string>,
     iterationScopeId: Readonly<number>
     ){
+
+    if(commentContent.length == 0){
+        tl.debug('No comment to add, skipping.');
+        return;
+    }
+
     let threadContext: GitInterfaces.CommentThreadContext;
     if(fileChangeSet.IterationChange?.changeType == GitInterfaces.VersionControlChangeType.Edit){
         threadContext = {

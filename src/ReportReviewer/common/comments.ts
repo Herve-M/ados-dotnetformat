@@ -18,7 +18,8 @@ export function getThreadCommentForMultipleDiagnostics(
     ctx: Readonly<IExtensionContext>,
     document: Readonly<rr.IGroupedReport>,
     ): string {
-    let commentContent: string = 'This file contains too much warnings, sum-up:\n';
+    const commentIntro: string = 'This file contains too much warnings, sum-up:\n';
+    let commentContent: string = '';
     for (const diagnostic of document.GroupedDiagnostics.filter(x => x.Count >= ctx.Settings.SpamThreshold).sort(function(a, b) { return  b.Count - a.Count; })){
         if(diagnostic.SeverityLevel < ctx.Settings.MinSeverityLevel) {
             tl.debug(`Min. severity not reached for ${diagnostic.DiagnosticId} at ${diagnostic.SeverityLevel}.`);
@@ -31,6 +32,10 @@ export function getThreadCommentForMultipleDiagnostics(
         }
         
         commentContent += `- ${diagnostic.Count}x ${diagnostic.DiagnosticId}\n`;
+    }
+
+    if(commentContent.length > 0) {
+        commentContent = commentIntro + commentContent;
     }
 
     return commentContent;
