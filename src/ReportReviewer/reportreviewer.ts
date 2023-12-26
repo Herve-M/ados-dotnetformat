@@ -64,7 +64,7 @@ async function run() {
             }
 
             // Grouped comments in 1 thread on top of files, updated at each scan until closed to avoid spam
-            if(documentWithProblem.GroupedDiagnostics.filter(x => x.Count >= 5).length > 0){
+            if(documentWithProblem.GroupedDiagnostics.filter(x => x.Count >= extensionContext.Settings.SpamThreshold).length > 0){
                 const existingCommentForProblem = commentThreads.find((thread) => {
                     return thread.threadContext?.filePath == documentWithProblem.FileRef.FileRelativePath 
                         && thread.comments?.[0].author?.id == vstsAuthUser.id
@@ -123,7 +123,7 @@ async function run() {
                 } 
             }
             
-            for await (const diagnostic of documentWithProblem.GroupedDiagnostics.filter(x => x.Count < 5)){
+            for await (const diagnostic of documentWithProblem.GroupedDiagnostics.filter(x => x.Count < extensionContext.Settings.SpamThreshold)){
                 if(diagnostic.SeverityLevel < extensionContext.Settings.MinSeverityLevel) {
                     tl.debug(`Min. severity not reached for ${diagnostic.DiagnosticId} at ${diagnostic.SeverityLevel}.`);
                     continue;
