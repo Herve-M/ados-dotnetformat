@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/src/ReportReviewer/"
     schedule:
       interval: "monthly"
     commit-message:
@@ -12,12 +12,15 @@ updates:
       update-types: ["version-update:semver-major"]
   
   - package-ecosystem: "npm"
-    directory: "src/DotNetFormatCLI"
+    directory: "/src/DotNetFormatCLI/"
     schedule:
       interval: "monthly"
     commit-message:
       prefix: "chore(DotNetFormatCLI)"
       include: "scope"
+    ignore:
+    - dependency-name: "@types/node"
+      update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/src/UseDotNetFormat/"
@@ -26,3 +29,6 @@ updates:
     commit-message:
       prefix: "chore(UseDotNetFormat)"
       include: "scope"
+    ignore:
+    - dependency-name: "@types/node"
+      update-types: ["version-update:semver-major"]
