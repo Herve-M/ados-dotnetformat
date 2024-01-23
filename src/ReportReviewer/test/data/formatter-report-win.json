@@ -1,0 +1,146 @@
+[
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "e7cc3abb-d7ff-416a-85cd-6a5cca6df6d3"
+      },
+      "Id": "7591c1dd-d79c-4384-b810-c486d937bb70"
+    },
+    "FileName": "OtherClass.cs",
+    "FilePath": "c:\\agent_work\\1\\s\\tests\\dotnet8\\for_code_formatter\\unformatted_project\\other_items\\OtherClass.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 5,
+        "CharNumber": 3,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 2 characters."
+      },
+      {
+        "LineNumber": 6,
+        "CharNumber": 3,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 2 characters."
+      },
+      {
+        "LineNumber": 7,
+        "CharNumber": 5,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 4 characters."
+      },
+      {
+        "LineNumber": 8,
+        "CharNumber": 5,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 4 characters."
+      },
+      {
+        "LineNumber": 9,
+        "CharNumber": 7,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 6 characters."
+      },
+      {
+        "LineNumber": 10,
+        "CharNumber": 5,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 4 characters."
+      },
+      {
+        "LineNumber": 11,
+        "CharNumber": 3,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 2 characters."
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "e7cc3abb-d7ff-416a-85cd-6a5cca6df6d3"
+      },
+      "Id": "947cb735-aa6d-42af-8b5c-350a95b08e70"
+    },
+    "FileName": "Program.cs",
+    "FilePath": "c:\\agent_work\\1\\s\\tests\\dotnet8\\for_code_formatter\\unformatted_project\\Program.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 5,
+        "CharNumber": 3,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 2 characters."
+      },
+      {
+        "LineNumber": 6,
+        "CharNumber": 3,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 2 characters."
+      },
+      {
+        "LineNumber": 7,
+        "CharNumber": 5,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 4 characters."
+      },
+      {
+        "LineNumber": 8,
+        "CharNumber": 5,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 4 characters."
+      },
+      {
+        "LineNumber": 9,
+        "CharNumber": 7,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 6 characters."
+      },
+      {
+        "LineNumber": 10,
+        "CharNumber": 5,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 4 characters."
+      },
+      {
+        "LineNumber": 11,
+        "CharNumber": 3,
+        "DiagnosticId": "WHITESPACE",
+        "FormatDescription": "Fix whitespace formatting. Delete 2 characters."
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "e7cc3abb-d7ff-416a-85cd-6a5cca6df6d3"
+      },
+      "Id": "7591c1dd-d79c-4384-b810-c486d937bb70"
+    },
+    "FileName": "OtherClass.cs",
+    "FilePath": "c:\\agent_work\\1\\s\\tests\\dotnet8\\for_code_formatter\\unformatted_project\\other_items\\OtherClass.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 12,
+        "CharNumber": 2,
+        "DiagnosticId": "FINALNEWLINE",
+        "FormatDescription": "Fix final newline. Delete 2 characters."
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "e7cc3abb-d7ff-416a-85cd-6a5cca6df6d3"
+      },
+      "Id": "947cb735-aa6d-42af-8b5c-350a95b08e70"
+    },
+    "FileName": "Program.cs",
+    "FilePath": "c:\\agent_work\\1\\s\\tests\\dotnet8\\for_code_formatter\\unformatted_project\\Program.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 12,
+        "CharNumber": 2,
+        "DiagnosticId": "FINALNEWLINE",
+        "FormatDescription": "Fix final newline. Delete 2 characters."
+      }
+    ]
+  }
+]

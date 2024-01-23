@@ -28,7 +28,7 @@
         "Azure Pipelines",
         "Azure DevOps Extensions",
         "formater",
-        "formate",
+        "format",
         "style",
         ".editorconfig",
         "check"
@@ -43,6 +43,26 @@
     "files": [
         {
             "path": "dist"
+        },
+        {
+            "path": "docs/images/use-task.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/use-overview.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/reviewer-task.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/reviewer-overview.png",
+            "addressable": true
+        },
+        {
+            "path": "docs/images/format-task.png",
+            "addressable": true
         },
         {
             "path": "docs/images/format-overview.png",
@@ -78,6 +98,70 @@
             }
         },
         {
+            "id": "ado-endpoint-type",
+            "description": "",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [
+                "ms.vss-endpoint.endpoint-types"
+            ],
+            "properties": {
+                "name": "DotNetFormatReportReviewer",
+                "displayName": "Azure DevOps auth. (report reviewer)",
+                "authenticationSchemes": [
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-none"
+                    },
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token",
+                        "inputDescriptors": [
+                            {
+                                "id": "apitoken",
+                                "name": "API Token",
+                                "description": "Personal Access Token (TFS 2017+ and Azure DevOps Server 2019 and 2020).",
+                                "inputMode": "passwordbox",
+                                "isConfidential": true,
+                                "validation": {
+                                    "isRequired": true,
+                                    "dataType": "string",
+                                    "maxLength": 300
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",
+                        "inputDescriptors": [
+                          {
+                            "id": "username",
+                            "name": "Username",
+                            "description": "Username",
+                            "inputMode": "textbox",
+                            "isConfidential": false,
+                            "validation": {
+                              "isRequired": true,
+                              "dataType": "string",
+                              "maxLength": 300
+                            }
+                          },
+                          {
+                            "id": "password",
+                            "name": "Password",
+                            "description": "Password",
+                            "inputMode": "passwordbox",
+                            "isConfidential": true,
+                            "validation": {
+                              "isRequired": true,
+                              "dataType": "string",
+                              "maxLength": 300
+                            }
+                          }
+                        ]
+                      }
+                ],
+                "helpMarkDown": ""
+            }
+        },
+        {
             "id": "dotnetformatcli",
             "type": "ms.vss-distributed-task.task",
             "targets": [
@@ -92,6 +176,14 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": { "name": "dist/UseDotNetFormat" }
+        },
+        {
+            "id": "reportreviewer",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": { "name": "dist/ReportReviewer" }
         }
     ]
 }

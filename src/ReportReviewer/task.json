@@ -1,0 +1,66 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "4e1c4141-0022-4ee1-b8b8-3219d82e469a",
+    "name": "ReportReviewer",
+    "friendlyName": "Report-reviewer",
+    "description": "",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "MATYSIAK Hervé",
+    "preview": true,
+    "version": {
+        "Major": 0,
+        "Minor": 2,
+        "Patch": 26
+    },
+    "visibility": [
+        "Build"
+    ],
+    "runsOn": [
+        "Agent"
+    ],
+    "minimumAgentVersion": "2.206.1",
+    "instanceNameFormat": "reviewer $(project)",
+    "groups": [],
+    "inputs": [
+        {
+            "name": "connectedServiceName",
+            "type": "connectedService:DotNetFormatReportReviewer",
+            "label": "Azure DevOps auth. service connection",
+            "required": true,
+            "helpMarkDown": ""
+        },
+        {
+            "name": "minSeverityLevel",
+            "type": "pickList",
+            "required": true,
+            "label": "Min. SeverityLevel",
+            "defaultValue": "Warn",
+            "options": {
+                "error":"Error",
+                "warning":"Warn",
+                "info":"Info"
+            },
+            "properties": {
+                "EditableOptions": "False"
+            }
+        },
+        {
+            "name": "ignoredDiagnosticIds",
+            "type": "multiLine",
+            "required": false,
+            "label": "Ignored DiagnosticIds"
+        },
+        {
+            "name": "spamThreshold",
+            "type": "int",
+            "label": "Spam threshold count",
+            "required": true
+        }
+    ],
+    "execution": {
+        "Node16": {
+            "target": "reportreviewer.js"
+        }
+    }
+}
