@@ -12,11 +12,11 @@ updates:
       update-types: ["version-update:semver-major"]
   
   - package-ecosystem: "npm"
-    directory: "/src/DotNetFormat/"
+    directory: "src/DotNetFormatCLI"
     schedule:
       interval: "monthly"
     commit-message:
-      prefix: "chore(DotNetFormat)"
+      prefix: "chore(DotNetFormatCLI)"
       include: "scope"
 
   - package-ecosystem: "npm"
