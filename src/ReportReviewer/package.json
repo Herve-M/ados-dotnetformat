@@ -21,7 +21,7 @@
         "node": "~16.20.2"
     },
     "devDependencies": {
-        "@types/mocha": "^10.0.4",
+        "@types/mocha": "^10.0.6",
         "mocha": "^10.2.0"
     }
 }
