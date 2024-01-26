@@ -23,7 +23,7 @@
     "@types/micromatch": "^4.0.6",
     "@types/mocha": "^8.2.3",
     "fs-extra": "^9.1.0",
-    "fsify": "^4.0.2",
+    "fsify": "^5.0.0",
     "simple-git": "^3.20.0"
   },
   "engines": {
