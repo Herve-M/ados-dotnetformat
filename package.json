@@ -8,7 +8,7 @@
     "test": "glob-exec --parallel --foreach \"src/**/task.json\" -- npx mocha {{file.dir}}/test/_suite.js",
     "test:ci": "echo \"Warning: no test specified\"",
     "init:dev": "npm install && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm install --no-progress\"",
-    "init:ci": "npm ci --no-audit --no-progress && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm ci --production --no-audit --no-progress\"",
+    "init:ci": "npm ci --no-audit --no-progress && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm ci --omit=dev --no-audit --no-progress\"",
     "build:dev": "tsc --project tsconfig.json",
     "build:ci": "tsc --project tsconfig.production.json",
     "postbuild:base": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp -r ./{{file.dir}}/node_modules ./dist/{{file.dir.split('/')[1]}}/\"",
