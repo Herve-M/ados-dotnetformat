@@ -1,7 +1,7 @@
 import os = require('os');
 import path = require('node:path');
 import tl = require('azure-pipelines-task-lib/task');
-import tr = require("azure-pipelines-task-lib/toolrunner");
+import tr = require('azure-pipelines-task-lib/toolrunner');
 import provider = require('./diff-provider/provider');
 
 export const Constants = {
@@ -20,6 +20,7 @@ export const Constants = {
     InputDiagnosticsExcludedOptions: 'diagnosticsExcluded',
     InputVerbosityOption: 'verbosity',
     InputDiffProviderOption: 'diffProvider',
+    InputFileGlobPatternOption: 'fileGlobPattern',
     // Task output
     //TODO: add output
     OutputResult: 'format-result',
@@ -84,9 +85,10 @@ async function run() {
                 tl.setResult(tl.TaskResult.Failed, "Can't find diff. between target and source branch, for PullRequest"); //TODO: better log
                 return;
             }
-
+            
+            const fileGlobPattern = tl.getInputRequired(Constants.InputFileGlobPatternOption);
             const diffProvider = provider.DiffProviderFactory.create();
-            const changeSet = await diffProvider.getChangeFor('*.cs');
+            const changeSet = await diffProvider.getChangeFor(fileGlobPattern);
             const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");
             tl.writeFile(rspFilePath, changeSet.join(os.EOL));
 

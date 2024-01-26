@@ -2,6 +2,7 @@ import provider = require('./ProdiverInterfaces');
 import os = require('os');
 import tl = require("azure-pipelines-task-lib/task");
 import tr = require("azure-pipelines-task-lib/toolrunner");
+import minimatch = require('minimatch');
 
 export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
 
@@ -41,19 +42,20 @@ export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
             let stdout = '';
             const result = await tl
                 .tool(this.gitToolPath)
-                .arg(['diff', `origin/${this.targetBranch.replace('refs/heads/', '')}`, '--name-only', '--', `${filePattern}`])
+                .arg(['diff', `origin/${this.targetBranch.replace('refs/heads/', '')}`, '--name-only'])
                 .on('stdout', (data) => {
                     stdout += data.toString();
                 })
                 .execAsync(options);
 
-            console.debug(`Result (${result}): ${stdout}`)
-            tl.setResult(tl.TaskResult.Succeeded, `Git diff succeed ${result}`);
-            return stdout.split(os.EOL);
+            tl.debug(`Result (${result}): ${stdout}`);
+            return stdout
+                .split(os.EOL)
+                .filter(minimatch.filter(filePattern, { matchBase: true}));
         } catch (error: any) {
             tl.error(error);
             tl.setResult(tl.TaskResult.Failed, `Git diff failed ${error}`);
+            throw new Error('While trying to get the diff. using ADO native git stategy.');
         }
-        return [];
     }
 }

@@ -1,5 +1,5 @@
 import provider = require('./ProdiverInterfaces');
-import tl = require("azure-pipelines-task-lib/task");
+import tl = require('azure-pipelines-task-lib/task');
 import adoApi = require('azure-devops-node-api');
 import gitApi = require('azure-devops-node-api/GitApi');
 import minimatch = require('minimatch');
@@ -66,7 +66,7 @@ export class AdoGitApiDiffProvider implements provider.IDiffProvider {
             tl.debug(`From iteration 0 to ${currentIterationScope.id}: ${changes.changeEntries?.length} changes.`);
             // console.dir(changes.changeEntries, { depth: 5});
             tl.debug(`Files impacted: ${files}`);
-        }        
+        }
 
         return files;
     }

@@ -195,6 +195,19 @@
             "properties": {
                 "EditableOptions": "False"
             }
+        },
+        {
+            "groupName": "advancedOptions",
+            "visibleRule": "onlyChangedFiles = true",
+            "name": "fileGlobPattern",
+            "type": "string",
+            "label": "File include pattern (glob based)",
+            "helpMarkDown": "A newline separated list of glob patterns for files to include in formatting.",
+            "required": false,
+            "defaultValue": "{cs,vb}",
+            "properties": {
+                "resizable": true
+            }
         }
     ],
     "execution": {

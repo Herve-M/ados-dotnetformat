@@ -39,7 +39,7 @@ const a: ma.TaskLibAnswers = <ma.TaskLibAnswers>{
             "stdout": "* main",
             "stderr": ""
         },
-        "c:\\path\\git.exe diff main --name-only -- *.cs": {
+        "c:\\path\\git.exe diff main --name-only": {
             "code": 0,
             "stdout": "src/DotNetFormat/dotnetformat.ts\nsrc/DotNetFormat/utils/gittoolsrunner.ts",
             "stderr": ""
