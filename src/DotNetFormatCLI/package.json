@@ -19,10 +19,10 @@
     "micromatch": "^4.0.5"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
+    "@types/fs-extra": "^11.0.4",
     "@types/micromatch": "^4.0.6",
     "@types/mocha": "^8.2.3",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^11.2.0",
     "fsify": "^4.0.2",
     "simple-git": "^3.20.0"
   },
