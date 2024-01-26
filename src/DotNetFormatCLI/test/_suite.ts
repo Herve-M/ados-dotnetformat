@@ -84,8 +84,8 @@ describe('donetformat suite', function () {
             assert.equal(tr.succeeded, true, 'should have succeed');
         });
     
-        it('should succeed with good inputs for impacted files only dugin PR checking, with debug, .NET 6', async function() {
-            const tp = path.join(__dirname, 'succeed-check-partialPR-dbg-net6.js');
+        it('should succeed with good inputs for impacted files only dugin PR checking using git, with debug, .NET 6', async function() {
+            const tp = path.join(__dirname, 'succeed-check-partialPR-git_native-dbg-net6.js');
             const tptask = path.join(__dirname, '..', 'task.json');
     
             process.env['SYSTEM_DEBUG'] = 'True';
@@ -93,6 +93,24 @@ describe('donetformat suite', function () {
             process.env['SYSTEM_PULLREQUEST_TARGETBRANCH'] = 'main';
             process.env['BUILD_REPOSITORY_LOCALPATH'] = 'c:/agent_work/1/s';
             process.env['BUILD_ARTIFACTSTAGINGDIRECTORY'] = 'c:/agent_work/1/a';
+            const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp, tptask);
+            await tr.runAsync();
+    
+            assert.equal(tr.succeeded, true, 'should have succeed');
+        });
+
+        it('should succeed with good inputs for impacted files only dugin PR checking using ADO-API, with debug, .NET 6', async function() {
+            const tp = path.join(__dirname, 'succeed-check-partialPR-git_api-dbg-net6.js');
+            const tptask = path.join(__dirname, '..', 'task.json');
+    
+            process.env['SYSTEM_DEBUG'] = 'True';
+            process.env['BUILD_REASON'] = 'PullRequest';
+            process.env['BUILD_ARTIFACTSTAGINGDIRECTORY'] = 'c:/agent_work/1/a';
+            process.env['SYSTEM_COLLECTIONURI'] = 'http://localhost/MyCollection';
+            process.env['SYSTEM_ACCESSTOKEN'] = 'abcedfg';
+            process.env['BUILD_REPOSITORY_ID'] = '1';
+            process.env['SYSTEM_TEAMPROJECTID'] = '1';
+            process.env['SYSTEM_PULLREQUEST_SOURCECOMMITID'] = '1';
             const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp, tptask);
             await tr.runAsync();
     

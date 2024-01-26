@@ -1,6 +1,6 @@
 {
   "name": "ados-dotnetformat",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "Azure DevOps dotnet-format task",
   "main": "dotnetformat.js",
   "repository": {
@@ -14,10 +14,13 @@
   },
   "homepage": "https://github.com/Herve-M/ados-dotnetformat#readme",
   "dependencies": {
-    "azure-pipelines-task-lib": "^4.6.1"
+    "azure-devops-node-api": "^12.3.0",
+    "azure-pipelines-task-lib": "^4.6.1",
+    "micromatch": "^4.0.5"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
+    "@types/micromatch": "^4.0.6",
     "@types/mocha": "^8.2.3",
     "fs-extra": "^9.1.0",
     "fsify": "^4.0.2",

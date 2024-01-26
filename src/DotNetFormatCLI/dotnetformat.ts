@@ -1,8 +1,8 @@
 import os = require('os');
 import path = require('node:path');
 import tl = require('azure-pipelines-task-lib/task');
-import tr = require("azure-pipelines-task-lib/toolrunner");
-import gitTool = require('./utils');
+import tr = require('azure-pipelines-task-lib/toolrunner');
+import provider = require('./diff-provider/provider');
 
 export const Constants = {
     // Task input
@@ -19,6 +19,8 @@ export const Constants = {
     InputDiagnosticsOptions: 'diagnostics',
     InputDiagnosticsExcludedOptions: 'diagnosticsExcluded',
     InputVerbosityOption: 'verbosity',
+    InputDiffProviderOption: 'diffProvider',
+    InputFileGlobPatternOption: 'fileGlobPatterns',
     // Task output
     //TODO: add output
     OutputResult: 'format-result',
@@ -84,10 +86,10 @@ async function run() {
                 return;
             }
 
-            const pullRequestTargetBranch = tl.getVariable(Constants.VarTargetBranch)!;
-            //TODO detect SCM
-            let gitScm = new gitTool.GitToolRunner();
-            const changeSet = await gitScm.getChangeFor(pullRequestTargetBranch, '*.cs');
+            //TODO: see why os.EOL doens't work on windows-latest
+            const fileGlobPattern = tl.getDelimitedInput(Constants.InputFileGlobPatternOption, '\n'); 
+            const diffProvider = provider.DiffProviderFactory.create();
+            const changeSet = await diffProvider.getChangeFor(fileGlobPattern);
             const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");
             tl.writeFile(rspFilePath, changeSet.join(os.EOL));
 

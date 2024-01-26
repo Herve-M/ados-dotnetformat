@@ -1,22 +1,26 @@
+import provider = require('./ProdiverInterfaces');
 import os = require('os');
-import tl = require("azure-pipelines-task-lib/task");
-import tr = require("azure-pipelines-task-lib/toolrunner");
+import tl = require('azure-pipelines-task-lib/task');
+import tr = require('azure-pipelines-task-lib/toolrunner');
+const mm = require('micromatch');
 
-export class GitToolRunner {
+export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
 
     public static readonly ToolName: string = "git"; 
 
     private readonly repositoryDirectory: string;
     private readonly gitToolPath: string;
     private readonly isDebug: boolean;    
+    private readonly targetBranch: string;
 
     constructor(){
-        this.repositoryDirectory = tl.getVariable("Build.Repository.LocalPath")!;
-        this.gitToolPath = tl.which(GitToolRunner.ToolName, true);
+        this.repositoryDirectory = tl.getVariable('Build.Repository.LocalPath')!;
+        this.targetBranch = tl.getVariable('System.PullRequest.TargetBranch')!;
+        this.gitToolPath = tl.which(AdoGitNativeDiffProvider.ToolName, true);
         this.isDebug = tl.getVariable("System.Debug") == 'True';
     }
 
-    public async getChangeFor(refBranch: Readonly<string>, filePattern: Readonly<string>): Promise<string[]> {
+    public async getChangeFor(filePatterns: ReadonlyArray<string>): Promise<string[]> {
         let options: tr.IExecOptions = {
             cwd: this.repositoryDirectory,
             silent: !this.isDebug
@@ -38,19 +42,20 @@ export class GitToolRunner {
             let stdout = '';
             const result = await tl
                 .tool(this.gitToolPath)
-                .arg(['diff', `origin/${refBranch.replace('refs/heads/', '')}`, '--name-only', '--', `${filePattern}`])
+                .arg(['diff', `origin/${this.targetBranch.replace('refs/heads/', '')}`, '--name-only'])
                 .on('stdout', (data) => {
                     stdout += data.toString();
                 })
                 .execAsync(options);
 
-            console.debug(`Result (${result}): ${stdout}`)
-            tl.setResult(tl.TaskResult.Succeeded, `Git diff succeed ${result}`);
-            return stdout.split(os.EOL);
+            tl.debug(`Result (${result}): ${stdout}`);
+            return stdout
+                .split(os.EOL)
+                .filter(filePath => mm.isMatch(filePath, filePatterns, {matchBase: true}));
         } catch (error: any) {
             tl.error(error);
             tl.setResult(tl.TaskResult.Failed, `Git diff failed ${error}`);
+            throw new Error('While trying to get the diff. using ADO native git stategy.');
         }
-        return [];
     }
 }

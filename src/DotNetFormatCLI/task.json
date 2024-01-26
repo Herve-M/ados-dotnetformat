@@ -10,7 +10,7 @@
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 5,
+        "Minor": 6,
         "Patch": 0
     },
     "visibility": [
@@ -27,6 +27,12 @@
             "name": "advancedOptions",
             "displayName": "Advanced options",
             "isExpanded": false            
+        },
+        {
+            "name": "pullRequestModeOptions",
+            "displayName": "PullRequest options",
+            "isExpanded": false,
+            "visibleRule": "onlyChangedFiles = true"        
         }
     ],
     "inputs": [
@@ -110,7 +116,7 @@
             "properties": {
                 "resizable": true
             },
-            "visibleRule": "command = check && workspace != \"\""
+            "visibleRule": "command = check && onlyChangedFiles = false"
         },
         {
             "name": "exclude",
@@ -177,6 +183,34 @@
                 "Normal": "Normal",
                 "Detailed": "Detailed",
                 "Diagnostic": "Diagnostic"
+            }
+        },
+        {
+            "groupName": "pullRequestModeOptions",
+            "name": "fileGlobPatterns",
+            "type": "multiLine",
+            "label": "File include pattern (glob based)",
+            "helpMarkDown": "A newline separated list of glob patterns for files to include in formatting.",
+            "required": false,
+            "defaultValue": "*.cs\n*.vb",
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "pullRequestModeOptions",
+            "name": "diffProvider",
+            "type": "pickList",
+            "label": "Difference provider",
+            "defaultValue": "api",
+            "required": true,
+            "helpMarkDown": "",
+            "options": {
+                "native": "native",
+                "api": "api"
+            },
+            "properties": {
+                "EditableOptions": "False"
             }
         }
     ],
