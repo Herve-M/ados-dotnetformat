@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 6,
-        "Patch": 4
+        "Patch": 0
     },
     "visibility": [
         "Build",
@@ -27,6 +27,12 @@
             "name": "advancedOptions",
             "displayName": "Advanced options",
             "isExpanded": false            
+        },
+        {
+            "name": "pullRequestModeOptions",
+            "displayName": "PullRequest options",
+            "isExpanded": false,
+            "visibleRule": "onlyChangedFiles = true"        
         }
     ],
     "inputs": [
@@ -110,7 +116,7 @@
             "properties": {
                 "resizable": true
             },
-            "visibleRule": "command = check && workspace != \"\""
+            "visibleRule": "command = check && onlyChangedFiles = false"
         },
         {
             "name": "exclude",
@@ -180,8 +186,19 @@
             }
         },
         {
-            "groupName": "advancedOptions",
-            "visibleRule": "onlyChangedFiles = true",
+            "groupName": "pullRequestModeOptions",
+            "name": "fileGlobPatterns",
+            "type": "multiLine",
+            "label": "File include pattern (glob based)",
+            "helpMarkDown": "A newline separated list of glob patterns for files to include in formatting.",
+            "required": false,
+            "defaultValue": "*.cs\n*.vb",
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "pullRequestModeOptions",
             "name": "diffProvider",
             "type": "pickList",
             "label": "Difference provider",
@@ -194,19 +211,6 @@
             },
             "properties": {
                 "EditableOptions": "False"
-            }
-        },
-        {
-            "groupName": "advancedOptions",
-            "visibleRule": "onlyChangedFiles = true",
-            "name": "fileGlobPattern",
-            "type": "string",
-            "label": "File include pattern (glob based)",
-            "helpMarkDown": "A newline separated list of glob patterns for files to include in formatting.",
-            "required": false,
-            "defaultValue": "{cs,vb}",
-            "properties": {
-                "resizable": true
             }
         }
     ],

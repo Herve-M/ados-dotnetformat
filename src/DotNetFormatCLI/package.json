@@ -16,11 +16,11 @@
   "dependencies": {
     "azure-devops-node-api": "^12.3.0",
     "azure-pipelines-task-lib": "^4.6.1",
-    "minimatch": "^9.0.3"
+    "micromatch": "^4.0.5"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
-    "@types/minimatch": "^5.1.2",
+    "@types/micromatch": "^4.0.6",
     "@types/mocha": "^8.2.3",
     "fs-extra": "^9.1.0",
     "fsify": "^4.0.2",

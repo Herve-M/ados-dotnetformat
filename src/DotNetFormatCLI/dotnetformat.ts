@@ -20,7 +20,7 @@ export const Constants = {
     InputDiagnosticsExcludedOptions: 'diagnosticsExcluded',
     InputVerbosityOption: 'verbosity',
     InputDiffProviderOption: 'diffProvider',
-    InputFileGlobPatternOption: 'fileGlobPattern',
+    InputFileGlobPatternOption: 'fileGlobPatterns',
     // Task output
     //TODO: add output
     OutputResult: 'format-result',
@@ -85,8 +85,9 @@ async function run() {
                 tl.setResult(tl.TaskResult.Failed, "Can't find diff. between target and source branch, for PullRequest"); //TODO: better log
                 return;
             }
-            
-            const fileGlobPattern = tl.getInputRequired(Constants.InputFileGlobPatternOption);
+
+            //TODO: see why os.EOL doens't work on windows-latest
+            const fileGlobPattern = tl.getDelimitedInput(Constants.InputFileGlobPatternOption, '\n'); 
             const diffProvider = provider.DiffProviderFactory.create();
             const changeSet = await diffProvider.getChangeFor(fileGlobPattern);
             const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");

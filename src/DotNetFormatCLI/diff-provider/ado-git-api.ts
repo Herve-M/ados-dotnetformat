@@ -1,8 +1,10 @@
 import provider = require('./ProdiverInterfaces');
+import util = require('node:util');
 import tl = require('azure-pipelines-task-lib/task');
 import adoApi = require('azure-devops-node-api');
 import gitApi = require('azure-devops-node-api/GitApi');
-import minimatch = require('minimatch');
+import mm = require('micromatch');
+
 
 export class AdoGitApiDiffProvider implements provider.IDiffProvider {
     private readonly isDebug: boolean;
@@ -25,7 +27,7 @@ export class AdoGitApiDiffProvider implements provider.IDiffProvider {
         tl.debug(`ProjectId[${typeof(this.projectId)}]: ${this.projectId}, RepositoryId[${typeof(this.repositoryId)}]: ${this.repositoryId}, PullRequestId [${typeof(this.pullRequestId)}]: ${this.pullRequestId}`);
     }
 
-    public async getChangeFor(filePattern: Readonly<string>): Promise<string[]> {
+    public async getChangeFor(filePatterns: ReadonlyArray<string>): Promise<string[]> {
         const authHandler = adoApi.getHandlerFromToken(this.accessToken);
         const vsts: adoApi.WebApi = new adoApi.WebApi(this.baseUrl, authHandler);
 
@@ -60,11 +62,15 @@ export class AdoGitApiDiffProvider implements provider.IDiffProvider {
         
         const files = changes.changeEntries!.map((change) => {
             return change.item!.path!;
-        }).filter(minimatch.filter(filePattern, { matchBase: true}));
+        }).filter(filePath => {
+            let result = mm.isMatch(filePath, filePatterns, {matchBase: true, debug: this.isDebug});
+            tl.debug(`File: ${filePath} | Match: ${result}`);
+            return result;
+        });
 
         if(this.isDebug){
             tl.debug(`From iteration 0 to ${currentIterationScope.id}: ${changes.changeEntries?.length} changes.`);
-            // console.dir(changes.changeEntries, { depth: 5});
+            tl.debug(`Patterns: ${util.inspect(filePatterns)}`);
             tl.debug(`Files impacted: ${files}`);
         }
 

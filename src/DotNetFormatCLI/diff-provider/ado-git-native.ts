@@ -1,8 +1,8 @@
 import provider = require('./ProdiverInterfaces');
 import os = require('os');
-import tl = require("azure-pipelines-task-lib/task");
-import tr = require("azure-pipelines-task-lib/toolrunner");
-import minimatch = require('minimatch');
+import tl = require('azure-pipelines-task-lib/task');
+import tr = require('azure-pipelines-task-lib/toolrunner');
+import mm = require('micromatch');
 
 export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
 
@@ -20,7 +20,7 @@ export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
         this.isDebug = tl.getVariable("System.Debug") == 'True';
     }
 
-    public async getChangeFor(filePattern: Readonly<string>): Promise<string[]> {
+    public async getChangeFor(filePatterns: ReadonlyArray<string>): Promise<string[]> {
         let options: tr.IExecOptions = {
             cwd: this.repositoryDirectory,
             silent: !this.isDebug
@@ -51,7 +51,7 @@ export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
             tl.debug(`Result (${result}): ${stdout}`);
             return stdout
                 .split(os.EOL)
-                .filter(minimatch.filter(filePattern, { matchBase: true}));
+                .filter(filePath => mm.isMatch(filePath, filePatterns, {matchBase: true}));
         } catch (error: any) {
             tl.error(error);
             tl.setResult(tl.TaskResult.Failed, `Git diff failed ${error}`);
