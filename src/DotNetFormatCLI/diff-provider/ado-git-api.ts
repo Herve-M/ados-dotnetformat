@@ -3,7 +3,7 @@ import util = require('node:util');
 import tl = require('azure-pipelines-task-lib/task');
 import adoApi = require('azure-devops-node-api');
 import gitApi = require('azure-devops-node-api/GitApi');
-import mm = require('micromatch');
+const mm = require('micromatch');
 
 
 export class AdoGitApiDiffProvider implements provider.IDiffProvider {
