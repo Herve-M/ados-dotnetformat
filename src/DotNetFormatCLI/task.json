@@ -10,7 +10,7 @@
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 5,
+        "Minor": 6,
         "Patch": 0
     },
     "visibility": [
@@ -177,6 +177,23 @@
                 "Normal": "Normal",
                 "Detailed": "Detailed",
                 "Diagnostic": "Diagnostic"
+            }
+        },
+        {
+            "groupName": "advancedOptions",
+            "visibleRule": "onlyChangedFiles = true",
+            "name": "diffProvider",
+            "type": "pickList",
+            "label": "Difference provider",
+            "defaultValue": "api",
+            "required": true,
+            "helpMarkDown": "",
+            "options": {
+                "native": "native",
+                "api": "api"
+            },
+            "properties": {
+                "EditableOptions": "False"
             }
         }
     ],
