@@ -1,55 +1,23 @@
-import os = require('os');
-import path = require('node:path');
+import os = require('node:os');
 import tl = require('azure-pipelines-task-lib/task');
 import tr = require('azure-pipelines-task-lib/toolrunner');
 import provider = require('./diff-provider/provider');
-
-export const Constants = {
-    // Task input
-    InputWorkingDirectoryOption: 'workingDirectory',
-    InputUseGlobalToolOption: 'useGlobalTool',
-    InputCommand: 'command',
-    InputWorkspaceOption: 'workspace',
-    InputOnlyChangedFiles: 'onlyChangedFiles',
-    InputIncludeOptions: 'include',
-    InputExcludeOptions: 'exclude',
-    InputSeverityOption: 'severity',
-    InputNoRestoreOption: 'noRestore',
-    InputIncludeGeneratedOption: 'includeGenerated',
-    InputDiagnosticsOptions: 'diagnostics',
-    InputDiagnosticsExcludedOptions: 'diagnosticsExcluded',
-    InputVerbosityOption: 'verbosity',
-    InputDiffProviderOption: 'diffProvider',
-    InputFileGlobPatternOption: 'fileGlobPatterns',
-    // Task output
-    //TODO: add output
-    OutputResult: 'format-result',
-    // Env.
-    VarDebug: 'System.Debug',
-    VarTargetBranch: 'System.PullRequest.TargetBranch',
-    VarPullRequestId: 'System.PullRequest.PullRequestId', 
-    VarBuildReason: 'Build.Reason',
-    VarRepositoryLocalPath: 'Build.Repository.LocalPath',
-    VarArtifactStagingDirectory: 'Build.ArtifactStagingDirectory'
-} as const;
-
+import ct = require('./common/context');
 
 async function run() {
     try {
-        const isDebug = tl.getVariable(Constants.VarDebug) == 'True';
-        const isPullRequest = tl.getVariable(Constants.VarBuildReason)! == "PullRequest";
-        const localWorkingPath = tl.getVariable(Constants.VarRepositoryLocalPath)!;
+        // Get context
+        const extensionContext = await ct.getExtensionContext();
         
         // Get the tools 
-        const workingDirectoryOption = tl.getPathInput(Constants.InputWorkingDirectoryOption);
         let toolRunOptions: tr.IExecOptions = {
-            cwd: workingDirectoryOption == null ? localWorkingPath : workingDirectoryOption 
+            cwd: extensionContext.Settings.WorkingDirectoryPath == null ? 
+                            extensionContext.Environment.RepositoryPath : extensionContext.Settings.WorkingDirectoryPath 
         };
 
-        const useGlobalToolOption = tl.getBoolInput(Constants.InputUseGlobalToolOption);
         let toolPath: string;
         let tool:tr.ToolRunner;
-        if(useGlobalToolOption){
+        if(extensionContext.Settings.UseGlobalTool){
             toolPath = tl.which("dotnet-format", true);
             tool = tl.tool(toolPath);
         } else{
@@ -59,7 +27,7 @@ async function run() {
                 .arg("format");
         }
         
-        if(isDebug){
+        if(extensionContext.Environment.IsDebug){
             await tl
                 .tool(toolPath)
                 .line("format --version")
@@ -67,7 +35,7 @@ async function run() {
         }
 
         // command
-        const commandToRun = tl.getInput(Constants.InputCommand, true);
+        const commandToRun = extensionContext.Settings.Command;
         if(commandToRun === "custom"){
             tl.setResult(tl.TaskResult.Failed, "Custom command isn't impl. yet!");
             return;
@@ -76,21 +44,18 @@ async function run() {
             return;
         }
 
-        const workspaceOption = tl.getPathInput(Constants.InputWorkspaceOption)!;
-        const onlyChangedFiles = tl.getBoolInput(Constants.InputOnlyChangedFiles);      
-
-        if(onlyChangedFiles){
-            if(!isPullRequest){
+        const workspaceOption = extensionContext.Settings.WorkspacePath;
+        if(extensionContext.Settings.OnlyChangedFiles){
+            if(!extensionContext.Environment.IsPullRequest){
                 console.error("`Build.Reason` != PullRequest, can't get the diff.")
                 tl.setResult(tl.TaskResult.Failed, "Can't find diff. between target and source branch, for PullRequest"); //TODO: better log
                 return;
             }
 
-            //TODO: see why os.EOL doens't work on windows-latest
-            const fileGlobPattern = tl.getDelimitedInput(Constants.InputFileGlobPatternOption, '\n'); 
-            const diffProvider = provider.DiffProviderFactory.create();
+            const fileGlobPattern = extensionContext.Settings.FileGlobPatterns; 
+            const diffProvider = provider.DiffProviderFactory.create(extensionContext);
             const changeSet = await diffProvider.getChangeFor(fileGlobPattern);
-            const rspFilePath = path.join(localWorkingPath, "FilesToCheck.rsp");
+            const rspFilePath = extensionContext.Settings.FilesToCheckRspPath;
             tl.writeFile(rspFilePath, changeSet.join(os.EOL));
 
             tool = tool
@@ -99,9 +64,9 @@ async function run() {
         } else {
             tool = tool.arg(workspaceOption);
             
-            const includeOptions = tl.getDelimitedInput(Constants.InputIncludeOptions, os.EOL);
+            const includeOptions = extensionContext.Settings.IncludedFiles;
             if(includeOptions.length){
-                const includedRspFilePath = path.normalize(path.join(localWorkingPath, "Included.rsp"));
+                const includedRspFilePath = extensionContext.Settings.FilesToIncludesRspPath;
                 tl.writeFile(includedRspFilePath, includeOptions.join(os.EOL));
                 console.debug(`Include file ${includedRspFilePath} with ${includeOptions.length}`);
                 tool = tool
@@ -109,61 +74,56 @@ async function run() {
             }            
         }
 
-        const excludeOptions = tl.getDelimitedInput(Constants.InputExcludeOptions, os.EOL);
+        const excludeOptions = extensionContext.Settings.ExcludedFiles;
         if(excludeOptions.length){
-            const excludedRspFilePath = path.normalize(path.join(localWorkingPath, "Excluded.rsp"));
+            const excludedRspFilePath = extensionContext.Settings.FilesToExcludepRspPath;
             tl.writeFile(excludedRspFilePath, excludeOptions.join(os.EOL));
             console.debug(`Include file ${excludedRspFilePath} with ${excludeOptions.length}`);
             tool = tool
                 .arg(['--exclude', `@${excludedRspFilePath}`]);
         }
 
-        const severityOption = tl.getInput(Constants.InputSeverityOption, false);
-        if(severityOption){
-            tool = tool
-                .arg(['--severity', `${severityOption}`]);
-        }
+        tool = tool
+            .arg(['--severity', `${extensionContext.Settings.SeverityLevel}`]);
   
         // advanced options
-        const noRestoreOption = tl.getBoolInput(Constants.InputNoRestoreOption, false);
+        const noRestoreOption = extensionContext.Settings.NoRestore;
         if(noRestoreOption){
             tool = tool
                 .arg("--no-restore");
         }
         
-        const includeGeneratedOption = tl.getBoolInput(Constants.InputIncludeGeneratedOption, false);
+        const includeGeneratedOption = extensionContext.Settings.IncludeGenerated;
         if(includeGeneratedOption){
             tool = tool
                 .arg("--include-generated");
         }     
     
-        const diagnosticsOptions = tl.getDelimitedInput(Constants.InputDiagnosticsOptions, ",");
+        const diagnosticsOptions = extensionContext.Settings.IncludedDiagnosticIds;
         if(diagnosticsOptions.length){
             tool = tool
                 .arg(['--diagnostics', `${diagnosticsOptions.join(" ")}`]);
         }
 
-        const excludedDiagnosticsOptions = tl.getDelimitedInput(Constants.InputDiagnosticsExcludedOptions, ",");
+        const excludedDiagnosticsOptions = extensionContext.Settings.ExcludedDiagnosticIds;
         if(excludedDiagnosticsOptions.length){
             tool = tool
                 .arg(['--exclude-diagnostics', `${excludedDiagnosticsOptions.join(" ")}`]);
         }
 
-        const verbosityOption = tl.getInput(Constants.InputVerbosityOption, false);
-        if(verbosityOption){
-            tool = tool
-                .arg(['--verbosity', `${verbosityOption.toLowerCase()}`]);
-        }
+        tool = tool
+            .arg(['--verbosity', `${extensionContext.Settings.VerbosityLevel}`]);
         
         const runReturnCode = await tool
-            .argIf(isDebug == true, ['--binarylog', `${tl.getVariable(Constants.VarArtifactStagingDirectory)}/Logs/format.binlog`])
+            .argIf(extensionContext.Environment.IsDebug == true, ['--binarylog', `${extensionContext.Settings.BinaryLogPath}`])
             .arg('--verify-no-changes')
-            .arg(['--report', `${tl.getVariable(Constants.VarArtifactStagingDirectory)}/CodeAnalysisLogs/format.json`])
+            .arg(['--report', `${extensionContext.Settings.ReportFilePath}`])
             .execAsync(toolRunOptions);
 
         tl.setResult(runReturnCode == 0 ? tl.TaskResult.Succeeded : tl.TaskResult.Failed, `Return code was: ${runReturnCode}`, true);
     }
     catch (error: any) {
+        tl.error(error);
         tl.setResult(tl.TaskResult.Failed, error.message, true);
     }
 }

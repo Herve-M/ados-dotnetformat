@@ -1,3 +1,5 @@
+import ct = require('../common/context');
+import { Constants } from '../common/constants';
 import provider = require('./ProdiverInterfaces');
 import util = require('node:util');
 import tl = require('azure-pipelines-task-lib/task');
@@ -15,16 +17,14 @@ export class AdoGitApiDiffProvider implements provider.IDiffProvider {
     private readonly projectId: string;
     private readonly commitId: string;
 
-    constructor(){
-        this.isDebug = tl.getVariable("System.Debug") == 'True';
-        this.baseUrl = tl.getVariable('System.CollectionUri')!;
-        this.accessToken = tl.getVariable('System.AccessToken')!;
-        this.pullRequestId = Number(tl.getVariable('System.PullRequest.PullRequestId')!);
-        this.repositoryId = tl.getVariable('Build.Repository.ID')!;
-        this.projectId = tl.getVariable('System.TeamProjectId')!;
-        this.commitId = tl.getVariable('System.PullRequest.SourceCommitId')!;
-
-        tl.debug(`ProjectId[${typeof(this.projectId)}]: ${this.projectId}, RepositoryId[${typeof(this.repositoryId)}]: ${this.repositoryId}, PullRequestId [${typeof(this.pullRequestId)}]: ${this.pullRequestId}`);
+    constructor(ctx: Readonly<ct.IExtensionContext>){
+        this.isDebug = ctx.Environment.IsDebug;
+        this.baseUrl = ctx.Environment.CollectionUri;
+        this.accessToken = tl.getVariable(Constants.VarAccessToken)!; // Get it here to not force everyone to provide it.
+        this.pullRequestId = ctx.Environment.PullRequestId;
+        this.repositoryId = ctx.Environment.RepositoryId;
+        this.projectId = ctx.Environment.ProjectId;
+        this.commitId = ctx.Environment.ReviewedCommitId;     
     }
 
     public async getChangeFor(filePatterns: ReadonlyArray<string>): Promise<string[]> {

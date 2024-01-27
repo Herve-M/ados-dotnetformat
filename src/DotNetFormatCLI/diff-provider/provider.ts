@@ -1,21 +1,21 @@
+import ct = require('../common/context');
 import provider = require('./ProdiverInterfaces');
 import adoGitApiProvider = require('./ado-git-api');
 import gitGitNativeProvider = require('./ado-git-native');
 import tl = require("azure-pipelines-task-lib/task");
 
 export class DiffProviderFactory {
-    public static create(): provider.IDiffProvider {
-        const providerType = tl.getInput('diffProvider', true);
-        const repositoryProvider = tl.getVariable('Build.Repository.Provider')!;
+    public static create(ctx: Readonly<ct.IExtensionContext>): provider.IDiffProvider {
+        const providerType = ctx.Settings.DiffProvider;
 
-        switch(repositoryProvider){
+        switch(ctx.Environment.ScmType){
             case 'TfsGit':
                 if(providerType === 'native'){
-                    return new gitGitNativeProvider.AdoGitNativeDiffProvider();
+                    return new gitGitNativeProvider.AdoGitNativeDiffProvider(ctx);
                 } 
-                return new adoGitApiProvider.AdoGitApiDiffProvider();
+                return new adoGitApiProvider.AdoGitApiDiffProvider(ctx);
             default:
-                throw new Error(`Diff. provider for ${repositoryProvider} is not supported.`);
+                throw new Error(`Diff. provider for ${ctx.Environment.ScmType} is not supported.`);
         }
     }
 }

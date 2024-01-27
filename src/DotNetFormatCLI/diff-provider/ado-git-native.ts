@@ -1,3 +1,4 @@
+import ct = require('../common/context');
 import provider = require('./ProdiverInterfaces');
 import os = require('os');
 import tl = require('azure-pipelines-task-lib/task');
@@ -13,11 +14,11 @@ export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
     private readonly isDebug: boolean;    
     private readonly targetBranch: string;
 
-    constructor(){
-        this.repositoryDirectory = tl.getVariable('Build.Repository.LocalPath')!;
-        this.targetBranch = tl.getVariable('System.PullRequest.TargetBranch')!;
+    constructor(ctx: Readonly<ct.IExtensionContext>){
+        this.repositoryDirectory = ctx.Environment.RepositoryPath;
+        this.targetBranch = ctx.Environment.TargetBranch;
         this.gitToolPath = tl.which(AdoGitNativeDiffProvider.ToolName, true);
-        this.isDebug = tl.getVariable("System.Debug") == 'True';
+        this.isDebug = ctx.Environment.IsDebug;
     }
 
     public async getChangeFor(filePatterns: ReadonlyArray<string>): Promise<string[]> {
