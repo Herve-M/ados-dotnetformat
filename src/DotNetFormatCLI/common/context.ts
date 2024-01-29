@@ -114,7 +114,7 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
             IncludeGenerated: includeGenerated,
             IncludedDiagnosticIds: includedDiagnosticIds,
             ExcludedDiagnosticIds: excludedDiagnosticIds,
-            VerbosityLevel: verbosityLevel,
+            VerbosityLevel: verbosityLevel.toLowerCase(),
             BinaryLogPath: binaryLogPath,
             ReportFilePath: reportFilePath,
             FilesToCheckRspPath: filesToCheckRspPath,
