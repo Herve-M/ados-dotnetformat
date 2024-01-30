@@ -108,7 +108,10 @@
             "helpMarkDown": "If true, the task will only check changed files in the current pull request."
         },
         {
-            "name": "include",
+            "name": "includes",
+            "aliases": [
+                "include"
+            ],
             "type": "multiLine",
             "label": "Include",
             "helpMarkDown": "A newline separated list of relative file or folder paths to include in formatting. All files are formatted if empty.",
@@ -119,7 +122,10 @@
             "visibleRule": "command = check && onlyChangedFiles = false"
         },
         {
-            "name": "exclude",
+            "name": "excludes",
+            "aliases": [
+                "exclude"
+            ],
             "type": "multiLine",
             "label": "Exclude",
             "helpMarkDown": "A newline separated list of relative file or folder paths to exclude from formatting.",
