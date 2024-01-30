@@ -4,8 +4,10 @@ This extension provide a task for checking or fixing code format, style and anal
 
 ## Disclaimer
 
-- ⚠️ The project is still under development.
-- ⚠️ Expect breaking changes until v1.
+> [!WARNING]
+>
+> - ⚠️ The project is still under development.
+> - ⚠️ Expect breaking changes until v1.
 
 ## How to use
 
@@ -32,6 +34,16 @@ This extension provide a task for checking or fixing code format, style and anal
 ![use-task](docs/images/use-task.png)
 ![use-overview](docs/images/use-overview.png)
 
+``` yaml
+- task: UseDotNetFormat@0
+  displayName: 'setup-format feed'
+  inputs:
+    publicFeedServiceConnection: PublicDnceng
+    feed: dotnet9
+    definition: '54f95428-cc3a-48e0-b6a2-80280b31ba03'
+    version: 9.0.507701
+```
+
 #### `DotNetFormatCli`
 
 > Run `dotnet format` or `dotnet-format` to validate your code.
@@ -44,12 +56,32 @@ Feature:
 
 Only touched files:
 
-- [X] Git _(require full checkout)_
+- [X] Git _(full checkout or ADO-API)_
 - [ ] TFVC
 - [ ] SVN
 
 ![format-task](docs/images/format-task.png)
 ![format-overview](docs/images/format-overview.png)
+
+``` yaml
+- task: DotNetFormatCLI@0
+  displayName: "dotnet format"
+  continueOnError: true # recommended if using ReportReviewer
+  inputs:
+    useGlobalTool: false
+    command: 'check'
+    workspace: 'YourSolution.sln'
+    onlyChangedFiles: true #PR mode
+    verbosity: Normal
+    diffProvider: api # `native` using full checkout or `api` using ADO-API
+    fileGlobPatterns: |
+      *.cs
+      *.vb
+    excludes: | 
+      /src/Project/FileToExclude.cs
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken) # required for ADO-API
+```
 
 #### `ReportReviewer`
 
@@ -66,6 +98,14 @@ Target:
 
 ![reviewer-task](docs/images/reviewer-task.png)
 ![reviewer-overview](docs/images/reviewer-overview.png)
+
+``` yaml
+- task: ReportReviewer@0
+  displayName: "dotnet format reporting"
+  inputs:
+    connectedServiceName: 'FormatReviewer'
+    spamThreshold: 5
+```
 
 ## Feedback and issues
 
