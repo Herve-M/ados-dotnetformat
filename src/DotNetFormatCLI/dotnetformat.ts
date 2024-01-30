@@ -1,8 +1,8 @@
-import os = require('node:os');
 import tl = require('azure-pipelines-task-lib/task');
 import tr = require('azure-pipelines-task-lib/toolrunner');
 import provider = require('./diff-provider/provider');
 import ct = require('./common/context');
+import helpers = require('./helpers');
 
 async function run() {
     try {
@@ -56,7 +56,7 @@ async function run() {
             const diffProvider = provider.DiffProviderFactory.create(extensionContext);
             const changeSet = await diffProvider.getChangeFor(fileGlobPattern);
             const rspFilePath = extensionContext.Settings.FilesToCheckRspPath;
-            tl.writeFile(rspFilePath, changeSet.join(os.EOL));
+            await helpers.writeRspFile(extensionContext, rspFilePath, changeSet);
 
             tool = tool
                 .arg(workspaceOption)
@@ -67,8 +67,7 @@ async function run() {
             const includeOptions = extensionContext.Settings.IncludedFiles;
             if(includeOptions.length){
                 const includedRspFilePath = extensionContext.Settings.FilesToIncludesRspPath;
-                tl.writeFile(includedRspFilePath, includeOptions.join(os.EOL));
-                console.debug(`Include file ${includedRspFilePath} with ${includeOptions.length}`);
+                await helpers.writeRspFile(extensionContext, includedRspFilePath, includeOptions);
                 tool = tool
                     .arg(['--include', `@${includedRspFilePath}`]);
             }            
@@ -77,8 +76,7 @@ async function run() {
         const excludeOptions = extensionContext.Settings.ExcludedFiles;
         if(excludeOptions.length){
             const excludedRspFilePath = extensionContext.Settings.FilesToExcludepRspPath;
-            tl.writeFile(excludedRspFilePath, excludeOptions.join(os.EOL));
-            console.debug(`Include file ${excludedRspFilePath} with ${excludeOptions.length}`);
+            await helpers.writeRspFile(extensionContext, excludedRspFilePath, excludeOptions);
             tool = tool
                 .arg(['--exclude', `@${excludedRspFilePath}`]);
         }
