@@ -14,7 +14,7 @@
     },
     "homepage": "https://github.com/Herve-M/ados-dotnetformat#readme",
     "dependencies": {
-        "azure-pipelines-task-lib": "^4.8.2"
+        "azure-pipelines-task-lib": "^4.10.1"
     },
     "engines": {
         "node": "~16.20.2"
