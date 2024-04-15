@@ -2,7 +2,6 @@ import ct = require('../common/context');
 import provider = require('./ProdiverInterfaces');
 import adoGitApiProvider = require('./ado-git-api');
 import gitGitNativeProvider = require('./ado-git-native');
-import tl = require("azure-pipelines-task-lib/task");
 
 export class DiffProviderFactory {
     public static create(ctx: Readonly<ct.IExtensionContext>): provider.IDiffProvider {

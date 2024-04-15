@@ -1,6 +1,11 @@
 import * as assert from 'assert';
 import * as path from 'path';
 import * as ttm from 'azure-pipelines-task-lib/mock-test';
+import { expect } from 'chai';
+import { DiffProviderFactory } from '../diff-provider/provider';
+import { IExtensionContext } from '../common/context';
+import { AdoGitApiDiffProvider } from '../diff-provider/ado-git-api';
+import { AdoGitNativeDiffProvider } from '../diff-provider/ado-git-native';
 
 import os = require('os');
 import fs = require('fs');
@@ -117,4 +122,137 @@ describe('donetformat suite', function () {
             assert.equal(tr.succeeded, true, 'should have succeed');
         });
     });    
+});
+
+describe('diff-provider suite', function () {
+    this.timeout(1000);
+    before(() => {
+    });
+
+    after(() => {
+    });
+
+    context('diff-provider-factory', function(){   
+        it('should create AdoGitNativeDiffProvider when providerType is set to native', () => {
+            const ctx:IExtensionContext = {
+                Settings: {
+                    DiffProvider: 'native',
+                    UseGlobalTool: false,
+                    Command: '',
+                    WorkspacePath: '',
+                    WorkingDirectoryPath: undefined,
+                    OnlyChangedFiles: false,
+                    FileGlobPatterns: [],
+                    IncludedFiles: [],
+                    ExcludedFiles: [],
+                    SeverityLevel: '',
+                    NoRestore: false,
+                    IncludeGenerated: false,
+                    IncludedDiagnosticIds: [], 
+                    ExcludedDiagnosticIds: [],
+                    VerbosityLevel: '',
+                    BinaryLogPath: '',
+                    ReportFilePath: '',
+                    FilesToCheckRspPath: '',
+                    FilesToIncludesRspPath: '',
+                    FilesToExcludepRspPath: ''
+                },
+                Environment: {
+                    ScmType: 'TfsGit',
+                    IsDebug: false,
+                    IsPullRequest: false,
+                    CollectionUri: '',
+                    ProjectId: '',
+                    RepositoryId: '',
+                    RepositoryPath: '',
+                    PullRequestId: 0,
+                    ReviewedCommitId: '',
+                    TargetBranch: ''
+                }
+            };
+            const result = DiffProviderFactory.create(ctx);
+            expect(result).to.be.instanceOf(AdoGitNativeDiffProvider);
+        });
+    
+        it('should create AdoGitApiDiffProvider when providerType is set to API', () => {
+            const ctx:IExtensionContext = {
+                Settings: {
+                    DiffProvider: 'api',
+                    UseGlobalTool: false,
+                    Command: '',
+                    WorkspacePath: '',
+                    WorkingDirectoryPath: undefined,
+                    OnlyChangedFiles: false,
+                    FileGlobPatterns: [],
+                    IncludedFiles: [],
+                    ExcludedFiles: [],
+                    SeverityLevel: '',
+                    NoRestore: false,
+                    IncludeGenerated: false,
+                    IncludedDiagnosticIds: [], 
+                    ExcludedDiagnosticIds: [],
+                    VerbosityLevel: '',
+                    BinaryLogPath: '',
+                    ReportFilePath: '',
+                    FilesToCheckRspPath: '',
+                    FilesToIncludesRspPath: '',
+                    FilesToExcludepRspPath: ''
+                },
+                Environment: {
+                    ScmType: 'TfsGit',
+                    IsDebug: false,
+                    IsPullRequest: false,
+                    CollectionUri: '',
+                    ProjectId: '',
+                    RepositoryId: '',
+                    RepositoryPath: '',
+                    PullRequestId: 0,
+                    ReviewedCommitId: '',
+                    TargetBranch: ''
+                }
+            };
+            const result = DiffProviderFactory.create(ctx);
+            expect(result).to.be.instanceOf(AdoGitApiDiffProvider);
+        });
+    
+        it('should throw an error when ScmType is not supported', () => {
+            const ctx:IExtensionContext = {
+                Settings: {
+                    DiffProvider: 'api',
+                    UseGlobalTool: false,
+                    Command: '',
+                    WorkspacePath: '',
+                    WorkingDirectoryPath: undefined,
+                    OnlyChangedFiles: false,
+                    FileGlobPatterns: [],
+                    IncludedFiles: [],
+                    ExcludedFiles: [],
+                    SeverityLevel: '',
+                    NoRestore: false,
+                    IncludeGenerated: false,
+                    IncludedDiagnosticIds: [], 
+                    ExcludedDiagnosticIds: [],
+                    VerbosityLevel: '',
+                    BinaryLogPath: '',
+                    ReportFilePath: '',
+                    FilesToCheckRspPath: '',
+                    FilesToIncludesRspPath: '',
+                    FilesToExcludepRspPath: ''
+                },
+                Environment: {
+                    ScmType: 'UnsupportedScmType',
+                    IsDebug: false,
+                    IsPullRequest: false,
+                    CollectionUri: '',
+                    ProjectId: '',
+                    RepositoryId: '',
+                    RepositoryPath: '',
+                    PullRequestId: 0,
+                    ReviewedCommitId: '',
+                    TargetBranch: ''
+                }
+            };
+            expect(() => DiffProviderFactory.create(ctx)).to.throw(Error, 'Diff. provider for UnsupportedScmType is not supported.');
+        });
+    });
 });

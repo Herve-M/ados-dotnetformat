@@ -60,13 +60,20 @@ export class AdoGitApiDiffProvider implements provider.IDiffProvider {
             0
         );
         
-        const files = changes.changeEntries!.map((change) => {
-            return change.item!.path!;
-        }).filter(filePath => {
-            let result = mm.isMatch(filePath, filePatterns, {matchBase: true, debug: this.isDebug});
-            tl.debug(`File: ${filePath} | Match: ${result}`);
-            return result;
-        });
+        const files = changes.changeEntries!
+            .filter(change => {
+                // Some ChangeType aren't related to file path.
+                if(change.item!.path == null)
+                    return false;
+
+                const filePath = change.item!.path!;
+                let result = mm.isMatch(filePath, filePatterns, {matchBase: true, debug: this.isDebug});
+                tl.debug(`File: ${filePath} | Match: ${result}`);
+                return result;
+            })
+            .map((change) => {
+                return change.item!.path!;
+            })
 
         if(this.isDebug){
             tl.debug(`From iteration 0 to ${currentIterationScope.id}: ${changes.changeEntries?.length} changes.`);
