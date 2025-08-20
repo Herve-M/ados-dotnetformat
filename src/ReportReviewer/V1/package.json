@@ -1,6 +1,6 @@
 {
     "name": "herve-m/ados-dotnetformat",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Azure DevOps dotnet-format task",
     "main": "reportreviewer.js",
     "repository": {
@@ -14,14 +14,17 @@
     },
     "homepage": "https://github.com/Herve-M/ados-dotnetformat#readme",
     "dependencies": {
-        "azure-devops-node-api": "^12.3.0",
-        "azure-pipelines-task-lib": "^4.8.2"
+        "azure-devops-node-api": "^15.1.1",
+        "azure-pipelines-task-lib": "^5.2.1"
     },
     "engines": {
-        "node": "~16.20.2"
+        "node": "~20.19"
     },
     "devDependencies": {
-        "@types/mocha": "^10.0.4",
-        "mocha": "^10.2.0"
+        "@tsconfig/node20": "^20.1.6",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^20.19.11",
+        "mocha": "^11.7.1",
+        "typescript": "^5.9.2"
     }
 }
