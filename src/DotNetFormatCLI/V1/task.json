@@ -1,0 +1,228 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "d4846b5e-1fda-4d6b-b1e2-732b3c1cf0a9",
+    "name": "DotNetFormatCLI",
+    "friendlyName": "dotnet-format",
+    "description": "Run `dotnet-format`",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "MATYSIAK Hervé",
+    "preview": true,
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "visibility": [
+        "Build",
+        "Release"
+    ],
+    "runsOn": [
+        "Agent"
+    ],
+    "minimumAgentVersion": "3.227.1",
+    "instanceNameFormat": "format $(command)",
+    "groups": [
+        {
+            "name": "advancedOptions",
+            "displayName": "Advanced options",
+            "isExpanded": false            
+        },
+        {
+            "name": "pullRequestModeOptions",
+            "displayName": "PullRequest options",
+            "isExpanded": false,
+            "visibleRule": "onlyChangedFiles = true"        
+        }
+    ],
+    "inputs": [
+        {
+            "name": "useGlobalTool",
+            "type": "boolean",
+            "label": "Use .NET global tool version instead of SDK provided one.",
+            "defaultValue": "false",
+            "required": true,
+            "helpMarkDown": "Use .NET global tool version instead of SDK provided one."
+        },
+        {
+            "name": "command",
+            "type": "pickList",
+            "label": "Command",
+            "defaultValue": "check",
+            "required": true,
+            "helpMarkDown": "",
+            "options": {
+                "check": "check",
+                "fix": "fix",
+                "custom": "custom"
+            },
+            "properties": {
+                "EditableOptions": "False"
+            }
+        },
+        {
+            "name": "severity",
+            "type": "pickList",
+            "label": "Severity",
+            "defaultValue": "warn",
+            "helpMarkDown": "The severity of diagnostics to fix.",
+            "required": true,
+            "options": {
+                "error": "Error",
+                "info": "Info",
+                "warn": "Warn"
+            },
+            "visibleRule": "command = check"
+        },
+        {
+            "name": "custom",
+            "type": "string",
+            "label": "Custom command",
+            "defaultValue": "",
+            "helpMarkDown": "The command to pass to `dotnet-format` for execution.",
+            "required": true,
+            "visibleRule": "command = custom"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working directory path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "A path to a folder containing global.json. If a path is not specified then the local path on the agent where the source code files are downloaded will be used."
+        },
+        {
+            "name": "workspace",
+            "type": "filePath",
+            "label": "Workspace path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "A path to a solution file, a project file, or a folder containing a solution or project file. If a path is not specified then the current directory is used."
+        },
+        {
+            "name": "onlyChangedFiles",
+            "type": "boolean",
+            "label": "PullRequest mode",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If true, the task will only check changed files in the current pull request."
+        },
+        {
+            "name": "includes",
+            "aliases": [
+                "include"
+            ],
+            "type": "multiLine",
+            "label": "Include",
+            "helpMarkDown": "A newline separated list of relative file or folder paths to include in formatting. All files are formatted if empty.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            },
+            "visibleRule": "command = check && onlyChangedFiles = false"
+        },
+        {
+            "name": "excludes",
+            "aliases": [
+                "exclude"
+            ],
+            "type": "multiLine",
+            "label": "Exclude",
+            "helpMarkDown": "A newline separated list of relative file or folder paths to exclude from formatting.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            },
+            "visibleRule": "command = check"
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "noRestore",
+            "type": "boolean",
+            "label": "No restore",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If true, doesn't execute an implicit restore before formatting."
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "includeGenerated",
+            "type": "boolean",
+            "label": "Format files generated by the SDK.",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If true, format files generated by the SDK."
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "diagnostics",
+            "type": "multiLine",
+            "label": "Diagnostics filter",
+            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "diagnosticsExcluded",
+            "type": "multiLine",
+            "label": "Diagnostics exclusion filter",
+            "helpMarkDown": "A comma (`,`) separated list of diagnostic ids to ignore when fixing code style or 3rd party issues.",
+            "required": false,
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "advancedOptions",
+            "name": "verbosity",
+            "type": "pickList",
+            "label": "Verbosity",
+            "defaultValue": "Normal",
+            "helpMarkDown": "Specifies the amount of detail displayed in the output.",
+            "required": false,
+            "options": {
+                "Quiet": "Quiet",
+                "Minimal": "Minimal",
+                "Normal": "Normal",
+                "Detailed": "Detailed",
+                "Diagnostic": "Diagnostic"
+            }
+        },
+        {
+            "groupName": "pullRequestModeOptions",
+            "name": "fileGlobPatterns",
+            "type": "multiLine",
+            "label": "File include pattern (glob based)",
+            "helpMarkDown": "A newline separated list of glob patterns for files to include in formatting.",
+            "required": false,
+            "defaultValue": "*.cs\n*.vb",
+            "properties": {
+                "resizable": true
+            }
+        },
+        {
+            "groupName": "pullRequestModeOptions",
+            "name": "diffProvider",
+            "type": "pickList",
+            "label": "Difference provider",
+            "defaultValue": "api",
+            "required": true,
+            "helpMarkDown": "",
+            "options": {
+                "native": "native",
+                "api": "api"
+            },
+            "properties": {
+                "EditableOptions": "False"
+            }
+        }
+    ],
+    "execution": {
+        "Node20_1": {
+            "target": "dotnetformat.js"
+        }
+    }
+}
