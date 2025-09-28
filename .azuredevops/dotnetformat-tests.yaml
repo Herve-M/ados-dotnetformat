@@ -7,7 +7,7 @@ pool:
 stages:
   - stage: 'V0'
     jobs:
-      - job: ".NET 3"
+      - job: "NET_3"
         steps:
           - checkout: self
             lfs: false
@@ -25,7 +25,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 5"
+      - job: "NET_5"
         steps:
           - checkout: self
             lfs: false
@@ -43,7 +43,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 6"
+      - job: "NET_6"
         steps:
           - checkout: self
             lfs: false
@@ -61,7 +61,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 7"
+      - job: "NET_7"
         steps:
           - checkout: self
             lfs: false
@@ -79,7 +79,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 8"
+      - job: "NET_8"
         steps:
           - checkout: self
             lfs: false
@@ -99,7 +99,7 @@ stages:
 
   - stage: 'V1'
     jobs:
-      - job: ".NET 3"
+      - job: "NET_3"
         steps:
           - checkout: self
             lfs: false
@@ -117,7 +117,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 5"
+      - job: "NET_5"
         steps:
           - checkout: self
             lfs: false
@@ -135,7 +135,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 6"
+      - job: "NET_6"
         steps:
           - checkout: self
             lfs: false
@@ -153,7 +153,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 7"
+      - job: "NET_7"
         steps:
           - checkout: self
             lfs: false
@@ -171,7 +171,7 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: ".NET 8"
+      - job: "NET_8"
         steps:
           - checkout: self
             lfs: false
