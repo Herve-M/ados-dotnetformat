@@ -26,7 +26,7 @@ stages:
           - task: DotNetFormatCLI@0
             displayName: '[net3.1] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -44,7 +44,7 @@ stages:
           - task: DotNetFormatCLI@0
             displayName: '[net5] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -62,7 +62,7 @@ stages:
           - task: DotNetFormatCLI@0
             displayName: '[net6] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -80,7 +80,7 @@ stages:
           - task: DotNetFormatCLI@0
             displayName: '[net7] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -98,7 +98,7 @@ stages:
           - task: DotNetFormatCLI@0
             displayName: '[net8] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -118,7 +118,7 @@ stages:
           - task: DotNetFormatCLI@1
             displayName: '[net3.1] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -136,7 +136,7 @@ stages:
           - task: DotNetFormatCLI@1
             displayName: '[net5] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -154,7 +154,7 @@ stages:
           - task: DotNetFormatCLI@1
             displayName: '[net6] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -172,7 +172,7 @@ stages:
           - task: DotNetFormatCLI@1
             displayName: '[net7] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -190,6 +190,6 @@ stages:
           - task: DotNetFormatCLI@1
             displayName: '[net8] check'
             inputs:
-              onlyChangedFiles: true
+              onlyChangedFiles: false
             continueOnError: true
             condition: succeededOrFailed()
