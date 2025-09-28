@@ -1,5 +1,10 @@
 trigger: none
-pr: none
+
+pr:
+  branches:
+    include:
+    - main
+    - releases/*
 
 pool:
   vmImage: 'ubuntu-latest'
