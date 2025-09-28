@@ -19,8 +19,8 @@ variables:
   artifactName: 'VSIX'
   shareToOrganisation: 'hmatysiak'
   connectedServiceName: 'VS-MarketPlace'
-  nodeJsVersionSpec: '16.x'
-  tfxCliVersionSpec: '0.16.x'
+  nodeJsVersionSpec: '20.x'
+  tfxCliVersionSpec: '0.22.x'
 
 stages:
   - stage: 'Build'
