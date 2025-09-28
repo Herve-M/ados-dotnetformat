@@ -12,42 +12,6 @@ pool:
 stages:
   - stage: 'V0'
     jobs:
-      - job: "NET_3"
-        steps:
-          - checkout: self
-            lfs: false
-
-          - task: UseDotNet@2
-            displayName: 'Use .NET Core sdk 3.x'
-            inputs:
-              useGlobalJson: true
-              workingDirectory: tests/dotnet3.1/
-
-          - task: DotNetFormatCLI@0
-            displayName: '[net3.1] check'
-            inputs:
-              onlyChangedFiles: false
-            continueOnError: true
-            condition: succeededOrFailed()
-
-      - job: "NET_5"
-        steps:
-          - checkout: self
-            lfs: false
-
-          - task: UseDotNet@2
-            displayName: 'Use .NET Core sdk 5.x'
-            inputs:
-              useGlobalJson: true
-              workingDirectory: tests/dotnet5/
-
-          - task: DotNetFormatCLI@0
-            displayName: '[net5] check'
-            inputs:
-              onlyChangedFiles: false
-            continueOnError: true
-            condition: succeededOrFailed()
-
       - job: "NET_6"
         steps:
           - checkout: self
@@ -63,6 +27,7 @@ stages:
             displayName: '[net6] check'
             inputs:
               onlyChangedFiles: false
+              workingDirectory: tests/dotnet6/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -81,6 +46,7 @@ stages:
             displayName: '[net7] check'
             inputs:
               onlyChangedFiles: false
+              workingDirectory: tests/dotnet7/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -99,47 +65,12 @@ stages:
             displayName: '[net8] check'
             inputs:
               onlyChangedFiles: false
+              workingDirectory: tests/dotnet8/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
   - stage: 'V1'
     jobs:
-      - job: "NET_3"
-        steps:
-          - checkout: self
-            lfs: false
-
-          - task: UseDotNet@2
-            displayName: 'Use .NET Core sdk 3.x'
-            inputs:
-              useGlobalJson: true
-              workingDirectory: tests/dotnet3.1/
-
-          - task: DotNetFormatCLI@1
-            displayName: '[net3.1] check'
-            inputs:
-              onlyChangedFiles: false
-            continueOnError: true
-            condition: succeededOrFailed()
-
-      - job: "NET_5"
-        steps:
-          - checkout: self
-            lfs: false
-
-          - task: UseDotNet@2
-            displayName: 'Use .NET Core sdk 5.x'
-            inputs:
-              useGlobalJson: true
-              workingDirectory: tests/dotnet5/
-
-          - task: DotNetFormatCLI@1
-            displayName: '[net5] check'
-            inputs:
-              onlyChangedFiles: false
-            continueOnError: true
-            condition: succeededOrFailed()
-
       - job: "NET_6"
         steps:
           - checkout: self
@@ -155,6 +86,7 @@ stages:
             displayName: '[net6] check'
             inputs:
               onlyChangedFiles: false
+              workingDirectory: tests/dotnet6/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -173,6 +105,7 @@ stages:
             displayName: '[net7] check'
             inputs:
               onlyChangedFiles: false
+              workingDirectory: tests/dotnet7/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -191,5 +124,6 @@ stages:
             displayName: '[net8] check'
             inputs:
               onlyChangedFiles: false
+              workingDirectory: tests/dotnet8/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
