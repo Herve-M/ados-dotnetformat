@@ -42,7 +42,13 @@
     },
     "files": [
         {
-            "path": "dist"
+            "path": "src/DotNetFormatCLI/dist"
+        },
+        {
+            "path": "src/ReportReviewer/dist"
+        },
+        {
+            "path": "src/UseDotNetFormat/dist"
         },
         {
             "path": "docs/images/use-task.png",
@@ -167,7 +173,7 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dist/DotNetFormatCLI" }
+            "properties": { "name": "src/DotNetFormatCLI/dist" }
         },
         {
             "id": "usedotnetformat",
@@ -175,7 +181,7 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dist/UseDotNetFormat" }
+            "properties": { "name": "src/UseDotNetFormat/dist" }
         },
         {
             "id": "reportreviewer",
@@ -183,7 +189,7 @@
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
-            "properties": { "name": "dist/ReportReviewer" }
+            "properties": { "name": "src/ReportReviewer/dist" }
         }
     ]
 }

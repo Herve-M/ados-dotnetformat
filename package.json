@@ -7,14 +7,10 @@
   "scripts": {
     "test": "glob-exec --parallel --foreach \"src/**/task.json\" -- npx mocha {{file.dir}}/test/_suite.js",
     "test:ci": "echo \"Warning: no test specified\"",
-    "init:dev": "npm install && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm install --no-progress\"",
-    "init:ci": "npm ci --no-audit --no-progress && glob-exec --parallel --foreach \"src/**/task.json\" -- \"cd {{file.dir}} && npm ci --omit=dev --no-audit --no-progress\"",
-    "build:dev": "tsc --project tsconfig.json",
-    "build:ci": "tsc --project tsconfig.production.json",
-    "postbuild:base": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp -r ./{{file.dir}}/node_modules ./dist/{{file.dir.split('/')[1]}}/\"",
-    "postbuild:json": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp ./{{file.dir}}/*.json ./dist/{{file.dir.split('/')[1]}}/\"",
-    "postbuild:content": "glob-exec --parallel --foreach \"src/**/task.json\" -- \"cp ./{{file.dir}}/icon.png ./dist/{{file.dir.split('/')[1]}}/\"",
-    "postbuild:ci": "npm run postbuild:base & npm run postbuild:json & npm run postbuild:content",
+    "init:dev": "node scripts/init-dev.js",
+    "init:ci": "node scripts/init-ci.js",
+    "build:dev": "node scripts/build-dev.js",
+    "build:ci": "node scripts/build-ci.js",
     "pack:dev": "tfx extension create --manifests vss-extension.json --overrides-file vss-extension.dev.json",
     "clean": "git clean -fdX",
     "prepare": "is-ci || husky install"
@@ -29,18 +25,15 @@
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^13.1.0",
-    "@tsconfig/node16": "^16.1.1",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^16.18.69",
-    "@types/q": "^1.5.7",
     "glob-exec": "^0.1.1",
     "husky": "^8.0.3",
     "is-ci": "^3.0.0",
     "mocha": "^10.2.0",
-    "sync-request": "^6.1.0",
-    "typescript": "^5.2.2"
+    "tfx-cli": "^0.22.1",
+    "typescript": "^5.9.2"
   },
   "engines": {
-    "node": "~16.20.2"
+    "node": "~20.19"
   }
 }
