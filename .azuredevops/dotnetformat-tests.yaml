@@ -27,7 +27,7 @@ stages:
             displayName: '[net6] check'
             inputs:
               onlyChangedFiles: false
-              workingDirectory: tests/dotnet6/for_code_formatter/unformatted_project
+              workspace: tests/dotnet6/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -46,7 +46,7 @@ stages:
             displayName: '[net7] check'
             inputs:
               onlyChangedFiles: false
-              workingDirectory: tests/dotnet7/for_code_formatter/unformatted_project
+              workspace: tests/dotnet7/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -65,7 +65,7 @@ stages:
             displayName: '[net8] check'
             inputs:
               onlyChangedFiles: false
-              workingDirectory: tests/dotnet8/for_code_formatter/unformatted_project
+              workspace: tests/dotnet8/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -86,7 +86,7 @@ stages:
             displayName: '[net6] check'
             inputs:
               onlyChangedFiles: false
-              workingDirectory: tests/dotnet6/for_code_formatter/unformatted_project
+              workspace: tests/dotnet6/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -105,7 +105,7 @@ stages:
             displayName: '[net7] check'
             inputs:
               onlyChangedFiles: false
-              workingDirectory: tests/dotnet7/for_code_formatter/unformatted_project
+              workspace: tests/dotnet7/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
 
@@ -124,6 +124,6 @@ stages:
             displayName: '[net8] check'
             inputs:
               onlyChangedFiles: false
-              workingDirectory: tests/dotnet8/for_code_formatter/unformatted_project
+              workspace: tests/dotnet8/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
