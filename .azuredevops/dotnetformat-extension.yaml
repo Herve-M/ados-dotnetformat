@@ -43,6 +43,13 @@ stages:
             checkLatest: true
 
         - task: Npm@1
+          displayName: 'npm base init'
+          inputs:
+            command: custom
+            verbose: false
+            customCommand: 'install npm ci --no-audit --no-progress'
+
+        - task: Npm@1
           displayName: 'npm init'
           inputs:
             command: custom
