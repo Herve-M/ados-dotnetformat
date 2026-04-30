@@ -10,7 +10,7 @@
     "preview": true,
     "version": {
         "Major": 1,
-        "Minor": 0,
+        "Minor": 1,
         "Patch": 0
     },
     "visibility": [
@@ -39,6 +39,8 @@
             "required": true,
             "helpMarkDown": "Select the package runtime/feed name",
             "options": {
+                "dotnet11": ".NET 11",
+                "dotnet10": ".NET 10",
                 "dotnet9": ".NET 9",
                 "dotnet8": ".NET 8",
                 "dotnet7": ".NET 7",
