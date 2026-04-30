@@ -12,6 +12,10 @@ export const Constants = {
 
 function getFeedUrlByName(feedName: string): string{
     switch (feedName) {
+        case "dotnet11":
+            return "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet11%40Local/nuget/v3/index.json";
+        case "dotnet10":
+            return "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet10%40Local/nuget/v3/index.json";
         case "dotnet9":
             return "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet9%40Local/nuget/v3/index.json";
         case "dotnet8":
@@ -22,7 +26,7 @@ function getFeedUrlByName(feedName: string): string{
             return "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet6%40Local/nuget/v3/index.json";
         default:
             tl.logIssue(tl.IssueType.Warning, `Given ${feedName} isn't supported yet, using latest LTS`);
-            return "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet6%40Local/nuget/v3/index.json"; //return LTS by default
+            return "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet10%40Local/nuget/v3/index.json"; //return LTS by default
     }
 }
 
