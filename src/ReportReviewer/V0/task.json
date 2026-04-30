@@ -12,8 +12,8 @@
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 2,
-        "Patch": 28
+        "Minor": 3,
+        "Patch": 0
     },
     "visibility": [
         "Build"
