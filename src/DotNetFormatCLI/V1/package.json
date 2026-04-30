@@ -30,7 +30,7 @@
     "fsify": "^6.0.2",
     "mocha": "^11.7.5",
     "simple-git": "^3.36.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": "~20.20"
