@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/global.json",
+  "sdk": {
+    "version": "9.0.101",
+    "allowPrerelease": false,
+    "rollForward": "latestPatch"
+  }
+}

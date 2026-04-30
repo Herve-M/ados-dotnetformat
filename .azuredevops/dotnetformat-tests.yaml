@@ -127,3 +127,61 @@ stages:
               workspace: tests/dotnet8/for_code_formatter/unformatted_project
             continueOnError: true
             condition: succeededOrFailed()
+
+      - job: "NET_9"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 9.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet9/
+
+          - task: DotNetFormatCLI@1
+            displayName: '[net9] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet9/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+
+      - job: "NET_10"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 10.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet10/
+
+          - task: DotNetFormatCLI@1
+            displayName: '[net10] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet10/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+      - job: "NET_11"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 11.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet11/
+
+          - task: DotNetFormatCLI@1
+            displayName: '[net11] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet11/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
