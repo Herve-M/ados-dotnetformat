@@ -1,6 +1,6 @@
-import assert = require('assert');
-import path = require('path');
-import rr = require('../common/reportReader');
+import * as assert from 'assert';
+import * as path from 'path';
+import * as rr  from '../common/reportReader';
 
 describe('report-reviewer suite', function () {
     this.timeout(2500);

@@ -1,11 +1,10 @@
-import tl = require('azure-pipelines-task-lib/task');
-import adoApi = require('azure-devops-node-api');
-import vsoInterface = require('azure-devops-node-api/interfaces/common/VsoBaseInterfaces');
-import idtInterface = require('azure-devops-node-api/interfaces/IdentitiesInterfaces');
-import GitInterfaces = require('azure-devops-node-api/interfaces/GitInterfaces');
-import ReportInterfaces = require('../common/reportReader')
-import CommonInterfaces = require('../common/comments')
-import ct = require('../common/context');
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as adoApi from 'azure-devops-node-api';
+import * as vsoInterface from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
+import * as idtInterface from 'azure-devops-node-api/interfaces/IdentitiesInterfaces';
+import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
+import * as ReportInterfaces from '../common/reportReader';
+import * as ct from '../common/context';
 
 function GetApiAuthHandler(authType: Readonly<string>, serviceEndpointId: Readonly<string>): vsoInterface.IRequestHandler {
     let authHandler: vsoInterface.IRequestHandler;

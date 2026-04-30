@@ -1,7 +1,7 @@
-import os = require('node:os');
-import path = require('node:path');
+import * as os from 'node:os';
+import * as path from 'node:path';
 import { Constants } from './constants';
-import tl = require('azure-pipelines-task-lib/task');
+import * as tl from 'azure-pipelines-task-lib/task';
 
 export interface IExtensionContext {
     readonly Environment: IEnvironment,

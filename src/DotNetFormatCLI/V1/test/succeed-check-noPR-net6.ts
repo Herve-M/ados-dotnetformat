@@ -1,7 +1,7 @@
-import path = require('path');
-import mtr = require('azure-pipelines-task-lib/mock-toolrunner')
-import ma = require('azure-pipelines-task-lib/mock-answer');
-import tmrm = require('azure-pipelines-task-lib/mock-run');
+import * as path from 'path';
+import * as mtr from 'azure-pipelines-task-lib/mock-toolrunner';
+import * as ma from 'azure-pipelines-task-lib/mock-answer';
+import * as tmrm from 'azure-pipelines-task-lib/mock-run';
 
 const taskPath = path.join(__dirname, '..', 'dotnetformat.js');
 const  tmr: tmrm.TaskMockRunner = new tmrm.TaskMockRunner(taskPath);

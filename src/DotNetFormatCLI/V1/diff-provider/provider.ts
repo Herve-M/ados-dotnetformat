@@ -1,7 +1,7 @@
-import ct = require('../common/context');
-import provider = require('./ProdiverInterfaces');
-import adoGitApiProvider = require('./ado-git-api');
-import gitGitNativeProvider = require('./ado-git-native');
+import * as ct from '../common/context';
+import * as provider from './ProdiverInterfaces';
+import * as adoGitApiProvider from './ado-git-api';
+import * as gitGitNativeProvider from './ado-git-native';
 
 export class DiffProviderFactory {
     public static create(ctx: Readonly<ct.IExtensionContext>): provider.IDiffProvider {

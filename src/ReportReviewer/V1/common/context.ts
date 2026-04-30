@@ -1,9 +1,9 @@
-import tl = require('azure-pipelines-task-lib/task');
-import rr = require('./reportReader')
-import path = require('node:path');
-import adoProvider = require('../providers/ado');
-import adoApi = require('azure-devops-node-api');
-import gitApi = require('azure-devops-node-api/GitApi');
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as rr from './reportReader';
+import * as path from 'node:path';
+import * as adoProvider from '../providers/ado';
+import * as adoApi from 'azure-devops-node-api';
+import * as gitApi from 'azure-devops-node-api/GitApi';
 
 export interface IExtensionContext {
     readonly Environment: IEnvironment,

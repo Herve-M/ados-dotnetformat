@@ -1,7 +1,7 @@
-import fs = require('fs')
-import path = require('path')
-import tl = require('azure-pipelines-task-lib/task');
-import ct = require('./context');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as ct from './context';
 
 export const forTestingOnly = {
   readReport,

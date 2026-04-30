@@ -1,11 +1,11 @@
-import ct = require('../common/context');
+import * as ct from '../common/context';
 import { Constants } from '../common/constants';
-import provider = require('./ProdiverInterfaces');
-import util = require('node:util');
-import tl = require('azure-pipelines-task-lib/task');
-import adoApi = require('azure-devops-node-api');
-import gitApi = require('azure-devops-node-api/GitApi');
-const mm = require('micromatch');
+import * as provider from './ProdiverInterfaces';
+import * as util from 'node:util';
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as adoApi from 'azure-devops-node-api';
+import * as gitApi from 'azure-devops-node-api/GitApi';
+import * as mm from 'micromatch';
 
 
 export class AdoGitApiDiffProvider implements provider.IDiffProvider {

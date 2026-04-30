@@ -1,9 +1,9 @@
-import ct = require('../common/context');
-import provider = require('./ProdiverInterfaces');
-import os = require('os');
-import tl = require('azure-pipelines-task-lib/task');
-import tr = require('azure-pipelines-task-lib/toolrunner');
-const mm = require('micromatch');
+import * as ct from '../common/context';
+import * as provider from './ProdiverInterfaces';
+import * as os from 'os';
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as tr from 'azure-pipelines-task-lib/toolrunner';
+import * as mm from 'micromatch';
 
 export class AdoGitNativeDiffProvider implements provider.IDiffProvider {
 

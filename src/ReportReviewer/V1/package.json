@@ -18,7 +18,7 @@
         "azure-pipelines-task-lib": "^5.2.1"
     },
     "engines": {
-        "node": "~20.19"
+        "node": "~20.20"
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.1.6",

@@ -1,7 +1,7 @@
-import gitApi = require('azure-devops-node-api/GitApi');
-import GitInterfaces = require('azure-devops-node-api/interfaces/GitInterfaces');
-import rr = require('./reportReader')
-import tl = require('azure-pipelines-task-lib/task');
+import * as gitApi from 'azure-devops-node-api/GitApi';
+import * as GitInterfaces from 'azure-devops-node-api/interfaces/GitInterfaces';
+import * as rr from './reportReader';
+import * as tl from 'azure-pipelines-task-lib/task';
 import { IExtensionContext } from './context';
 
 export interface ICommentContext {

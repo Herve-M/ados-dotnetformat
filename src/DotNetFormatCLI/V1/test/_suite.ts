@@ -7,8 +7,8 @@ import { IExtensionContext } from '../common/context';
 import { AdoGitApiDiffProvider } from '../diff-provider/ado-git-api';
 import { AdoGitNativeDiffProvider } from '../diff-provider/ado-git-native';
 
-import os = require('os');
-import fs = require('fs');
+import * as os from 'os';
+import * as fs from 'fs';
 
 describe('donetformat suite', function () {
     this.timeout(2500);
