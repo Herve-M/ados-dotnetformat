@@ -4,14 +4,16 @@
     "name": "DotNetFormatCLI",
     "friendlyName": "dotnet-format",
     "description": "Run `dotnet-format`",
+    "deprecated": true,
+    "deprecationMessage": "DotNetFormatCLI@0 is deprecated. Please use DotNetFormatCLI@1 task instead.",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "MATYSIAK Hervé",
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 6,
-        "Patch": 4
+        "Minor": 7,
+        "Patch": 0
     },
     "visibility": [
         "Build",

@@ -4,14 +4,16 @@
     "name": "ReportReviewer",
     "friendlyName": "Report-reviewer",
     "description": "",
+    "deprecated": true,
+    "deprecationMessage": "ReportReviewer@0 is deprecated. Please use ReportReviewer@1 task instead.",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "MATYSIAK Hervé",
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 2,
-        "Patch": 27
+        "Minor": 3,
+        "Patch": 0
     },
     "visibility": [
         "Build"

@@ -4,14 +4,16 @@
     "name": "UseDotNetFormat",
     "friendlyName": "UseDotnetFormat",
     "description": "Setup pre-release, beta or specific version of `dotnet-format` from dnceng feeds.",
+    "deprecated": true,
+    "deprecationMessage": "UseDotNetFormat@0 is deprecated. Please use UseDotNetFormat@1 task instead.",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "MATYSIAK Hervé",
     "preview": true,
     "version": {
         "Major": 0,
-        "Minor": 1,
-        "Patch": 21
+        "Minor": 2,
+        "Patch": 0
     },
     "visibility": [
         "Build"

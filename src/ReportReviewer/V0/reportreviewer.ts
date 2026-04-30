@@ -7,6 +7,8 @@ import adoProvider = require('./providers/ado');
 
 async function run() {
     try {        
+        tl.warning("ReportReviewer@0 is deprecated. Please use ReportReviewer@1 task instead.");
+
         const isPullRequest = tl.getVariable(ct.Constants.VarBuildReason)! == "PullRequest";
         if(!isPullRequest){
             tl.setResult(tl.TaskResult.Failed, "This task can't work outside of PullRequests.", true);
