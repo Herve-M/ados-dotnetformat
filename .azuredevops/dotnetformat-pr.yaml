@@ -12,8 +12,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  nodeJsVersionSpec: '16.x'
-  tfxCliVersionSpec: '0.16.x'
+  nodeJsVersionSpec: '20.x'
+  tfxCliVersionSpec: '0.22.x'
 
 stages:
   - stage:
@@ -29,6 +29,13 @@ stages:
             inputs:
               version: '$(tfxCliVersionSpec)'
               checkLatest: true
+
+          - task: Npm@1
+            displayName: 'npm base init'
+            inputs:
+              command: custom
+              verbose: false
+              customCommand: 'install npm ci --no-audit --no-progress'
 
           - task: Npm@1
             displayName: 'Init'

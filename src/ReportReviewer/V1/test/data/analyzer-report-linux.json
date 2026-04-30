@@ -1,0 +1,236 @@
+[
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "8e9f4338-e227-48f6-85f0-bf63a539be61"
+      },
+      "Id": "87497b7b-44a5-49cb-b46d-2485f5dcb67c"
+    },
+    "FileName": "Speaker.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/library/Speaker.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 8,
+        "CharNumber": 16,
+        "DiagnosticId": "IDE0040",
+        "FormatDescription": "warning IDE0040: Accessibility modifiers required"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "8e9f4338-e227-48f6-85f0-bf63a539be61"
+      },
+      "Id": "87497b7b-44a5-49cb-b46d-2485f5dcb67c"
+    },
+    "FileName": "Speaker.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/library/Speaker.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 1,
+        "CharNumber": 1,
+        "DiagnosticId": "IDE0005",
+        "FormatDescription": "warning IDE0005: Using directive is unnecessary."
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "8e9f4338-e227-48f6-85f0-bf63a539be61"
+      },
+      "Id": "87497b7b-44a5-49cb-b46d-2485f5dcb67c"
+    },
+    "FileName": "Speaker.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/library/Speaker.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 13,
+        "CharNumber": 29,
+        "DiagnosticId": "IDE0003",
+        "FormatDescription": "warning IDE0003: Name can be simplified"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "3b7c1a48-272c-404e-8bc2-244a83ae5dc0"
+    },
+    "FileName": "Program.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/Program.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 8,
+        "CharNumber": 21,
+        "DiagnosticId": "IDE0040",
+        "FormatDescription": "warning IDE0040: Accessibility modifiers required"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "3b7c1a48-272c-404e-8bc2-244a83ae5dc0"
+    },
+    "FileName": "Program.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/Program.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 6,
+        "CharNumber": 11,
+        "DiagnosticId": "IDE0040",
+        "FormatDescription": "warning IDE0040: Accessibility modifiers required"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "3b7c1a48-272c-404e-8bc2-244a83ae5dc0"
+    },
+    "FileName": "Program.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/Program.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 10,
+        "CharNumber": 13,
+        "DiagnosticId": "IDE0007",
+        "FormatDescription": "warning IDE0007: use \u0027var\u0027 instead of explicit type"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "3b7c1a48-272c-404e-8bc2-244a83ae5dc0"
+    },
+    "FileName": "Program.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/Program.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 8,
+        "CharNumber": 35,
+        "DiagnosticId": "IDE0060",
+        "FormatDescription": "warning IDE0060: Remove unused parameter \u0027args\u0027"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "cb3260fe-919a-4f9e-a052-ada1d74e0e56"
+    },
+    "FileName": "DaysEnumNeedsFlags.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/DaysEnumNeedsFlags.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 1,
+        "CharNumber": 1,
+        "DiagnosticId": "IDE0005",
+        "FormatDescription": "warning IDE0005: Using directive is unnecessary."
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "8e9f4338-e227-48f6-85f0-bf63a539be61"
+      },
+      "Id": "87497b7b-44a5-49cb-b46d-2485f5dcb67c"
+    },
+    "FileName": "Speaker.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/library/Speaker.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 10,
+        "CharNumber": 23,
+        "DiagnosticId": "RS0016",
+        "FormatDescription": "warning RS0016: Symbol \u0027SayHello\u0027 is not part of the declared API"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "8e9f4338-e227-48f6-85f0-bf63a539be61"
+      },
+      "Id": "87497b7b-44a5-49cb-b46d-2485f5dcb67c"
+    },
+    "FileName": "Speaker.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/library/Speaker.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 6,
+        "CharNumber": 18,
+        "DiagnosticId": "RS0016",
+        "FormatDescription": "warning RS0016: Symbol \u0027Speaker\u0027 is not part of the declared API"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "8e9f4338-e227-48f6-85f0-bf63a539be61"
+      },
+      "Id": "87497b7b-44a5-49cb-b46d-2485f5dcb67c"
+    },
+    "FileName": "Speaker.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/library/Speaker.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 6,
+        "CharNumber": 18,
+        "DiagnosticId": "RS0016",
+        "FormatDescription": "warning RS0016: Symbol \u0027implicit constructor for \u0027Speaker\u0027\u0027 is not part of the declared API"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "cb3260fe-919a-4f9e-a052-ada1d74e0e56"
+    },
+    "FileName": "DaysEnumNeedsFlags.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/DaysEnumNeedsFlags.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 5,
+        "CharNumber": 17,
+        "DiagnosticId": "CA1028",
+        "FormatDescription": "error CA1028: If possible, make the underlying type of DaysEnumNeedsFlags System.Int32 instead of uint"
+      }
+    ]
+  },
+  {
+    "DocumentId": {
+      "ProjectId": {
+        "Id": "86f63c1e-96be-432b-ac56-f02da0c874ba"
+      },
+      "Id": "cb3260fe-919a-4f9e-a052-ada1d74e0e56"
+    },
+    "FileName": "DaysEnumNeedsFlags.cs",
+    "FilePath": "/home/vsts/work/1/s/tests/dotnet8/for_code_formatter/analyzers_solution/console_project/DaysEnumNeedsFlags.cs",
+    "FileChanges": [
+      {
+        "LineNumber": 5,
+        "CharNumber": 17,
+        "DiagnosticId": "CA1027",
+        "FormatDescription": "error CA1027: Mark enums with FlagsAttribute"
+      }
+    ]
+  }
+]

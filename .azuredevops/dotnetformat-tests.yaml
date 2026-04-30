@@ -1,0 +1,129 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+    - main
+    - releases/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: 'V0'
+    jobs:
+      - job: "NET_6"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 6.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet6/
+
+          - task: DotNetFormatCLI@0
+            displayName: '[net6] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet6/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+      - job: "NET_7"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 7.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet7/
+
+          - task: DotNetFormatCLI@0
+            displayName: '[net7] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet7/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+      - job: "NET_8"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 8.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet8/
+
+          - task: DotNetFormatCLI@0
+            displayName: '[net8] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet8/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+  - stage: 'V1'
+    jobs:
+      - job: "NET_6"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 6.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet6/
+
+          - task: DotNetFormatCLI@1
+            displayName: '[net6] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet6/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+      - job: "NET_7"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 7.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet7/
+
+          - task: DotNetFormatCLI@1
+            displayName: '[net7] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet7/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
+
+      - job: "NET_8"
+        steps:
+          - checkout: self
+            lfs: false
+
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core sdk 8.x'
+            inputs:
+              useGlobalJson: true
+              workingDirectory: tests/dotnet8/
+
+          - task: DotNetFormatCLI@1
+            displayName: '[net8] check'
+            inputs:
+              onlyChangedFiles: false
+              workspace: tests/dotnet8/for_code_formatter/unformatted_project
+            continueOnError: true
+            condition: succeededOrFailed()
