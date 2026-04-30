@@ -30,5 +30,6 @@ export const Constants = {
     VarPullRequestCommit: 'System.PullRequest.SourceCommitId',
     VarRepositoryProvider: 'Build.Repository.Provider',
     VarRepositoryPath: 'Build.Repository.LocalPath',
-    VarArtifactStagingDirectory: 'Build.ArtifactStagingDirectory'
+    VarArtifactStagingDirectory: 'Build.ArtifactStagingDirectory',
+    VarTelemetryOptout: 'Telemetry.Optout',
 } as const;

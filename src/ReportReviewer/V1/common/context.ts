@@ -1,4 +1,5 @@
 import * as tl from 'azure-pipelines-task-lib/task';
+import * as fs from 'node:fs';
 import * as rr from './reportReader';
 import * as path from 'node:path';
 import * as adoProvider from '../providers/ado';
@@ -7,6 +8,7 @@ import * as gitApi from 'azure-devops-node-api/GitApi';
 
 export interface IExtensionContext {
     readonly Environment: IEnvironment,
+    readonly Task: ITask,
     readonly Settings: ISettings,
     readonly ApiContext:  IApiContext
 }
@@ -18,7 +20,8 @@ export interface IEnvironment {
     readonly RepositoryId: string,
     readonly PullRequestId: number,
     readonly WorkingCommitId: string,
-    readonly LocalWorkingPath: string   
+    readonly LocalWorkingPath: string,
+    readonly TelemetryOptout: boolean
 }
 
 export interface ISettings {
@@ -55,10 +58,29 @@ export const Constants = {
     VarRepositoryId: 'Build.Repository.ID',
     VarRepositoryProvider: 'Build.Repository.Provider',
     VarRepositoryLocalPath: 'Build.Repository.LocalPath',
-    VarArtifactStagingDirectory: 'Build.ArtifactStagingDirectory'
+    VarArtifactStagingDirectory: 'Build.ArtifactStagingDirectory',
+    VarTelemetryOptout: 'Telemetry.Optout'
 } as const;
 
-export async function getExtensionContext(): Promise<IExtensionContext> {
+export interface ITask {
+    readonly Name: string,
+    readonly IsPreview: boolean,
+    readonly Version: string,
+
+    GetUserAgent(): string;
+}
+
+interface TaskJson {
+    name: string;
+    preview: boolean;
+    version: {
+        Major: number;
+        Minor: number;
+        Patch: number;
+    };
+}
+
+export async function getExtensionContext(rootDir: string): Promise<IExtensionContext> {
     // Common
     const isDebug = tl.getVariable(Constants.VarDebug) == 'True';  
 
@@ -76,6 +98,7 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
     const minSeverityLevel = rr.mapInputToSeverityLevel(minSeverityLevelInput);
     const ignoredDiagnosticIds = tl.getDelimitedInput(Constants.InputIgnoredDiagnosticIds, ',')!;
     const spamThreshold = parseInt(tl.getInputRequired(Constants.InputSpamThreshold)!);
+    const telemetryOptout = tl.getVariable(Constants.VarTelemetryOptout) === 'True';
 
     /// Report related
     const localWorkingPath = tl.getVariable(Constants.VarRepositoryLocalPath)!;
@@ -95,7 +118,9 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
             PullRequestId: pullRequestId,
             WorkingCommitId: reviewedCommitId,
             LocalWorkingPath: localWorkingPath,
+            TelemetryOptout: telemetryOptout
         },
+        Task: getTaskInformation(rootDir),
         Settings: {
             ServiceEndpointId: serviceEndpointId,
             AuthentificationType: authSchemeType,
@@ -105,5 +130,35 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
             ReportFilePath: path.join(artifactStagingDirectoryPath, 'CodeAnalysisLogs', 'format.json') //TODO: get from output var? and/or allow custom path 
         },
         ApiContext: apiContext
+    } as const;
+}
+
+function getTaskInformation(rootDir: string): ITask {
+    const taskJsonPath = tl.resolve(rootDir, 'task.json');    
+
+    let taskJsonContent: string;
+    try {
+        taskJsonContent = fs.readFileSync(taskJsonPath, 'utf8');
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to read task definition file at '${taskJsonPath}': ${message}`);
+    }
+
+    let taskJson: TaskJson;
+    try {
+        taskJson = JSON.parse(taskJsonContent) as TaskJson;
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to parse task definition file at '${taskJsonPath}': ${message}`);
+    }
+
+    return {
+        Name: taskJson.name,
+        IsPreview: taskJson.preview,
+        Version: `${taskJson.version.Major}.${taskJson.version.Minor}.${taskJson.version.Patch}`,
+
+        GetUserAgent(): string {
+            return `${this.Name}/${this.Version}`;
+        }
     } as const;
 }

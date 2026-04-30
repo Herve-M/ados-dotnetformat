@@ -1,10 +1,12 @@
 import * as os from 'node:os';
 import * as path from 'node:path';
+import * as fs from 'node:fs';
 import { Constants } from './constants';
 import * as tl from 'azure-pipelines-task-lib/task';
 
 export interface IExtensionContext {
     readonly Environment: IEnvironment,
+    readonly Task: ITask,
     readonly Settings: ISettings
 }
 
@@ -18,7 +20,8 @@ export interface IEnvironment {
     readonly PullRequestId: number,
     readonly ReviewedCommitId: string,
     readonly TargetBranch: string,
-    readonly ScmType: string
+    readonly ScmType: string,
+    readonly TelemetryOptout: boolean
 }
 
 export interface ISettings {
@@ -44,7 +47,25 @@ export interface ISettings {
     readonly FilesToExcludepRspPath: string
 }
 
-export async function getExtensionContext(): Promise<IExtensionContext> {
+export interface ITask {
+    readonly Name: string,
+    readonly IsPreview: boolean,
+    readonly Version: string,
+
+    GetUserAgent(): string;
+}
+
+interface TaskJson {
+    name: string;
+    preview: boolean;
+    version: {
+        Major: number;
+        Minor: number;
+        Patch: number;
+    };
+}
+
+export async function getExtensionContext(rootDir: string): Promise<IExtensionContext> {
     // Common
     const isDebug = tl.getVariable(Constants.VarDebug) == 'True';
     const artifactStagingDirectoryPath = tl.getVariable(Constants.VarArtifactStagingDirectory)!;
@@ -78,6 +99,7 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
     const includedDiagnosticIds = tl.getDelimitedInput(Constants.InputDiagnosticsOptions, ",");
     const excludedDiagnosticIds = tl.getDelimitedInput(Constants.InputDiagnosticsOptions, ",");
     const verbosityLevel = tl.getInputRequired(Constants.InputVerbosityOption);
+    const telemetryOptout = tl.getVariable(Constants.VarTelemetryOptout) === 'True';
 
     /// Path
     const filesToCheckRspPath = path.join(repositoryPath, "FilesToCheck.rsp");
@@ -97,8 +119,10 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
             PullRequestId: pullRequestId,
             ReviewedCommitId: reviewedCommitId,
             TargetBranch: targetBranch,
-            ScmType: repositoryProvider
+            ScmType: repositoryProvider,
+            TelemetryOptout: telemetryOptout
         },
+        Task: getTaskInformation(rootDir),
         Settings: {
             UseGlobalTool: useGlobalTool,
             Command: command,
@@ -128,4 +152,34 @@ export async function getExtensionContext(): Promise<IExtensionContext> {
     }
 
     return ctx;
+}
+
+function getTaskInformation(rootDir: string): ITask {
+    const taskJsonPath = tl.resolve(rootDir, 'task.json');    
+
+    let taskJsonContent: string;
+    try {
+        taskJsonContent = fs.readFileSync(taskJsonPath, 'utf8');
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to read task definition file at '${taskJsonPath}': ${message}`);
+    }
+
+    let taskJson: TaskJson;
+    try {
+        taskJson = JSON.parse(taskJsonContent) as TaskJson;
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to parse task definition file at '${taskJsonPath}': ${message}`);
+    }
+
+    return {
+        Name: taskJson.name,
+        IsPreview: taskJson.preview,
+        Version: `${taskJson.version.Major}.${taskJson.version.Minor}.${taskJson.version.Patch}`,
+
+        GetUserAgent(): string {
+            return `${this.Name}/${this.Version}`;
+        }
+    } as const;
 }

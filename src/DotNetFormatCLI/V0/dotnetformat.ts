@@ -7,7 +7,7 @@ import helpers = require('./helpers');
 async function run() {
     try {
         // Get context
-        const extensionContext = await ct.getExtensionContext();
+        const extensionContext = await ct.getExtensionContext(tl.resolve(__dirname));
         
         // Get the tools 
         let toolRunOptions: tr.IExecOptions = {

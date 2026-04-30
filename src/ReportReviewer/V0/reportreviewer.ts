@@ -20,7 +20,7 @@ async function run() {
         }
 
         // Get context
-        const extensionContext = await ct.getExtensionContext();     
+        const extensionContext = await ct.getExtensionContext(tl.resolve(__dirname));     
 
         // Load report.json file
         const reportGroupedByFiles = await rr.getGroupedReport(extensionContext);
