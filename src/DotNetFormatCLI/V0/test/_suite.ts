@@ -157,6 +157,12 @@ describe('diff-provider suite', function () {
                     FilesToIncludesRspPath: '',
                     FilesToExcludepRspPath: ''
                 },
+                Task: {
+                    Name: 'TestTask',
+                    IsPreview: false,
+                    Version: '1.0.0',
+                    GetUserAgent: () => 'TestTask/1.0.0'
+                },
                 Environment: {
                     ScmType: 'TfsGit',
                     IsDebug: false,
@@ -167,7 +173,8 @@ describe('diff-provider suite', function () {
                     RepositoryPath: '',
                     PullRequestId: 0,
                     ReviewedCommitId: '',
-                    TargetBranch: ''
+                    TargetBranch: '',
+                    TelemetryOptout: false
                 }
             };
             const result = DiffProviderFactory.create(ctx);
@@ -198,6 +205,12 @@ describe('diff-provider suite', function () {
                     FilesToIncludesRspPath: '',
                     FilesToExcludepRspPath: ''
                 },
+                Task: {
+                    Name: 'TestTask',
+                    IsPreview: false,
+                    Version: '1.0.0',
+                    GetUserAgent: () => 'TestTask/1.0.0'
+                },
                 Environment: {
                     ScmType: 'TfsGit',
                     IsDebug: false,
@@ -208,7 +221,8 @@ describe('diff-provider suite', function () {
                     RepositoryPath: '',
                     PullRequestId: 0,
                     ReviewedCommitId: '',
-                    TargetBranch: ''
+                    TargetBranch: '',
+                    TelemetryOptout: false
                 }
             };
             const result = DiffProviderFactory.create(ctx);
@@ -239,6 +253,12 @@ describe('diff-provider suite', function () {
                     FilesToIncludesRspPath: '',
                     FilesToExcludepRspPath: ''
                 },
+                Task: {
+                    Name: 'TestTask',
+                    IsPreview: false,
+                    Version: '1.0.0',
+                    GetUserAgent: () => 'TestTask/1.0.0'
+                },
                 Environment: {
                     ScmType: 'UnsupportedScmType',
                     IsDebug: false,
@@ -249,7 +269,8 @@ describe('diff-provider suite', function () {
                     RepositoryPath: '',
                     PullRequestId: 0,
                     ReviewedCommitId: '',
-                    TargetBranch: ''
+                    TargetBranch: '',
+                    TelemetryOptout: false
                 }
             };
             expect(() => DiffProviderFactory.create(ctx)).to.throw(Error, 'Diff. provider for UnsupportedScmType is not supported.');

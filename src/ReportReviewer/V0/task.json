@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 26
+        "Patch": 27
     },
     "visibility": [
         "Build"
@@ -61,6 +61,11 @@
     "execution": {
         "Node16": {
             "target": "reportreviewer.js"
+        }
+    },
+    "postjobexecution": {
+        "Node16": {
+            "target": "post-run-tracking.js"
         }
     }
 }
