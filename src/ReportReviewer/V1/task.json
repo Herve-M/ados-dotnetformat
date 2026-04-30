@@ -10,7 +10,7 @@
     "preview": true,
     "version": {
         "Major": 1,
-        "Minor": 0,
+        "Minor": 1,
         "Patch": 0
     },
     "visibility": [
@@ -61,6 +61,11 @@
     "execution": {
         "Node20_1": {
             "target": "reportreviewer.js"
+        }
+    },
+    "postjobexecution": {
+        "Node20_1": {
+            "target": "post-run-tracking.js"
         }
     }
 }
