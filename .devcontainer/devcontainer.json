@@ -1,0 +1,41 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+	"name": "ado-foss-toolbox-devcontainer",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:20-trixie",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"ms-azure-devops.azure-pipelines",
+				"redhat.vscode-yaml",
+				"darkriszty.markdown-table-prettify",
+				"yzhang.markdown-all-in-one"
+			]
+		}
+	},
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+        "ghcr.io/devcontainers/features/dotnet:2": {
+            "version": "latest",
+            "additionalVersions": "lts, 9.0, 8.0"
+        }
+    },
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "node",
+
+	// Comment if you are not using git worktrees
+	"workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached",
+	"workspaceFolder": "/workspace/${localWorkspaceFolderBasename}"
+}
