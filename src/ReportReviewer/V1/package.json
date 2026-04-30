@@ -14,17 +14,17 @@
     },
     "homepage": "https://github.com/Herve-M/ados-dotnetformat#readme",
     "dependencies": {
-        "azure-devops-node-api": "^15.1.1",
-        "azure-pipelines-task-lib": "^5.2.1"
+        "azure-devops-node-api": "^15.1.2",
+        "azure-pipelines-task-lib": "^5.2.10"
     },
     "engines": {
         "node": "~20.20"
     },
     "devDependencies": {
-        "@tsconfig/node20": "^20.1.6",
+        "@tsconfig/node20": "^20.1.9",
         "@types/mocha": "^10.0.10",
-        "@types/node": "^20.19.11",
-        "mocha": "^11.7.1",
-        "typescript": "^5.9.2"
+        "@types/node": "^20.19.39",
+        "mocha": "^11.7.5",
+        "typescript": "^5.9.3"
     }
 }
