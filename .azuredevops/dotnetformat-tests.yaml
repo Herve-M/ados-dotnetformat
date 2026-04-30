@@ -167,21 +167,23 @@ stages:
             continueOnError: true
             condition: succeededOrFailed()
 
-      - job: "NET_11"
-        steps:
-          - checkout: self
-            lfs: false
+      # ## Use .NET Core  2.271.2 can´t get it to work with 11.0.100-preview.3
+      # ##[error]sdk version matching: 11.0.100-preview.3 could not be found
+      # - job: "NET_11"
+      #   steps:
+      #     - checkout: self
+      #       lfs: false
 
-          - task: UseDotNet@2
-            displayName: 'Use .NET Core sdk 11.x'
-            inputs:
-              useGlobalJson: true
-              workingDirectory: tests/dotnet11/
+      #     - task: UseDotNet@2
+      #       displayName: 'Use .NET Core sdk 11.x'
+      #       inputs:
+      #         useGlobalJson: true
+      #         workingDirectory: tests/dotnet11/
 
-          - task: DotNetFormatCLI@1
-            displayName: '[net11] check'
-            inputs:
-              onlyChangedFiles: false
-              workspace: tests/dotnet11/for_code_formatter/unformatted_project
-            continueOnError: true
-            condition: succeededOrFailed()
+      #     - task: DotNetFormatCLI@1
+      #       displayName: '[net11] check'
+      #       inputs:
+      #         onlyChangedFiles: false
+      #         workspace: tests/dotnet11/for_code_formatter/unformatted_project
+      #       continueOnError: true
+      #       condition: succeededOrFailed()
