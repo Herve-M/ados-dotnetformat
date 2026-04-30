@@ -6,6 +6,8 @@ import helpers = require('./helpers');
 
 async function run() {
     try {
+        tl.warning("DotNetFormatCLI@0 is deprecated. Please use DotNetFormatCLI@1 task instead.");
+
         // Get context
         const extensionContext = await ct.getExtensionContext(tl.resolve(__dirname));
         

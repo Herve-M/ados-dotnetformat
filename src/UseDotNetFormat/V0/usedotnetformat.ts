@@ -28,8 +28,9 @@ function getFeedUrlByName(feedName: string): string{
 
 async function run(){
     try {
-        const isDebug = tl.getVariable(Constants.VarDebug) === 'True';
+        tl.warning("UseDotNetFormat@0 is deprecated. Please use UseDotNetFormat@1 task instead.");
 
+        const isDebug = tl.getVariable(Constants.VarDebug) === 'True';
         const dotnetPath = tl.which("dotnet", true);
         
         if(isDebug){
