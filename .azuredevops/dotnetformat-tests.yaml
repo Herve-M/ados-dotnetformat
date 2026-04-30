@@ -23,7 +23,7 @@ stages:
               useGlobalJson: true
               workingDirectory: tests/dotnet6/
 
-          - task: DotNetFormatCLI@0
+          - task: DotNetFormatCLI@0.6.3
             displayName: '[net6] check'
             inputs:
               onlyChangedFiles: false
@@ -42,7 +42,7 @@ stages:
               useGlobalJson: true
               workingDirectory: tests/dotnet7/
 
-          - task: DotNetFormatCLI@0
+          - task: DotNetFormatCLI@0.6.3
             displayName: '[net7] check'
             inputs:
               onlyChangedFiles: false
@@ -61,7 +61,7 @@ stages:
               useGlobalJson: true
               workingDirectory: tests/dotnet8/
 
-          - task: DotNetFormatCLI@0
+          - task: DotNetFormatCLI@0.6.3
             displayName: '[net8] check'
             inputs:
               onlyChangedFiles: false
