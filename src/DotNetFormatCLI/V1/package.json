@@ -25,7 +25,7 @@
     "@types/micromatch": "^4.0.10",
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.19.39",
-    "chai": "^5.3.3",
+    "chai": "^6.2.2",
     "fs-extra": "^11.3.4",
     "fsify": "^6.0.2",
     "mocha": "^11.7.5",
