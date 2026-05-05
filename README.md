@@ -57,9 +57,10 @@ Feature:
 - [ ] fix  _(aka `format`)_
 - [ ] custom command
 
-Only touched files:
+Only touched files (`onlyChangedFiles: true`, Azure DevOps Git only):
 
-- [X] Git _(full checkout or ADO-API)_
+- [X] Git _(full checkout)_
+- [X] Azure DevOps (git) _(full checkout or API)_
 - [ ] TFVC
 - [ ] SVN
 
@@ -67,21 +68,33 @@ Only touched files:
 ![format-overview](docs/images/format-overview.png)
 
 ``` yaml
+# Baseline: check all files
 - task: DotNetFormatCLI@1
-  displayName: "dotnet format"
-  continueOnError: true # recommended if using ReportReviewer
+  displayName: "dotnet format check"
+  continueOnError: true # recommended when using ReportReviewer
   inputs:
-    useGlobalTool: false
     command: 'check'
     workspace: 'YourSolution.sln'
-    onlyChangedFiles: true #PR mode
     verbosity: Normal
-    diffProvider: api # `native` using full checkout or `api` using ADO-API
+```
+
+``` yaml
+# PR mode: check only changed files
+# Requires Build.Reason = PullRequest; only Azure DevOps Git is supported
+- task: DotNetFormatCLI@1
+  displayName: "dotnet format check (PR)"
+  continueOnError: true # recommended when using ReportReviewer
+  inputs:
+    command: 'check'
+    workspace: 'YourSolution.sln'
+    onlyChangedFiles: true
+    diffProvider: api   # `native` requires full (non-shallow) checkout
     fileGlobPatterns: |
       *.cs
       *.vb
     excludes: | 
       /src/Project/FileToExclude.cs
+    verbosity: Normal
   env:
     SYSTEM_ACCESSTOKEN: $(System.AccessToken) # required for ADO-API
 ```
@@ -106,9 +119,16 @@ Target:
 - task: ReportReviewer@1
   displayName: "dotnet format reporting"
   inputs:
-    connectedServiceName: 'FormatReviewer'
-    spamThreshold: 5
+    connectedServiceName: 'FormatReviewer'  # type: Azure DevOps auth. (report reviewer)
+    minSeverityLevel: 'warning'             # error | warning | info
+    spamThreshold: 5                        # issues per file before grouping into a single thread
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken) # required when auth-scheme-none is used
 ```
+
+> [!NOTE]
+> Only works within a **PullRequest** build on an **Azure DevOps Git** repository.
+> The task reads the report from `$(Build.ArtifactStagingDirectory)/CodeAnalysisLogs/format.json` produced by `DotNetFormatCLI`.
 
 ## Feedback and issues
 
