@@ -20,7 +20,7 @@ variables:
   shareToOrganisation: 'hmatysiak'
   connectedServiceName: 'VS-MarketPlace'
   nodeJsVersionSpec: '20.x'
-  tfxCliVersionSpec: '0.22.x'
+  tfxCliVersionSpec: '0.23.x'
 
 stages:
   - stage: 'Build'
@@ -63,7 +63,7 @@ stages:
             verbose: false
             customCommand: 'run build:ci'
 
-        - task: PackageAzureDevOpsExtension@4
+        - task: PackageAzureDevOpsExtension@5
           displayName: 'Pack VSIX'
           inputs:
             rootFolder: '$(System.DefaultWorkingDirectory)'
@@ -93,7 +93,7 @@ stages:
             versionSpec: '$(nodeJsVersionSpec)'
             checkLatest: true
 
-        - task: TfxInstaller@4
+        - task: TfxInstaller@5
           displayName: 'Install tfx-cli'
           inputs: 
             version: '$(tfxCliVersionSpec)'
@@ -105,7 +105,7 @@ stages:
             artifact: '$(artifactName)'
             path: '$(Pipeline.Workspace)/$(artifactName)'
 
-        - task: QueryAzureDevOpsExtensionVersion@3
+        - task: QueryAzureDevOpsExtensionVersion@5
           name: 'VersionFromMarket'
           displayName: 'Get current path version'
           inputs:
@@ -117,7 +117,7 @@ stages:
             versionAction: 'Patch'
             extensionVersionOverride: '$(ForcedVersion)'
 
-        - task: PublishAzureDevOpsExtension@4
+        - task: PublishAzureDevOpsExtension@5
           name: 'PublishToMarket'
           displayName: 'Publish to Market'
           inputs:
@@ -136,7 +136,7 @@ stages:
             shareWith: '$(shareToOrganisation)'
             noWaitValidation: true
             
-        - task: IsAzureDevOpsExtensionValid@4
+        - task: IsAzureDevOpsExtensionValid@5
           displayName: 'Check market ext. validation'
           inputs:
             connectTo: 'VsTeam'
@@ -164,7 +164,7 @@ stages:
             versionSpec: '$(nodeJsVersionSpec)'
             checkLatest: true
 
-        - task: TfxInstaller@4
+        - task: TfxInstaller@5
           displayName: 'Install tfx-cli'
           inputs: 
             version: '$(tfxCliVersionSpec)'
@@ -176,7 +176,7 @@ stages:
             artifact: '$(artifactName)'
             path: '$(Pipeline.Workspace)/$(artifactName)'
 
-        - task: PublishAzureDevOpsExtension@4
+        - task: PublishAzureDevOpsExtension@5
           name: 'PublishToMarket'
           displayName: 'Publish to Market'  
           inputs:
@@ -191,7 +191,7 @@ stages:
             shareWith: '$(shareToOrganisation)'
             noWaitValidation: true
 
-        - task: IsAzureDevOpsExtensionValid@4
+        - task: IsAzureDevOpsExtensionValid@5
           displayName: 'Check market ext. validation'
           inputs:
             connectTo: 'VsTeam'

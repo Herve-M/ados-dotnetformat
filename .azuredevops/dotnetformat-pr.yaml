@@ -61,7 +61,7 @@ stages:
               workingDir: '$(System.DefaultWorkingDirectory)'
               customCommand: 'run test:ci'
 
-          - task: PackageAzureDevOpsExtension@4
+          - task: PackageAzureDevOpsExtension@5
             displayName: 'Pack extension'
             name: 'packageStep'
             inputs:
