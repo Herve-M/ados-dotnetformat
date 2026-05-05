@@ -30,10 +30,10 @@ stages:
         - checkout: self
           lfs: true
 
-        - task: NodeTool@0 
+        - task: UseNode@1
           displayName: 'Install NodeJs'
           inputs:
-            versionSpec: '$(nodeJsVersionSpec)'
+            version: '$(nodeJsVersionSpec)'
             checkLatest: true
 
         - task: TfxInstaller@5
@@ -87,10 +87,10 @@ stages:
     jobs: 
       - job:
         steps: 
-        - task: NodeTool@0 
+        - task: UseNode@1
           displayName: 'Install NodeJs'
           inputs:
-            versionSpec: '$(nodeJsVersionSpec)'
+            version: '$(nodeJsVersionSpec)'
             checkLatest: true
 
         - task: TfxInstaller@5
@@ -158,10 +158,10 @@ stages:
     jobs: 
       - job:
         steps:
-        - task: NodeTool@0 
+        - task: UseNode@1
           displayName: 'Install NodeJs'
           inputs:
-            versionSpec: '$(nodeJsVersionSpec)'
+            version: '$(nodeJsVersionSpec)'
             checkLatest: true
 
         - task: TfxInstaller@5
