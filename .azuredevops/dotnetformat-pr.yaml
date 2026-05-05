@@ -20,12 +20,12 @@ stages:
     jobs:
       - job:
         steps:
-          - task: NodeTool@0
+          - task: UseNode@1
             displayName: 'Install Node.js'
             inputs:
-              versionSpec: '$(nodeJsVersionSpec)'            
+              version: '$(nodeJsVersionSpec)'            
 
-          - task: TfxInstaller@4
+          - task: TfxInstaller@5
             inputs:
               version: '$(tfxCliVersionSpec)'
               checkLatest: true
@@ -61,7 +61,7 @@ stages:
               workingDir: '$(System.DefaultWorkingDirectory)'
               customCommand: 'run test:ci'
 
-          - task: PackageAzureDevOpsExtension@4
+          - task: PackageAzureDevOpsExtension@5
             displayName: 'Pack extension'
             name: 'packageStep'
             inputs:
