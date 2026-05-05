@@ -110,7 +110,7 @@ stages:
           displayName: 'Get current path version'
           inputs:
             connectTo: 'VsTeam'
-            connectedServiceName: '$(connectedServiceName)'
+            connectedServiceName: $(connectedServiceName)
             publisherId: '$(PublisherID)'
             extensionId: '$(ExtensionID)'
             extensionTag: '-dev'
@@ -122,7 +122,7 @@ stages:
           displayName: 'Publish to Market'
           inputs:
             connectTo: 'VsTeam'
-            connectedServiceName: '$(connectedServiceName)'
+            connectedServiceName: $(connectedServiceName)
             fileType: 'vsix'
             vsixFile: '$(Pipeline.Workspace)/$(artifactName)/*.vsix'
             publisherId: '$(PublisherID)'
@@ -140,7 +140,7 @@ stages:
           displayName: 'Check market ext. validation'
           inputs:
             connectTo: 'VsTeam'
-            connectedServiceName: '$(connectedServiceName)'
+            connectedServiceName: $(connectedServiceName)
             method: 'vsix'
             vsixFile: '$(PublishToMarket.Extension.OutputPath)'
 
@@ -181,7 +181,7 @@ stages:
           displayName: 'Publish to Market'  
           inputs:
             connectTo: 'VsTeam'
-            connectedServiceName: '$(connectedServiceName)'
+            connectedServiceName: $(connectedServiceName)
             fileType: 'vsix'
             vsixFile: '$(Pipeline.Workspace)/$(artifactName)/*.vsix'
             publisherId: '$(PublisherID)'
@@ -195,7 +195,7 @@ stages:
           displayName: 'Check market ext. validation'
           inputs:
             connectTo: 'VsTeam'
-            connectedServiceName: '$(connectedServiceName)'
+            connectedServiceName: $(connectedServiceName)
             method: 'vsix'
             vsixFile: '$(PublishToMarket.Extension.OutputPath)'
             
