@@ -36,7 +36,7 @@ stages:
             versionSpec: '$(nodeJsVersionSpec)'
             checkLatest: true
 
-        - task: TfxInstaller@4
+        - task: TfxInstaller@5
           displayName: 'Install tfx-cli'
           inputs: 
             version: '$(tfxCliVersionSpec)'
