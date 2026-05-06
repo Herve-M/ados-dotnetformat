@@ -29,7 +29,7 @@ jobs:
       matrix:
         include:
           - language: javascript-typescript
-            build-mode: manual
+            build-mode: none
     steps:
       - uses: actions/checkout@v6
 
@@ -44,7 +44,10 @@ jobs:
         with:
           languages: '${{ matrix.language }}'
           build-mode: '${{ matrix.build-mode }}'
-          
+          config: |
+            paths-ignore:
+              - '**/node_modules'               
+
       - run: 'npm ci --no-audit --no-progress'
 
       - run: 'npm run init:ci'
