@@ -5,6 +5,11 @@ pr:
     include:
     - main
     - releases/*
+  paths:
+    exclude:
+    - .github/*
+    - .devcontainer/*
+    - .vscode/*
 
 name: dotnetformat-extensions-PR
 
