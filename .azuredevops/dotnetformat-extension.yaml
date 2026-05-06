@@ -6,6 +6,10 @@ trigger:
   paths:
     include:
     - src/*
+    exclude:
+    - .github/*
+    - .devcontainer/*
+    - .vscode/*
 
 pr: none
 

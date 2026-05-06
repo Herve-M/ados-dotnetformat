@@ -1,45 +1,29 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
+  - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: monthly
+      timezone: "Asia/Ho_Chi_Minh"
     commit-message:
-      prefix: "chore"
+      prefix: "build"
       include: "scope"
-    ignore:
-    - dependency-name: "@types/node"
-      update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
-    directory: "/src/ReportReviewer/V1"
+    directories: [
+        "/src/ReportReviewer/V1",
+        "/src/DotNetFormatCLI/V1",
+        "/src/UseDotNetFormat/V1"
+      ]
     schedule:
-      interval: "monthly"
+      interval: monthly
+      timezone: "Asia/Ho_Chi_Minh"
     commit-message:
-      prefix: "chore"
+      prefix: "build"
       include: "scope"
+    groups:
+      monorepo-dependencies:
+        group-by: dependency-name
     ignore:
-    - dependency-name: "@types/node"
-      update-types: ["version-update:semver-major"]
-  
-  - package-ecosystem: "npm"
-    directory: "/src/DotNetFormatCLI/V1"
-    schedule:
-      interval: "monthly"
-    commit-message:
-      prefix: "chore(DotNetFormatCLI)"
-      include: "scope"
-    ignore:
-    - dependency-name: "@types/node"
-      update-types: ["version-update:semver-major"]
-
-  - package-ecosystem: "npm"
-    directory: "/src/UseDotNetFormat/V1"
-    schedule:
-      interval: "monthly"
-    commit-message:
-      prefix: "chore(UseDotNetFormat)"
-      include: "scope"
-    ignore:
-    - dependency-name: "@types/node"
-      update-types: ["version-update:semver-major"]
+    - dependency-name: "*"
+      update-types: [ "version-update:semver-major" ]
