@@ -1,0 +1,82 @@
+name: Bug Report
+description: File a bug report.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: dropdown
+    id: task
+    attributes:
+      label: Task in Question
+      description: Which task is impacted?
+      options:
+        - UseDotNetFormat
+        - DotNetFormatCLI
+        - ReportReviewer
+    validations:
+      required: true
+  - type: dropdown
+    id: task-version
+    attributes:
+      label: Task Version
+      description: Which task version are you running?
+      options:
+        - V0 (@0)
+        - V1 (@1)
+        - x.x.x (Custom @0.1.0) 
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: azure-devops-type
+    attributes:
+      label: Azure DevOps Flavor
+      description: Are you using Azure DevOps Services or Server?
+      options:
+        - Service
+        - Server
+    validations:
+      required: true
+  - type: input
+    id: azure-devops-server-version
+    attributes:
+      label: Azure DevOps Server Version
+      description: Required only when Azure DevOps Flavor is Server.
+      placeholder: ex. Azure DevOps Server 2022.1
+    validations:
+      required: false
+  - type: input
+    id: azure-devops-agent-version
+    attributes:
+      label: Azure DevOps Agent version
+      description: Which version of the Azure DevOps Agent are you running?
+      placeholder: ex. Azure DevOps Agent 2.195.0
+    validations:
+      required: false
+  - type: textarea
+    id: expected-outcomes
+    attributes:
+      label: Expected Outcomes
+      description: What did you expect to happen?
+      placeholder: Describe expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: current-outcomes
+    attributes:
+      label: Current Outcomes
+      description: What is currently happening?
+      placeholder: Describe actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs Extract or Pipeline Log Link
+      description: Paste a relevant log extract or provide a link to pipeline logs.
+      render: shell
+    validations:
+      required: true
