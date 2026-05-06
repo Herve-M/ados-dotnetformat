@@ -45,6 +45,8 @@ jobs:
           languages: '${{ matrix.language }}'
           build-mode: '${{ matrix.build-mode }}'
           
+      - run: 'npm ci --no-audit --no-progress'
+
       - run: 'npm run init:ci'
 
       - run: 'npm run build:ci'
