@@ -19,7 +19,7 @@
     "micromatch": "^4.0.8"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.9",
+    "@tsconfig/node20": "^20.1.10",
     "@types/chai": "^5.2.3",
     "@types/fs-extra": "^11.0.4",
     "@types/micromatch": "^4.0.10",
