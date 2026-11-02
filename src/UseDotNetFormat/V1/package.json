@@ -20,7 +20,7 @@
         "node": "~20.20"
     },
     "devDependencies": {
-        "@tsconfig/node20": "^20.1.9",
+        "@tsconfig/node20": "^20.1.10",
         "@types/node": "^20.19.43"
     }
 }
